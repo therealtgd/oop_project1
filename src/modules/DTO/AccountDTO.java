@@ -2,17 +2,23 @@ package modules.DTO;
 
 public class AccountDTO {
 
+    private String username;
+    private String password;
     private String name;
     private String surname;
-    private int LBO;
 
     public AccountDTO() {
     }
 
-    public AccountDTO(String name, String surname, int LBO) {
+    public AccountDTO(String username, String name, String surname) {
+        this.username = username;
         this.name = name;
         this.surname = surname;
-        this.LBO = LBO;
+    }
+
+    public AccountDTO(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
     }
 
     public String getName() {
@@ -21,9 +27,5 @@ public class AccountDTO {
 
     public String getSurname() {
         return surname;
-    }
-
-    public int getLBO() {
-        return LBO;
     }
 }

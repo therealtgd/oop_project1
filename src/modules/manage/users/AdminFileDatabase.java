@@ -2,6 +2,7 @@ package modules.manage.users;
 
 import modules.manage.FileDatabase;
 import modules.users.Admin;
+import modules.utils.MyPassword;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,8 +21,8 @@ public class AdminFileDatabase extends FileDatabase<Admin> {
             String line = null;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                Admin a = new Admin(Integer.parseInt(tokens[0]), tokens[1], tokens[2], tokens[3],
-                        tokens[4]);
+                Admin a = new Admin(Integer.parseInt(tokens[0]), tokens[1], tokens[2],
+                        tokens[3], MyPassword.parseMyPassword(tokens[4]));
                 addData(a);
             }
             br.close();

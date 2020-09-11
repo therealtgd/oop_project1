@@ -1,5 +1,7 @@
 package modules.users;
 
+import modules.utils.MyPassword;
+
 public class Patient extends User {
 
     private enum Gender {
@@ -12,14 +14,19 @@ public class Patient extends User {
     private String phone;
     private String address;
 
-    public Patient(int id, String username, String name, String surname, String password, String LBO) {
-        super(id, username, name, surname, password);
+    public Patient(String username, String name, String surname, String LBO) {
+        super(username, name, surname);
         this.LBO = LBO;
     }
 
-    public Patient(int id, String username, String name, String surname, String password, String LBO, String gender,
+    public Patient(int id, String username, String name, String surname, String LBO) {
+        super(id, username, name, surname);
+        this.LBO = LBO;
+    }
+
+    public Patient(int id, String username, String name, String surname, MyPassword password, String LBO, String gender,
                    String phone, String address) {
-        super(id, username, name, surname, password);
+        super(id, username, name, surname);
         this.LBO = LBO;
         this.gender = Gender.valueOf(gender);
         this.phone = phone;

@@ -1,5 +1,7 @@
 package modules.users;
 
+import modules.utils.MyPassword;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,17 +10,12 @@ public class Laborant extends Employee {
     private String qualification;
     private List<String> specializations;
 
-    public Laborant(int id, String username, String name, String surname, String password) {
-        super(id, username, name, surname, password);
+    public Laborant(int id, String username, String name, String surname) {
+        super(id, username, name, surname);
         setBonusBase(500);
     }
 
-    public Laborant(int id, String username, String name, String surname, String password, double salaryBase, int experience) {
-        super(id, username, name, surname, password, salaryBase, experience);
-        setBonusBase(500);
-    }
-
-    public Laborant(int id, String username, String name, String surname, String password, double salaryBase,
+    public Laborant(int id, String username, String name, String surname, MyPassword password, double salaryBase,
                     int experience, String qualification) {
         super(id, username, name, surname, password, salaryBase, experience);
         this.qualification = qualification;

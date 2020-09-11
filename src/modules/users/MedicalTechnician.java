@@ -1,14 +1,16 @@
 package modules.users;
 
+import modules.utils.MyPassword;
+
 public class MedicalTechnician extends Employee {
 
     private int homeVisits;
 
-    public MedicalTechnician(int id, String username, String name, String surname, String password) {
-        super(id, username, name, surname, password);
+    public MedicalTechnician(int id, String username, String name, String surname) {
+        super(id, username, name, surname);
     }
 
-    public MedicalTechnician(int id, String username, String name, String surname, String password, double salaryBase, int experience) {
+    public MedicalTechnician(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
         super(id, username, name, surname, password, salaryBase, experience);
         setBonusBase(2000);
     }

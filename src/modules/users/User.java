@@ -1,15 +1,30 @@
 package modules.users;
 
 import modules.Data;
+import modules.utils.MyPassword;
 
 public abstract class User extends Data {
 
     private String username;
     private String name;
     private String surname;
-    private String password;
+    private MyPassword password;
 
-    public User(int id, String username, String name, String surname, String password) {
+    public User(String username, String name, String surname) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public User(int id, String username, String name, String surname) {
+        super(id);
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.password = new MyPassword();
+    }
+
+    public User(int id, String username, String name, String surname, MyPassword password) {
         super(id);
         this.username = username;
         this.name = name;
@@ -29,13 +44,17 @@ public abstract class User extends Data {
         return surname;
     }
 
+    public void setPassword(MyPassword password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "korisnicko ime=" + username + ", ime=" + name + ", prezime=" + surname;
     }
 
     public String toFileString() {
-        return super.toString() + ',' + username + ',' + name + ',' + surname;
+        return super.toString() + ',' + username + ',' + name + ',' + surname + password.toFileString();
      }
 
 }

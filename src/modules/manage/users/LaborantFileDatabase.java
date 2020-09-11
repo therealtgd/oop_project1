@@ -3,6 +3,7 @@ package modules.manage.users;
 import modules.manage.FileDatabase;
 import modules.manage.entities.SpecializationFileDatabase;
 import modules.users.Laborant;
+import modules.utils.MyPassword;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,7 +25,7 @@ public class LaborantFileDatabase extends FileDatabase<Laborant> {
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
                 Laborant l = new Laborant(Integer.parseInt(tokens[0]), tokens[1], tokens[2], tokens[3],
-                        tokens[4], Double.parseDouble(tokens[5]), Integer.parseInt(tokens[6]), tokens[7]);
+                        MyPassword.parseMyPassword(tokens[4]), Double.parseDouble(tokens[5]), Integer.parseInt(tokens[6]), tokens[7]);
                 if (tokens.length > 8) {
 					for (String s : tokens[8].split(";")) {
 						l.addSpecialization(s);

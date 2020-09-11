@@ -1,16 +1,18 @@
 package modules.users;
 
+import modules.utils.MyPassword;
+
 public abstract class Employee extends User {
 
     private double salaryBase;
     private int experience;
     private double bonusBase;
 
-    public Employee(int id, String username, String name, String surname, String password) {
-        super(id, username, name, surname, password);
+    public Employee(int id, String username, String name, String surname) {
+        super(id, username, name, surname);
     }
 
-    public Employee(int id, String username, String name, String surname, String password, double salaryBase, int experience) {
+    public Employee(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
         super(id, username, name, surname, password);
         this.salaryBase = salaryBase;
         this.experience = experience;
