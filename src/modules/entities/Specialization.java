@@ -6,19 +6,19 @@ import java.util.List;
 
 public class Specialization {
 
-    private List<AnalysisGroup> specs;
+    private List<Analysis> specs;
 
 
-    public Specialization(List<AnalysisGroup> specs) {
+    public Specialization(List<Analysis> specs) {
         this.specs = specs;
     }
 
-    public List<AnalysisGroup> getSpecs() {
+    public List<Analysis> getSpecs() {
         return specs;
     }
 
-    public void addSpec(AnalysisGroup aG) {
-        this.specs.add(aG);
+    public void addSpec(Analysis a) {
+        this.specs.add(a);
     }
 
     @Override

@@ -1,24 +1,29 @@
 package modules.entities;
 
-import java.util.Date;
+import modules.Data;
 
-public class Measurement {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-    private Date date;
+
+public class Measurement extends Data {
+
+    private LocalDate date;
     private double value;
     private Analysis analysis;
 
 
-    public Measurement() {
+    public Measurement(int id) {
+        super(id);
     }
 
-    public Measurement(Date date, double value, Analysis analysis) {
-        this.date = date;
+    public Measurement(int id, String date, double value) {
+        super(id);
+        this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy."));
         this.value = value;
-        this.analysis = analysis;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -30,8 +35,17 @@ public class Measurement {
         return analysis;
     }
 
+    public void setAnalysis(Analysis analysis) {
+        this.analysis = analysis;
+    }
+
     @Override
     public String toString() {
-        return "analiza=" + analysis + ", vrijednost=" + value +"datum=" + date;
+        return "analiza=" + analysis + ", vrijednost=" + value + analysis.getUnit() + ", datum=" + date;
+    }
+
+    @Override
+    public String toFileString() {
+        return getId() + "," + date + "," + value + "," + analysis.getId();
     }
 }

@@ -1,14 +1,15 @@
 package modules.manage.users;
 
 import modules.manage.FileManager;
-import modules.users.MedicalTechnician;
+import modules.users.Admin;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class MedicalTechnicianManager extends FileManager<MedicalTechnician> {
-    public MedicalTechnicianManager(String file) {
+public class AdminManager extends FileManager<Admin> {
+
+    public AdminManager(String file) {
         super(file);
     }
 
@@ -19,9 +20,9 @@ public class MedicalTechnicianManager extends FileManager<MedicalTechnician> {
             String line = null;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                MedicalTechnician mT = new MedicalTechnician(Integer.parseInt(tokens[0]), tokens[1], tokens[2], tokens[3],
-                        tokens[4], Double.parseDouble(tokens[5]), Integer.parseInt(tokens[6]));
-                addData(mT);
+                Admin a = new Admin(Integer.parseInt(tokens[0]), tokens[1], tokens[2], tokens[3],
+                        tokens[4]);
+                addData(a);
             }
             br.close();
         } catch (IOException e) {
@@ -30,4 +31,3 @@ public class MedicalTechnicianManager extends FileManager<MedicalTechnician> {
         return true;
     }
 }
-

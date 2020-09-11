@@ -1,13 +1,12 @@
 package modules.users;
 
-import modules.entities.Specialization;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Laborant extends Employee {
 
     private String qualification;
-    private List<Specialization> specializations;
+    private List<String> specializations;
 
     public Laborant(int id, String username, String name, String surname, String password) {
         super(id, username, name, surname, password);
@@ -19,9 +18,11 @@ public class Laborant extends Employee {
         setBonusBase(500);
     }
 
-    public Laborant(int id, String username, String name, String surname, String password, double salaryBase, int experience, String qualification) {
+    public Laborant(int id, String username, String name, String surname, String password, double salaryBase,
+                    int experience, String qualification) {
         super(id, username, name, surname, password, salaryBase, experience);
         this.qualification = qualification;
+        this.specializations = new ArrayList<String>();
         setBonusBase(500);
     }
 
@@ -29,11 +30,11 @@ public class Laborant extends Employee {
         return qualification;
     }
 
-    public List getSpecializations() {
+    public List<String> getSpecializations() {
         return specializations;
     }
 
-    public void addSpecialization(Specialization s){
+    public void addSpecialization(String s){
         this.specializations.add(s);
     }
 
