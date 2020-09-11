@@ -1,18 +1,18 @@
 package modules.manage.users;
 
-import modules.manage.FileManager;
-import modules.manage.entities.AnalysisGroupManager;
+import modules.manage.FileDatabase;
+import modules.manage.entities.SpecializationFileDatabase;
 import modules.users.Laborant;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class LaborantManager extends FileManager<Laborant> {
+public class LaborantFileDatabase extends FileDatabase<Laborant> {
 
-    private AnalysisGroupManager specManager;
+    private SpecializationFileDatabase specManager;
 
-    public LaborantManager(String file) {
+    public LaborantFileDatabase(String file) {
         super(file);
     }
 

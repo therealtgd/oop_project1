@@ -8,15 +8,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class FileManager<D extends Data> implements Manager{
+public abstract class FileDatabase<D extends Data> implements Database {
 
     private List<D> data;
     private String file;
 
-    public FileManager() {
+    public FileDatabase() {
     }
 
-    public FileManager(String file) {
+    public FileDatabase(String file) {
         this.data = new ArrayList<D>();
         this.file = file;
     }

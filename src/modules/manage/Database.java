@@ -1,7 +1,7 @@
 package modules.manage;
 
 
-public interface Manager {
+public interface Database {
 
     boolean loadData();
     boolean saveData();

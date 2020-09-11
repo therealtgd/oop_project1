@@ -1,17 +1,17 @@
 package modules.manage.entities;
 
 import modules.entities.AnalysisRequest;
-import modules.manage.FileManager;
+import modules.manage.FileDatabase;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class AnalysisRequestManager extends FileManager<AnalysisRequest> {
-    private AnalysisManager analysisManager;
-    private MeasurementManager measurementManager;
+public class AnalysisRequestDatabase extends FileDatabase<AnalysisRequest> {
+    private AnalysisFileDatabase analysisManager;
+    private MeasurementFileDatabase measurementManager;
 
-    public AnalysisRequestManager(String file, AnalysisManager analysisManager) {
+    public AnalysisRequestDatabase(String file, AnalysisFileDatabase analysisManager) {
         super(file);
         this.analysisManager = analysisManager;
     }

@@ -1,15 +1,15 @@
 package modules.manage.users;
 
-import modules.manage.FileManager;
+import modules.manage.FileDatabase;
 import modules.users.Patient;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class PatientManager extends FileManager<Patient> {
+public class PatientFileDatabase extends FileDatabase<Patient> {
 
-    public PatientManager(String file) {
+    public PatientFileDatabase(String file) {
         super(file);
     }
 
