@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class PatientFileDatabase extends FileDatabase<Patient> {
+public class PatientFileDatabase extends FileDatabase {
 
     public PatientFileDatabase(String file) {
         super(file);
@@ -31,4 +31,5 @@ public class PatientFileDatabase extends FileDatabase<Patient> {
         }
         return true;
     }
+
 }

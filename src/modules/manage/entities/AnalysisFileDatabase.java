@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class AnalysisFileDatabase extends FileDatabase<Analysis> {
+public class AnalysisFileDatabase extends FileDatabase {
 
     public AnalysisFileDatabase(String file) {
         super(file);

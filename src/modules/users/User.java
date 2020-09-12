@@ -10,10 +10,11 @@ public abstract class User extends Data {
     private String surname;
     private MyPassword password;
 
-    public User(String username, String name, String surname) {
+    public User(String username, String name, String surname, MyPassword password) {
         this.username = username;
         this.name = name;
         this.surname = surname;
+        this.password = password;
     }
 
     public User(int id, String username, String name, String surname) {

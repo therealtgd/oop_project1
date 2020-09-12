@@ -1,44 +1,44 @@
 package modules.manage.users;
 
-import modules.manage.DatabaseFactory;
+import modules.manage.FileDatabaseFactory;
 import modules.utils.AppSettings;
 
-public class UserFileDatabaseFactory extends DatabaseFactory {
+public class UserFileDatabaseFactory extends FileDatabaseFactory implements UserDatabaseFactory {
 
-    private AdminFileDatabase adminManager;
-    private LaborantFileDatabase laborantManager;
-    private MedicalTechnicianFileDatabase medTechnicianManager;
-    private PatientFileDatabase patientManager;
+    private AdminFileDatabase adminDatabase;
+    private LaborantFileDatabase laborantDatabase;
+    private MedicalTechnicianFileDatabase medTechnicianDatabase;
+    private PatientFileDatabase patientDatabase;
 
     public UserFileDatabaseFactory(AppSettings appSettings) {
         super(appSettings);
-        this.adminManager = new AdminFileDatabase(getAppSettings().getAdminFilename());
-        this.laborantManager = new LaborantFileDatabase(getAppSettings().getLaborantFilename());
-        this.medTechnicianManager = new MedicalTechnicianFileDatabase(getAppSettings().getMedicalTechnicianFilename());
-        this.patientManager = new PatientFileDatabase(getAppSettings().getPatientFilename());
+        this.adminDatabase = new AdminFileDatabase(getAppSettings().getAdminFilename());
+        this.laborantDatabase = new LaborantFileDatabase(getAppSettings().getLaborantFilename());
+        this.medTechnicianDatabase = new MedicalTechnicianFileDatabase(getAppSettings().getMedicalTechnicianFilename());
+        this.patientDatabase = new PatientFileDatabase(getAppSettings().getPatientFilename());
     }
 
-    public AdminFileDatabase getAdminManager() {
-        return adminManager;
+    public AdminFileDatabase getAdminDatabase() {
+        return adminDatabase;
     }
 
-    public LaborantFileDatabase getLaborantManager() {
-        return laborantManager;
+    public LaborantFileDatabase getLaborantDatabase() {
+        return laborantDatabase;
     }
 
-    public MedicalTechnicianFileDatabase getMedTechnicianManager() {
-        return medTechnicianManager;
+    public MedicalTechnicianFileDatabase getMedTechnicianDatabase() {
+        return medTechnicianDatabase;
     }
 
-    public PatientFileDatabase getPatientManager() {
-        return patientManager;
+    public PatientFileDatabase getPatientDatabase() {
+        return patientDatabase;
     }
 
     @Override
     public void loadData() {
-        this.adminManager.loadData();
-        this.laborantManager.loadData();
-        this.medTechnicianManager.loadData();
-        this.patientManager.loadData();
+        this.adminDatabase.loadData();
+        this.laborantDatabase.loadData();
+        this.medTechnicianDatabase.loadData();
+        this.patientDatabase.loadData();
     }
 }

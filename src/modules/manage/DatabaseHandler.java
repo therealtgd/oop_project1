@@ -1,23 +1,22 @@
 package modules.manage;
 
-import modules.manage.entities.EntityFileDatabaseFactory;
-import modules.manage.users.UserFileDatabaseFactory;
+
+import modules.manage.users.UserDatabaseFactory;
 
 public class DatabaseHandler {
 
-    private UserFileDatabaseFactory userManagerFactory;
-    private EntityFileDatabaseFactory entityManagerFactory;
+    private UserDatabaseFactory userDatabase;
+    private EntityDatabaseFactory entityDatabase;
 
-    public DatabaseHandler(UserFileDatabaseFactory userManagerFactory, EntityFileDatabaseFactory entityManagerFactory) {
-        this.userManagerFactory = userManagerFactory;
-        this.entityManagerFactory = entityManagerFactory;
+    public DatabaseHandler(UserDatabaseFactory userDatabase, EntityDatabaseFactory entityManagerFactory) {
+        this.userDatabase = userDatabase;
+        this.entityDatabase = entityManagerFactory;
     }
 
-    public UserFileDatabaseFactory getUserManagerFactory() {
-        return userManagerFactory;
-    }
+    public UserDatabaseFactory getUserDatabase() { return userDatabase; }
 
-    public EntityFileDatabaseFactory getEntityManagerFactory() {
-        return entityManagerFactory;
+
+    public EntityDatabaseFactory getEntityDatabase() {
+        return entityDatabase;
     }
 }

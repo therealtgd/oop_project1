@@ -14,13 +14,8 @@ public class Patient extends User {
     private String phone;
     private String address;
 
-    public Patient(String username, String name, String surname, String LBO) {
-        super(username, name, surname);
-        this.LBO = LBO;
-    }
-
-    public Patient(int id, String username, String name, String surname, String LBO) {
-        super(id, username, name, surname);
+    public Patient(String username, String name, String surname, MyPassword password, String LBO) {
+        super(username, name, surname, password);
         this.LBO = LBO;
     }
 

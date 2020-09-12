@@ -1,5 +1,7 @@
 package services.utils;
 
+import modules.utils.MyPassword;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
@@ -53,9 +55,28 @@ public class PasswordUtils {
         }
     }
 
-    public static boolean verifyPassword (String password, String key, String salt) {
-    Optional<String> optEncrypted = hashPassword(password, salt);
+    public static boolean verifyPassword(String password, String key, String salt) {
+        Optional<String> optEncrypted = hashPassword(password, salt);
         return optEncrypted.map(s -> s.equals(key)).orElse(false);
+    }
+
+    private static String generateRandomAlphanumericString(int n) {
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+        StringBuilder sb = new StringBuilder(n);
+        for (int i = 0; i < n; i++) {
+            int index = (int) (AlphaNumericString.length() * Math.random());
+            sb.append(AlphaNumericString.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    public static MyPassword generateRandomPass(int len) {
+        String salt = generateSalt(512).get();
+        String pass = generateRandomAlphanumericString(len);
+        String key = hashPassword(pass, salt).get();
+        return new MyPassword(key, salt);
     }
 
 }

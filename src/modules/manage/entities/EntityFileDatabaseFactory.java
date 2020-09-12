@@ -1,25 +1,35 @@
 package modules.manage.entities;
 
-import modules.manage.DatabaseFactory;
+import modules.manage.EntityDatabaseFactory;
+import modules.manage.FileDatabaseFactory;
 import modules.utils.AppSettings;
 
-public class EntityFileDatabaseFactory extends DatabaseFactory {
+public class EntityFileDatabaseFactory extends FileDatabaseFactory implements EntityDatabaseFactory {
 
-    private AnalysisFileDatabase analysisManager;
-    private AnalysisRequestDatabase anaReqManager;
-    private MeasurementFileDatabase measurementManager;
+    private AnalysisFileDatabase analysisDatabase;
+    private AnalysisRequestDatabase analysisRequestDatabase;
+    private MeasurementFileDatabase measurementDatabase;
 
     public EntityFileDatabaseFactory(AppSettings appSettings) {
         super(appSettings);
-        this.analysisManager = new AnalysisFileDatabase(getAppSettings().getAnalysisFilename());
-        this.anaReqManager = new AnalysisRequestDatabase(getAppSettings().getAnalysisRequestFilename(), analysisManager);
-        this.measurementManager = new MeasurementFileDatabase(getAppSettings().getMeasurementFilename(), analysisManager);
+        this.analysisDatabase = new AnalysisFileDatabase(getAppSettings().getAnalysisFilename());
+        this.analysisRequestDatabase = new AnalysisRequestDatabase(getAppSettings().getAnalysisRequestFilename(), analysisDatabase);
+        this.measurementDatabase = new MeasurementFileDatabase(getAppSettings().getMeasurementFilename(), analysisDatabase);
     }
 
-    @Override
     public void loadData() {
-        this.analysisManager.loadData();
-        this.anaReqManager.loadData();
-        this.measurementManager.loadData();
+        this.analysisDatabase.loadData();
+        this.analysisRequestDatabase.loadData();
+        this.measurementDatabase.loadData();
+    }
+
+    public AnalysisFileDatabase getAnalysisDatabase() { return analysisDatabase; }
+
+    public AnalysisRequestDatabase getAnalysisRequestDatabase() {
+        return analysisRequestDatabase;
+    }
+
+    public MeasurementFileDatabase getMeasurementDatabase() {
+        return measurementDatabase;
     }
 }

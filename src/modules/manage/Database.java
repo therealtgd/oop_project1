@@ -1,10 +1,11 @@
 package modules.manage;
 
+import modules.Data;
 
-public interface Database {
+public interface Database<D extends Data> {
 
     boolean loadData();
     boolean saveData();
-    Object getById(int id);
-
+    D getById(int id);
+    void addData(D d);
 }

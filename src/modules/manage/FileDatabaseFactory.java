@@ -2,11 +2,11 @@ package modules.manage;
 
 import modules.utils.AppSettings;
 
-public abstract class DatabaseFactory {
+public abstract class FileDatabaseFactory {
 
-    private AppSettings appSettings;
+    AppSettings appSettings;
 
-    public DatabaseFactory(AppSettings appSettings) {
+    public FileDatabaseFactory(AppSettings appSettings) {
         this.appSettings = appSettings;
     }
 
@@ -14,5 +14,4 @@ public abstract class DatabaseFactory {
         return appSettings;
     }
 
-    public abstract void loadData();
 }

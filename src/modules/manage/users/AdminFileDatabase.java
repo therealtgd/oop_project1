@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class AdminFileDatabase extends FileDatabase<Admin> {
+public class AdminFileDatabase extends FileDatabase {
 
     public AdminFileDatabase(String file) {
         super(file);
@@ -31,4 +31,5 @@ public class AdminFileDatabase extends FileDatabase<Admin> {
         }
         return true;
     }
+
 }

@@ -8,20 +8,20 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class FileDatabase<D extends Data> implements Database {
+public abstract class FileDatabase implements Database<Data> {
 
-    private List<D> data;
+    private List<Data> data;
     private String file;
 
     public FileDatabase() {
     }
 
     public FileDatabase(String file) {
-        this.data = new ArrayList<D>();
+        this.data = new ArrayList<Data>();
         this.file = file;
     }
 
-    public List<D> getData() {
+    public List<Data> getData() {
         return data;
     }
 
@@ -29,8 +29,10 @@ public abstract class FileDatabase<D extends Data> implements Database {
         return file;
     }
 
-    public void addData(D data) {
-        this.data.add(data);
+    public void addData(Data d) {
+        d.setId(data.get(data.size() -1).getId() + 1);
+        data.add(d);
+        saveData();
     }
 
     public abstract boolean loadData();
@@ -39,8 +41,8 @@ public abstract class FileDatabase<D extends Data> implements Database {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new FileWriter(this.file, false));
-            for (D data : data) {
-                pw.println(data.toFileString());
+            for (Data d : data) {
+                pw.println(d.toFileString());
             }
             pw.close();
         } catch (IOException e) {
@@ -49,10 +51,10 @@ public abstract class FileDatabase<D extends Data> implements Database {
         return true;
     }
 
-    public D getById(int id) {
-        D retVal = null;
+    public Data getById(int id) {
+        Data retVal = null;
         for (int i = 0; i < data.size(); i++) {
-            D d = data.get(i);
+            Data d = data.get(i);
             if (d.getId() == id) {
                 retVal = d;
                 break;
