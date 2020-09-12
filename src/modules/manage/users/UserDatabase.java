@@ -1,15 +1,10 @@
 package modules.manage.users;
 
 import modules.manage.Database;
+import modules.users.User;
 
 public interface UserDatabase {
 
-    Database getAdminDatabase();
-
-    Database getLaborantDatabase();
-
-    Database getMedTechnicianDatabase();
-
-    Database getPatientDatabase();
+    User validateLogin(String username, String password);
 
 }

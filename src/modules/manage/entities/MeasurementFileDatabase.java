@@ -1,5 +1,6 @@
 package modules.manage.entities;
 
+import modules.entities.Analysis;
 import modules.entities.Measurement;
 import modules.manage.FileDatabase;
 
@@ -27,7 +28,7 @@ public class MeasurementFileDatabase extends FileDatabase {
                 if (tokens.length > 3) {
 					for (String qId : tokens[3].split(";")) {
 						int id = Integer.parseInt(qId);
-//						a.setAnalysis(this.analysisDatabase.getById(id));
+						a.setAnalysis((Analysis) this.analysisDatabase.getById(id));
 					}
 				}
                 addData(a);

@@ -1,11 +1,8 @@
 package main;
 
 import modules.DTO.PatientAccountDTO;
-import modules.users.Admin;
-import modules.users.Laborant;
-import modules.users.MedicalTechnician;
-import services.MedicalTechnicianServices;
-import services.MedicalTechnicianServicesInjector;
+import services.user.MedicalTechnicianServices;
+import services.user.MedicalTechnicianServicesInjector;
 
 public class Main {
 

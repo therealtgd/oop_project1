@@ -3,13 +3,14 @@ package modules.manage.users;
 import modules.manage.FileDatabase;
 import modules.manage.entities.SpecializationFileDatabase;
 import modules.users.Laborant;
+import modules.users.User;
 import modules.utils.MyPassword;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class LaborantFileDatabase extends FileDatabase {
+public class LaborantFileDatabase extends FileDatabase implements UserDatabase{
 
     private SpecializationFileDatabase specManager;
 
@@ -38,6 +39,11 @@ public class LaborantFileDatabase extends FileDatabase {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public User validateLogin(String username, String password) {
+        return null;
     }
 }
 

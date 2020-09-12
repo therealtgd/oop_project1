@@ -1,6 +1,8 @@
 package modules.manage.entities;
 
+import modules.entities.Analysis;
 import modules.entities.AnalysisRequest;
+import modules.entities.Measurement;
 import modules.manage.FileDatabase;
 
 import java.io.BufferedReader;
@@ -27,12 +29,12 @@ public class AnalysisRequestDatabase extends FileDatabase {
                 if (tokens.length > 3) {
 					for (String qId : tokens[3].split(";")) {
 						int id = Integer.parseInt(qId);
-//						aR.addAnalysis(this.analysisManager.getById(id));
+						aR.addAnalysis((Analysis) this.analysisManager.getById(id));
 					}
 				} else if (tokens.length > 4) {
                     for (String qId : tokens[4].split(";")) {
 						int id = Integer.parseInt(qId);
-//						aR.addMeasurement(this.measurementManager.getById(id));
+						aR.addMeasurement((Measurement) this.measurementManager.getById(id));
 					}
                 }
                 addData(aR);

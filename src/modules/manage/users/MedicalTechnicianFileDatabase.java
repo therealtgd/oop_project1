@@ -2,13 +2,14 @@ package modules.manage.users;
 
 import modules.manage.FileDatabase;
 import modules.users.MedicalTechnician;
+import modules.users.User;
 import modules.utils.MyPassword;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class MedicalTechnicianFileDatabase extends FileDatabase {
+public class MedicalTechnicianFileDatabase extends FileDatabase implements UserDatabase{
     public MedicalTechnicianFileDatabase(String file) {
         super(file);
     }
@@ -30,6 +31,12 @@ public class MedicalTechnicianFileDatabase extends FileDatabase {
             return false;
         }
         return true;
+    }
+
+
+    @Override
+    public User validateLogin(String username, String password) {
+        return null;
     }
 }
 
