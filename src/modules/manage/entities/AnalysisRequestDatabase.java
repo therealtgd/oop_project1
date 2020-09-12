@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class AnalysisRequestDatabase extends FileDatabase<AnalysisRequest> {
+public class AnalysisRequestDatabase extends FileDatabase {
     private AnalysisFileDatabase analysisManager;
     private MeasurementFileDatabase measurementManager;
 
@@ -27,12 +27,12 @@ public class AnalysisRequestDatabase extends FileDatabase<AnalysisRequest> {
                 if (tokens.length > 3) {
 					for (String qId : tokens[3].split(";")) {
 						int id = Integer.parseInt(qId);
-						aR.addAnalysis(this.analysisManager.getById(id));
+//						aR.addAnalysis(this.analysisManager.getById(id));
 					}
 				} else if (tokens.length > 4) {
                     for (String qId : tokens[4].split(";")) {
 						int id = Integer.parseInt(qId);
-						aR.addMeasurement(this.measurementManager.getById(id));
+//						aR.addMeasurement(this.measurementManager.getById(id));
 					}
                 }
                 addData(aR);

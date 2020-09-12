@@ -30,7 +30,11 @@ public abstract class FileDatabase implements Database<Data> {
     }
 
     public void addData(Data d) {
-        d.setId(data.get(data.size() -1).getId() + 1);
+        if (data.isEmpty()) {
+            d.setId(0);
+        } else {
+            d.setId(data.get(data.size() - 1).getId() + 1);
+        }
         data.add(d);
         saveData();
     }

@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnician> {
+public class MedicalTechnicianFileDatabase extends FileDatabase {
     public MedicalTechnicianFileDatabase(String file) {
         super(file);
     }

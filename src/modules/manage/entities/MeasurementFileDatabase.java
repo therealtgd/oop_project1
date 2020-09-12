@@ -7,13 +7,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class MeasurementFileDatabase extends FileDatabase<Measurement> {
+public class MeasurementFileDatabase extends FileDatabase {
 
-    private AnalysisFileDatabase analysisManager;
+    private AnalysisFileDatabase analysisDatabase;
 
-    public MeasurementFileDatabase(String file, AnalysisFileDatabase analysisManager) {
+    public MeasurementFileDatabase(String file, AnalysisFileDatabase analysisDatabase) {
         super(file);
-        this.analysisManager = analysisManager;
+        this.analysisDatabase = analysisDatabase;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class MeasurementFileDatabase extends FileDatabase<Measurement> {
                 if (tokens.length > 3) {
 					for (String qId : tokens[3].split(";")) {
 						int id = Integer.parseInt(qId);
-						a.setAnalysis(this.analysisManager.getById(id));
+//						a.setAnalysis(this.analysisDatabase.getById(id));
 					}
 				}
                 addData(a);

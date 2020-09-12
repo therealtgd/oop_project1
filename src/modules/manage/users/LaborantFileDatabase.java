@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class LaborantFileDatabase extends FileDatabase<Laborant> {
+public class LaborantFileDatabase extends FileDatabase {
 
     private SpecializationFileDatabase specManager;
 
