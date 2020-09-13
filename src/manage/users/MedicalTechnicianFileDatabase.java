@@ -1,15 +1,17 @@
-package modules.manage.users;
+package manage.users;
 
-import modules.manage.FileDatabase;
+import manage.FileDatabase;
 import modules.users.MedicalTechnician;
-import modules.users.User;
 import modules.utils.MyPassword;
+import services.utils.PasswordUtils;
+import view.validators.exceptions.LoginException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
-public class MedicalTechnicianFileDatabase extends FileDatabase implements UserDatabase{
+public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnician> implements UserDatabase<MedicalTechnician> {
     public MedicalTechnicianFileDatabase(String file) {
         super(file);
     }
@@ -35,8 +37,14 @@ public class MedicalTechnicianFileDatabase extends FileDatabase implements UserD
 
 
     @Override
-    public User validateLogin(String username, String password) {
-        return null;
+    public MedicalTechnician validateLogin(String username, String password, List<MedicalTechnician> data) throws LoginException {
+        for (MedicalTechnician mT: data) {
+            String salt = mT.getPassword().getSalt();
+            String key = mT.getPassword().getKey();
+            if (username.equals(mT.getUsername()) && PasswordUtils.verifyPassword(password, key, salt)) {
+                return mT;
+            }
+        } throw new LoginException("Neispravni podaci. Pokušajte ponovo.");
     }
 }
 

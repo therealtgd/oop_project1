@@ -17,6 +17,17 @@ public class Patient extends User {
     public Patient(String username, String name, String surname, MyPassword password, String LBO) {
         super(username, name, surname, password);
         this.LBO = LBO;
+        this.gender = null;
+        this.phone = null;
+        this.address = null;
+    }
+
+    public Patient(int id, String username, String name, String surname, MyPassword password, String LBO) {
+        super(id, username, name, surname, password);
+        this.LBO = LBO;
+        this.gender = null;
+        this.phone = null;
+        this.address = null;
     }
 
     public Patient(int id, String username, String name, String surname, MyPassword password, String LBO, String gender,
@@ -44,6 +55,18 @@ public class Patient extends User {
         return address;
     }
 
+    public void setGender(String gender) {
+        this.gender = Gender.valueOf(gender);
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "Pacjent [LBO=" + LBO + ", pol=" + gender + ", telefon='" + phone + ", adresa='" + address + "]";
@@ -51,6 +74,11 @@ public class Patient extends User {
 
     @Override
     public String toFileString() {
+//        String retval = super.toFileString() + "," + LBO;
+//        if (gender != null) { retval += "," + gender;}
+//        if (phone != null) { retval += "," + phone;}
+//        if (address != null) {retval += "," + address}
+//        return retval;
         return super.toFileString() + "," + LBO + "," + gender + "," + phone + "," + address;
     }
 }

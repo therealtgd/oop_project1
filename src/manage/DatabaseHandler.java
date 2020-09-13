@@ -1,9 +1,9 @@
-package modules.manage;
+package manage;
 
 
-import modules.manage.entities.EntityFileDatabaseFactory;
-import modules.manage.users.UserDatabaseFactory;
-import modules.manage.users.UserFileDatabaseFactory;
+import manage.entities.EntityFileDatabaseFactory;
+import manage.users.UserDatabaseFactory;
+import manage.users.UserFileDatabaseFactory;
 import modules.utils.AppSettings;
 
 public class DatabaseHandler {

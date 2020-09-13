@@ -9,8 +9,8 @@ public class Main {
     public static void main(String[] args) {
         PatientAccountDTO pDTO = new PatientAccountDTO("nekokorime", "nekoime", "nekoprezime", "nekiLBO");
         MedicalTechnicianServices services = MedicalTechnicianServicesInjector.services();
-        services.registerPatient(pDTO);
-
+        String password = services.registerPatient(pDTO);
+        System.out.println(password);
     }
 
 

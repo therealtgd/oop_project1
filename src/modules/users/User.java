@@ -45,6 +45,10 @@ public abstract class User extends Data {
         return surname;
     }
 
+    public MyPassword getPassword() {
+        return password;
+    }
+
     public void setPassword(MyPassword password) {
         this.password = password;
     }
@@ -55,7 +59,7 @@ public abstract class User extends Data {
     }
 
     public String toFileString() {
-        return super.toString() + ',' + username + ',' + name + ',' + surname + password.toFileString();
+        return super.toFileString() + ',' + username + ',' + name + ',' + surname + ',' + password.toFileString();
      }
 
 }

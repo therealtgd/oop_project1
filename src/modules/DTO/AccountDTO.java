@@ -36,4 +36,8 @@ public class AccountDTO {
     public String getSurname() {
         return surname;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

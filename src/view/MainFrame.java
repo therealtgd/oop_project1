@@ -1,7 +1,8 @@
 package view;
 
-import main.Main;
+import manage.DatabaseHandler;
 import net.miginfocom.swing.MigLayout;
+import services.view.LoginServices;
 import view.validators.Validator;
 import view.validators.exceptions.LoginException;
 
@@ -12,10 +13,10 @@ import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame() throws HeadlessException {
+    DatabaseHandler databaseHandler;
 
+    public MainFrame() throws HeadlessException {
         loginDialog();
-        mainFrame();
 
     }
 
@@ -56,13 +57,16 @@ public class MainFrame extends JFrame {
                 String password = new String(pfPassword.getPassword()).trim();
                 System.out.println(username + " " + password);
 
+
+                LoginServices lS = new LoginServices();
                 try {
                     Validator.validateLogin(username, password);
-
+                    lS.login(username, password);
+                    System.out.println("Login uspješan.");
                 } catch (LoginException ex) {
-                    ex.printStackTrace();
+                    System.out.println(ex.getMessage());
+                    return;
                 }
-
 
 
                 d.setVisible(false);

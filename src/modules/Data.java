@@ -24,5 +24,7 @@ public abstract class Data {
         return "id=" + id;
     }
 
-    public abstract String toFileString();
+    public String toFileString() {
+        return ""+id;
+    }
 }

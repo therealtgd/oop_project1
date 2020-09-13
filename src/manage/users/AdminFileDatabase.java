@@ -1,15 +1,17 @@
-package modules.manage.users;
+package manage.users;
 
-import modules.manage.FileDatabase;
+import manage.FileDatabase;
 import modules.users.Admin;
-import modules.users.User;
 import modules.utils.MyPassword;
+import services.utils.PasswordUtils;
+import view.validators.exceptions.LoginException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
-public class AdminFileDatabase extends FileDatabase implements UserDatabase {
+public class AdminFileDatabase extends FileDatabase<Admin> implements UserDatabase<Admin> {
 
     public AdminFileDatabase(String file) {
         super(file);
@@ -33,8 +35,15 @@ public class AdminFileDatabase extends FileDatabase implements UserDatabase {
         return true;
     }
 
-   @Override
-    public User validateLogin(String username, String password) {
-        return null;
+
+    @Override
+    public Admin validateLogin(String username, String password, List<Admin> data) throws LoginException {
+        for (Admin a: data) {
+            String salt = a.getPassword().getSalt();
+            String key = a.getPassword().getKey();
+            if (username.equals(a.getUsername()) && PasswordUtils.verifyPassword(password, key, salt)) {
+                return a;
+            }
+        } throw new LoginException("Neispravni podaci. Pokušajte ponovo.");
     }
 }

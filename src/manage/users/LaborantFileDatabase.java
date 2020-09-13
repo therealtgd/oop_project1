@@ -1,16 +1,18 @@
-package modules.manage.users;
+package manage.users;
 
-import modules.manage.FileDatabase;
-import modules.manage.entities.SpecializationFileDatabase;
+import manage.FileDatabase;
+import manage.entities.SpecializationFileDatabase;
 import modules.users.Laborant;
-import modules.users.User;
 import modules.utils.MyPassword;
+import services.utils.PasswordUtils;
+import view.validators.exceptions.LoginException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
-public class LaborantFileDatabase extends FileDatabase implements UserDatabase{
+public class LaborantFileDatabase extends FileDatabase<Laborant> implements UserDatabase<Laborant>{
 
     private SpecializationFileDatabase specManager;
 
@@ -41,9 +43,16 @@ public class LaborantFileDatabase extends FileDatabase implements UserDatabase{
         return true;
     }
 
+
     @Override
-    public User validateLogin(String username, String password) {
-        return null;
+    public Laborant validateLogin(String username, String password, List<Laborant> data) throws LoginException {
+        for (Laborant u: data) {
+            String salt = u.getPassword().getSalt();
+            String key = u.getPassword().getKey();
+            if (username.equals(u.getUsername()) && PasswordUtils.verifyPassword(password, key, salt)) {
+                return u;
+            }
+        } throw new LoginException("Neispravni podaci. Pokušajte ponovo.");
     }
 }
 

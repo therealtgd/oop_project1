@@ -1,7 +1,9 @@
-package modules.manage.users;
+package manage.users;
 
-import modules.manage.FileDatabaseFactory;
+import manage.FileDatabaseFactory;
 import modules.utils.AppSettings;
+
+import java.util.ArrayList;
 
 public class UserFileDatabaseFactory extends FileDatabaseFactory implements UserDatabaseFactory {
 
@@ -32,6 +34,16 @@ public class UserFileDatabaseFactory extends FileDatabaseFactory implements User
 
     public PatientFileDatabase getPatientDatabase() {
         return patientDatabase;
+    }
+
+    @Override
+    public ArrayList<UserDatabase> getUsers() {
+        ArrayList<UserDatabase> retVal = new ArrayList<>();
+        retVal.add(adminDatabase);
+        retVal.add(laborantDatabase);
+        retVal.add(medTechnicianDatabase);
+        retVal.add(patientDatabase);
+        return retVal;
     }
 
     @Override

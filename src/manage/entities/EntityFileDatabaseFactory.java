@@ -1,7 +1,7 @@
-package modules.manage.entities;
+package manage.entities;
 
-import modules.manage.EntityDatabaseFactory;
-import modules.manage.FileDatabaseFactory;
+import manage.EntityDatabaseFactory;
+import manage.FileDatabaseFactory;
 import modules.utils.AppSettings;
 
 public class EntityFileDatabaseFactory extends FileDatabaseFactory implements EntityDatabaseFactory {

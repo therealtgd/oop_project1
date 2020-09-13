@@ -1,8 +1,8 @@
-package modules.manage.entities;
+package manage.entities;
 
 import modules.entities.Analysis;
 import modules.entities.AnalysisGroup;
-import modules.manage.FileDatabase;
+import manage.FileDatabase;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

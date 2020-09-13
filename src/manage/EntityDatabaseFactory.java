@@ -1,14 +1,9 @@
-package modules.manage.entities;
+package manage;
 
-import modules.manage.Database;
-
-public interface EntityDatabase {
-
+public interface EntityDatabaseFactory {
     Database getAnalysisDatabase();
-
     Database getAnalysisRequestDatabase();
-
     Database getMeasurementDatabase();
-
+    void loadData();
 
 }

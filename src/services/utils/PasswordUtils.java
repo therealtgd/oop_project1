@@ -60,7 +60,7 @@ public class PasswordUtils {
         return optEncrypted.map(s -> s.equals(key)).orElse(false);
     }
 
-    private static String generateRandomAlphanumericString(int n) {
+    public static String generateRandomAlphanumericString(int n) {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz";
@@ -72,9 +72,8 @@ public class PasswordUtils {
         return sb.toString();
     }
 
-    public static MyPassword generateRandomPass(int len) {
+    public static MyPassword generateRandomPass(String pass, int len) {
         String salt = generateSalt(512).get();
-        String pass = generateRandomAlphanumericString(len);
         String key = hashPassword(pass, salt).get();
         return new MyPassword(key, salt);
     }

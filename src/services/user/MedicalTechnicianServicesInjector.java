@@ -1,6 +1,6 @@
 package services.user;
 
-import modules.manage.DatabaseHandler;
+import manage.DatabaseHandler;
 
 public class MedicalTechnicianServicesInjector {
     public static MedicalTechnicianServices services() {

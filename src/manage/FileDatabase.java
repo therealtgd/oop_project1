@@ -1,4 +1,4 @@
-package modules.manage;
+package manage;
 
 import modules.Data;
 
@@ -8,20 +8,22 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class FileDatabase implements Database<Data> {
+public abstract class FileDatabase<T extends Data> implements Database<T> {
 
-    private List<Data> data;
+    private List<T> data;
     private String file;
 
     public FileDatabase() {
+        loadData();
     }
 
     public FileDatabase(String file) {
-        this.data = new ArrayList<Data>();
+        this.data = new ArrayList<T>();
         this.file = file;
+        loadData();
     }
 
-    public List<Data> getData() {
+    public List<T> getData() {
         return data;
     }
 
@@ -29,7 +31,7 @@ public abstract class FileDatabase implements Database<Data> {
         return file;
     }
 
-    public void addData(Data d) {
+    public void addData(T d) {
         if (data.isEmpty()) {
             d.setId(0);
         } else {
@@ -55,10 +57,9 @@ public abstract class FileDatabase implements Database<Data> {
         return true;
     }
 
-    public Data getById(int id) {
-        Data retVal = null;
-        for (int i = 0; i < data.size(); i++) {
-            Data d = data.get(i);
+    public T getById(int id) {
+        T retVal = null;
+        for (T d : data) {
             if (d.getId() == id) {
                 retVal = d;
                 break;

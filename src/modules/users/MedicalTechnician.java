@@ -8,10 +8,13 @@ public class MedicalTechnician extends Employee {
 
     public MedicalTechnician(int id, String username, String name, String surname) {
         super(id, username, name, surname);
+        this.homeVisits = 0;
+        setBonusBase(2000);
     }
 
     public MedicalTechnician(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
         super(id, username, name, surname, password, salaryBase, experience);
+        this.homeVisits = 0;
         setBonusBase(2000);
     }
 
@@ -28,7 +31,7 @@ public class MedicalTechnician extends Employee {
         return getBonusBase() * homeVisits;
     }
 
-    public void PrintAnalysis(){};
+    public void printAnalysis(){};
 
     @Override
     public String toString() {
@@ -36,7 +39,7 @@ public class MedicalTechnician extends Employee {
     }
 
     @Override
-    public String toFileString(){
+    public String toFileString() {
         return super.toFileString() + ',' + homeVisits;
     }
 

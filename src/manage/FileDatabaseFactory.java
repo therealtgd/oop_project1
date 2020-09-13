@@ -1,4 +1,4 @@
-package modules.manage;
+package manage;
 
 import modules.utils.AppSettings;
 

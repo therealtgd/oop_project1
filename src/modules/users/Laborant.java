@@ -45,4 +45,8 @@ public class Laborant extends Employee {
         return "Laborant [" + super.toString() + ", stručna sprema=" + qualification + ", specijalizacije=" + specializations + ']';
     }
 
+    @Override
+    public String toFileString() {
+        return super.toFileString() + "," + qualification + "," + specializations;
+    }
 }
