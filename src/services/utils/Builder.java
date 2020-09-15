@@ -7,8 +7,12 @@ import modules.utils.MyPassword;
 public class Builder {
 
     public static Patient buildPatient(PatientAccountDTO pDTO) {
-        MyPassword pass = PasswordUtils.generateRandomPass(pDTO.getPassword(), 20);
-        return new Patient(pDTO.getUsername(), pDTO.getName(), pDTO.getSurname(), pass, pDTO.getLBO());
+        MyPassword pass = PasswordUtils.generateRandomPass(pDTO.getPassword());
+        Patient p = new Patient(pDTO.getUsername(), pDTO.getName(), pDTO.getSurname(), pass, pDTO.getLBO());
+        p.setAddress(pDTO.getAddress());
+        p.setPhone(pDTO.getPhone());
+        p.setGender(pDTO.getGender());
+        return p;
     }
 
 }

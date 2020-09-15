@@ -43,6 +43,6 @@ public abstract class Employee extends User {
 
     @Override
     public String toFileString(){
-        return super.toFileString() + ',' + salaryBase + ',' + experience + ',' + bonusBase;
+        return super.toFileString() + ',' + salaryBase + ',' + experience;
     }
 }

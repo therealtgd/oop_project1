@@ -47,6 +47,14 @@ public class Laborant extends Employee {
 
     @Override
     public String toFileString() {
-        return super.toFileString() + "," + qualification + "," + specializations;
+        String retVal = super.toFileString() + "," + qualification;
+        String ids = null;
+        if (!specializations.isEmpty()) {
+            for (String s: specializations) {
+                ids += specializations + ";";
+            }
+            retVal += "," + ids;
+        }
+        return retVal;
     }
 }

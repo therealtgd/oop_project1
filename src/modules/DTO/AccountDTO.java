@@ -16,7 +16,9 @@ public class AccountDTO {
         this.surname = surname;
     }
 
-    public AccountDTO(String name, String surname) {
+    public AccountDTO(String username, String password, String name, String surname) {
+        this.username = username;
+        this.password = password;
         this.name = name;
         this.surname = surname;
     }

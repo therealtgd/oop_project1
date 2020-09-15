@@ -4,9 +4,10 @@ import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.users.*;
 import services.Services;
-import view.AdminFrame;
+import view.admin.AdminFrame;
 import view.LaborantFrame;
 import view.PatientFrame;
+import view.MedicalTechnicianFrame;
 import view.validators.exceptions.LoginException;
 
 import java.util.ArrayList;
@@ -32,13 +33,17 @@ public class LoginServices extends Services {
             try {
                 User u = dB.validateLogin(username, password, dB.getData());
                 if (u instanceof Admin) {
-                     new AdminFrame((Admin) u);
+                     new AdminFrame((Admin) u, userDatabase);
+                     return;
                 } else if (u instanceof Laborant) {
                      new LaborantFrame((Laborant) u);
+                     return;
                 } else if (u instanceof MedicalTechnician) {
                      new MedicalTechnicianFrame((MedicalTechnician) u);
+                     return;
                 } else if (u instanceof Patient) {
                      new PatientFrame((Patient) u);
+                     return;
                 }
             } catch (LoginException ignored) {
             }

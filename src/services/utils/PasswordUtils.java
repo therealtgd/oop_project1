@@ -72,7 +72,7 @@ public class PasswordUtils {
         return sb.toString();
     }
 
-    public static MyPassword generateRandomPass(String pass, int len) {
+    public static MyPassword generateRandomPass(String pass) {
         String salt = generateSalt(512).get();
         String key = hashPassword(pass, salt).get();
         return new MyPassword(key, salt);

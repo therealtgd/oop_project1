@@ -10,5 +10,4 @@ public interface UserDatabase<T extends User> extends Database<T> {
 
     T validateLogin(String username, String password, List<T> data) throws LoginException;
 
-
 }

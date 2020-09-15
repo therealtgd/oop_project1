@@ -38,6 +38,15 @@ public class Patient extends User {
         this.phone = phone;
         this.address = address;
     }
+    public Patient(String username, String name, String surname, MyPassword password, String LBO, String gender,
+                   String phone, String address) {
+        super(username, name, surname, password);
+        this.LBO = LBO;
+        this.gender = Gender.valueOf(gender);
+        this.phone = phone;
+        this.address = address;
+    }
+
 
     public String getLBO() {
         return LBO;
