@@ -10,6 +10,7 @@ import view.validators.exceptions.LoginException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LaborantFileDatabase extends FileDatabase<Laborant> implements UserDatabase<Laborant>{
@@ -22,6 +23,7 @@ public class LaborantFileDatabase extends FileDatabase<Laborant> implements User
 
     @Override
     public boolean loadData() {
+        setData(new ArrayList<>());
         try {
             BufferedReader br = new BufferedReader(new FileReader(getFile()));
             String line = null;
@@ -34,7 +36,9 @@ public class LaborantFileDatabase extends FileDatabase<Laborant> implements User
 						l.addSpecialization(s);
 					}
 				}
-                addData(l);
+                List<Laborant> data = getData();
+                data.add(l);
+                setData(data);
             }
             br.close();
         } catch (IOException e) {

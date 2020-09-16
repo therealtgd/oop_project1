@@ -12,8 +12,20 @@ public class MedicalTechnician extends Employee {
         setBonusBase(2000);
     }
 
+    public MedicalTechnician(String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
+        super(username, name, surname, password, salaryBase, experience);
+        this.homeVisits = 0;
+        setBonusBase(2000);
+    }
+
     public MedicalTechnician(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
         super(id, username, name, surname, password, salaryBase, experience);
+        this.homeVisits = 0;
+        setBonusBase(2000);
+    }
+
+    public MedicalTechnician(Employee employee) {
+        super(employee.getUsername(), employee.getName(), employee.getSurname(), employee.getPassword(), employee.getSalaryBase(), employee.getExperience());
         this.homeVisits = 0;
         setBonusBase(2000);
     }

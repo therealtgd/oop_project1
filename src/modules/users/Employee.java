@@ -12,6 +12,12 @@ public abstract class Employee extends User {
         super(id, username, name, surname);
     }
 
+    public Employee(String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
+        super(username, name, surname, password);
+        this.salaryBase = salaryBase;
+        this.experience = experience;
+    }
+
     public Employee(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
         super(id, username, name, surname, password);
         this.salaryBase = salaryBase;
@@ -42,7 +48,7 @@ public abstract class Employee extends User {
     }
 
     @Override
-    public String toFileString(){
+    public String toFileString() {
         return super.toFileString() + ',' + salaryBase + ',' + experience;
     }
 }

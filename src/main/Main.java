@@ -1,12 +1,9 @@
 package main;
 
-import modules.DTO.PatientAccountDTO;
 import modules.users.Admin;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
 import modules.utils.MyPassword;
-import services.user.MedicalTechnicianServices;
-import services.user.MedicalTechnicianServicesInjector;
 import services.utils.PasswordUtils;
 
 public class Main {
@@ -16,18 +13,18 @@ public class Main {
 //        MedicalTechnicianServices services = MedicalTechnicianServicesInjector.services();
 //        String password = services.registerPatient(pDTO);
 //        System.out.println(password);
-        MyPassword mP = PasswordUtils.generateRandomPass("Password");
-        Laborant l = new Laborant(0, "laborant", "labo", "labaratovic", mP, 100.10, 12, "SSS");
-        System.out.println(l.toFileString());
-
-        MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
-
-        Admin a = new Admin(0, "admin", "admi", "adminic", mP2);
-        System.out.println(a.toFileString());
-
-        MyPassword mP3 = PasswordUtils.generateRandomPass("pass");
-        MedicalTechnician mT = new MedicalTechnician(0, "tehnicar", "tehno", "tehnicarevic", mP3, 50.1, 2);
-        System.out.println(mT.toFileString());
+//        MyPassword mP = PasswordUtils.generateRandomPass("Password");
+//        Laborant l = new Laborant(0, "laborant", "labo", "labaratovic", mP, 100.10, 12, "SSS");
+//        System.out.println(l.toFileString());
+//
+//        MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
+//
+//        Admin a = new Admin(0, "admin", "admi", "adminic", mP2);
+//        System.out.println(a.toFileString());
+//
+//        MyPassword mP3 = PasswordUtils.generateRandomPass("pass");
+//        MedicalTechnician mT = new MedicalTechnician(0, "tehnicar", "tehno", "tehnicarevic", mP3, 50.1, 2);
+//        System.out.println(mT.toFileString());
     }
 
 

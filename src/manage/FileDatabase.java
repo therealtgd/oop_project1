@@ -31,6 +31,10 @@ public abstract class FileDatabase<T extends Data> implements Database<T> {
         return file;
     }
 
+    public void setData(List<T> data) {
+        this.data = data;
+    }
+
     public void addData(T d) {
         if (data.isEmpty()) {
             d.setId(0);

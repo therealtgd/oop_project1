@@ -1,6 +1,7 @@
 package manage.users;
 
 import manage.FileDatabase;
+import modules.users.Laborant;
 import modules.users.MedicalTechnician;
 import modules.utils.MyPassword;
 import services.utils.PasswordUtils;
@@ -9,6 +10,7 @@ import view.validators.exceptions.LoginException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnician> implements UserDatabase<MedicalTechnician> {
@@ -18,6 +20,7 @@ public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnicia
 
     @Override
     public boolean loadData() {
+        setData(new ArrayList<>());
         try {
             BufferedReader br = new BufferedReader(new FileReader(getFile()));
             String line = null;
@@ -26,7 +29,9 @@ public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnicia
                 MedicalTechnician mT = new MedicalTechnician(Integer.parseInt(tokens[0]), tokens[1], tokens[2],
                         tokens[3],  MyPassword.parseMyPassword(tokens[4]), Double.parseDouble(tokens[5]),
                         Integer.parseInt(tokens[6]));
-                addData(mT);
+                List<MedicalTechnician> data = getData();
+                data.add(mT);
+                setData(data);
             }
             br.close();
         } catch (IOException e) {

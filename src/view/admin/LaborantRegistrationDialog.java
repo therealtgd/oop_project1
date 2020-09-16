@@ -1,10 +1,17 @@
 package view.admin;
 
+import modules.DTO.LaborantDTO;
+import modules.DTO.MedicalTechnicianDTO;
 import net.miginfocom.swing.MigLayout;
+import services.view.RegistrationServices;
+import services.view.exceptions.RegistrationException;
+import view.utils.PlaceholderFocusListener;
 import view.utils.QualificationsComboBox;
 import view.utils.SpecializationsPanel;
+import view.validators.Validator;
 
 import javax.swing.*;
+import java.util.Map;
 
 public class LaborantRegistrationDialog extends JDialog {
 
@@ -32,8 +39,10 @@ public class LaborantRegistrationDialog extends JDialog {
         JTextField salaryTxt = new JTextField();
         JTextField expText = new JTextField();
         QualificationsComboBox quaComboBox = new QualificationsComboBox();
+        SpecializationsPanel specPanel = new SpecializationsPanel();
         JButton registerBtn = new JButton("Registruj se");
         JButton cancelBtn = new JButton("Izađi");
+
 
         add(new JLabel("Korisničko ime:"), "split 2, sg 1");
         add(usernameTxt, "pushx, growx, wrap");
@@ -47,30 +56,28 @@ public class LaborantRegistrationDialog extends JDialog {
         add(quaComboBox, "pushx, growx, wrap");
         add(new JLabel("Iskustvo:"), "split 4, sg 1");
         add(expText, "pushx, growx");
-//        add(new JLabel("Specijalizacije:"), "sg 1");
-        add(new SpecializationsPanel(), "wrap");
+        add(specPanel, "wrap");
         add(registerBtn, "split 2");
         add(cancelBtn);
 
         registerBtn.addActionListener(e -> {
-//            PatientAccountDTO pDTO = getPatientAccountDTO(usernameTxt, passwordTxt, nameTxt, surnameTxt, salaryTxt, expText, phoneTxt, maleRBtn, femaleRBtn);
-//            Map<String, String> errCodes = Validator.validateRegistration(pDTO);
+            RegistrationServices rS = new RegistrationServices();
+            LaborantDTO lDTO = rS.getLaborantDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), salaryTxt.getText(), expText.getText(), (String)quaComboBox.getSelectedItem(), specPanel.getSelection());
+            Map<String, String> errCodes = Validator.validateLaborantRegistration(lDTO);
 //
-//            if (errCodes.size() == 0) {
-//                RegistrationServices rS = new RegistrationServices();
-//                setOptionalParams(pDTO);
-//                try {
-//                    rS.register(pDTO);
-//                } catch (RegistrationException ex) {
-//                    System.out.println(ex.getMessage());
-//                    JOptionPane.showMessageDialog(LaborantRegistrationDialog.this, ex.getMessage(), "Greška prilikom registracije", JOptionPane.ERROR_MESSAGE);
-//                    return;
-//                }
-//                System.out.println("Registracija uspješna.");
-//
-//            } else {
-//                processErrors(LaborantRegistrationDialog.this, usernameTxt, nameTxt, surnameTxt, salaryTxt, expText, phoneTxt, errCodes);
-//            }
+            if (errCodes.size() == 0) {
+                try {
+                    String key = rS.registerLaborant(lDTO);
+                    System.out.println("Registracija uspješna.");
+                    System.out.println(key);
+                } catch (RegistrationException ex) {
+                    System.out.println(ex.getMessage());
+                    JOptionPane.showMessageDialog(LaborantRegistrationDialog.this, ex.getMessage(), "Greška prilikom registracije", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                processErrors(usernameTxt, nameTxt, surnameTxt, salaryTxt, errCodes);
+            }
 
         });
 
@@ -82,5 +89,24 @@ public class LaborantRegistrationDialog extends JDialog {
 
     }
 
+
+    private void processErrors(JTextField usernameTxt, JTextField nameTxt, JTextField surnameTxt, JTextField salaryTxt, Map<String, String> errCodes) {
+        if (errCodes.containsKey("username")) {
+            usernameTxt.setText(String.valueOf(errCodes.get("username")));
+            usernameTxt.addFocusListener(new PlaceholderFocusListener(usernameTxt, errCodes.get("username")));
+        }
+        if (errCodes.containsKey("name")) {
+            nameTxt.setText(String.valueOf(errCodes.get("name")));
+            nameTxt.addFocusListener(new PlaceholderFocusListener(nameTxt, errCodes.get("name")));
+        }
+        if (errCodes.containsKey("surname")) {
+            surnameTxt.setText(String.valueOf(errCodes.get("surname")));
+            surnameTxt.addFocusListener(new PlaceholderFocusListener(surnameTxt, errCodes.get("surname")));
+        }
+        if (errCodes.containsKey("salaryBase")) {
+            salaryTxt.setText(String.valueOf(errCodes.get("salaryBase")));
+            salaryTxt.addFocusListener(new PlaceholderFocusListener(salaryTxt, errCodes.get("salaryBase")));
+        }
+    }
 
 }

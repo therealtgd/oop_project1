@@ -23,6 +23,13 @@ public class Laborant extends Employee {
         setBonusBase(500);
     }
 
+    public Laborant(Employee employee, String qualification, List<String> specializations) {
+        super(employee.getUsername(), employee.getName(), employee.getSurname(), employee.getPassword(), employee.getSalaryBase(), employee.getExperience());
+        this.qualification = qualification;
+        this.specializations = specializations;
+        setBonusBase(500);
+    }
+
     public String getQualification() {
         return qualification;
     }

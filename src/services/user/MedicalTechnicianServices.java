@@ -1,6 +1,6 @@
 package services.user;
 
-import modules.DTO.PatientAccountDTO;
+import modules.DTO.PatientDTO;
 import manage.DatabaseHandler;
 import modules.users.Patient;
 import services.Services;
@@ -15,7 +15,7 @@ public class MedicalTechnicianServices extends Services {
         super(databaseHandler);
     }
 
-    public String registerPatient(PatientAccountDTO pDTO) {
+    public String registerPatient(PatientDTO pDTO) {
         pDTO.setPassword(generateRandomAlphanumericString(10));
         Patient p = Builder.buildPatient(pDTO);
         getDatabaseHandler().getUserDatabase().getPatientDatabase().addData(p);

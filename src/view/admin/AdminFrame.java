@@ -18,10 +18,12 @@ public class AdminFrame extends JFrame {
 
     private Admin admin;
     private ArrayList<UserDatabase> userDatabase;
+    private EmployeeView employeeView;
 
     public AdminFrame(Admin a, ArrayList<UserDatabase> userDatabase) {
         this.admin = a;
         this.userDatabase = userDatabase;
+        this.employeeView = null;
         adminFrame();
     }
 
@@ -31,6 +33,14 @@ public class AdminFrame extends JFrame {
 
     public ArrayList<UserDatabase> getUserDatabase() {
         return userDatabase;
+    }
+
+    public EmployeeView getEmployeeView() {
+        return employeeView;
+    }
+
+    public void setEmployeeView(EmployeeView employeeView) {
+        this.employeeView = employeeView;
     }
 
     private void adminFrame() {
@@ -84,8 +94,16 @@ public class AdminFrame extends JFrame {
         this.setJMenuBar(mainMenu);
 
         viewEmployeesItem.addActionListener(e -> {
-            add(new EmployeeView(userDatabase), BorderLayout.CENTER);
-            pack();
+            if (employeeView == null) {
+                setEmployeeView(new EmployeeView(userDatabase));
+                add(getEmployeeView(), BorderLayout.CENTER);
+                pack();
+            } else {
+                getEmployeeView().setVisible(false);
+                remove(getEmployeeView());
+                setEmployeeView(new EmployeeView(userDatabase));
+                add(getEmployeeView(), BorderLayout.CENTER);
+            }
         });
 
         addLaborantItem.addActionListener(e -> new LaborantRegistrationDialog());

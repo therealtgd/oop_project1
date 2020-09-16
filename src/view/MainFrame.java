@@ -1,22 +1,17 @@
 package view;
 
 import manage.DatabaseHandler;
-import modules.DTO.PatientAccountDTO;
+import modules.DTO.PatientDTO;
 import net.miginfocom.swing.MigLayout;
 import services.view.LoginServices;
 import services.view.RegistrationServices;
 import services.view.exceptions.RegistrationException;
 import view.utils.PlaceholderFocusListener;
-import view.utils.PlaceholderTextField;
 import view.validators.Validator;
 import view.validators.exceptions.LoginException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.Map;
 
 public class MainFrame extends JDialog {
@@ -172,14 +167,14 @@ public class MainFrame extends JDialog {
         d.add(cancelBtn);
 
         registerBtn.addActionListener(e -> {
-            PatientAccountDTO pDTO = getPatientAccountDTO(usernameTxt, passwordTxt, nameTxt, surnameTxt, LBOTxt, addressTxt, phoneTxt, maleRBtn, femaleRBtn);
-            Map<String, String> errCodes = Validator.validateRegistration(pDTO);
+            PatientDTO pDTO = getPatientAccountDTO(usernameTxt, passwordTxt, nameTxt, surnameTxt, LBOTxt, addressTxt, phoneTxt, maleRBtn, femaleRBtn);
+            Map<String, String> errCodes = Validator.validatePatientRegistration(pDTO);
 
             if (errCodes.size() == 0) {
                 RegistrationServices rS = new RegistrationServices();
                 setOptionalParams(pDTO);
                 try {
-                    rS.register(pDTO);
+                    rS.registerPatient(pDTO);
                 } catch (RegistrationException ex) {
                     System.out.println(ex.getMessage());
                     JOptionPane.showMessageDialog(d, ex.getMessage(), "Greška prilikom registracije", JOptionPane.ERROR_MESSAGE);
@@ -200,7 +195,7 @@ public class MainFrame extends JDialog {
 
     }
 
-    private void setOptionalParams(PatientAccountDTO pDTO) {
+    private void setOptionalParams(PatientDTO pDTO) {
         if (pDTO.getAddress().isEmpty()) pDTO.setAddress("null");
         if (pDTO.getPhone().isEmpty()) pDTO.setPhone("null");
         if (pDTO.getGender().isEmpty()) pDTO.setGender("null");
@@ -236,8 +231,8 @@ public class MainFrame extends JDialog {
         }
     }
 
-    private PatientAccountDTO getPatientAccountDTO(JTextField usernameTxt, JPasswordField passwordTxt, JTextField nameTxt, JTextField surnameTxt, JTextField LBOTxt, JTextField addressTxt, JTextField phoneTxt, JRadioButton maleRBtn, JRadioButton femaleRBtn) {
-        PatientAccountDTO pDTO = new PatientAccountDTO(usernameTxt.getText(), new String(passwordTxt.getPassword()),
+    private PatientDTO getPatientAccountDTO(JTextField usernameTxt, JPasswordField passwordTxt, JTextField nameTxt, JTextField surnameTxt, JTextField LBOTxt, JTextField addressTxt, JTextField phoneTxt, JRadioButton maleRBtn, JRadioButton femaleRBtn) {
+        PatientDTO pDTO = new PatientDTO(usernameTxt.getText(), new String(passwordTxt.getPassword()),
                 nameTxt.getText(), surnameTxt.getText(), LBOTxt.getText());
         if (!addressTxt.getText().isEmpty())
             pDTO.setAddress(addressTxt.getText());
@@ -247,7 +242,7 @@ public class MainFrame extends JDialog {
         return pDTO;
     }
 
-    private void setPDTOGender(JRadioButton maleRBtn, JRadioButton femaleRBtn, PatientAccountDTO pDTO) {
+    private void setPDTOGender(JRadioButton maleRBtn, JRadioButton femaleRBtn, PatientDTO pDTO) {
         String gender = "";
         if (maleRBtn.isSelected())
             gender = "MUŠKO";

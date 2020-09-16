@@ -1,10 +1,12 @@
 package view.utils;
 
+import com.sun.glass.events.KeyEvent;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,11 +19,21 @@ public class SpecializationsPanel extends JPanel {
             "Biohemija",
             "Imunologija",
             "Serologija");
+    List<JCheckBox> checkBoxes;
 
     public SpecializationsPanel() {
+        this.checkBoxes = new ArrayList<>();
         initGUI();
         setVisible(true);
 
+    }
+
+    public List<JCheckBox> getCheckBoxes() {
+        return checkBoxes;
+    }
+
+    public void addCheckBox(JCheckBox checkBox) {
+        checkBoxes.add(checkBox);
     }
 
     private void initGUI() {
@@ -39,19 +51,34 @@ public class SpecializationsPanel extends JPanel {
         JLabel lblSero = new JLabel("Serologija");
 
         JCheckBox cbAlergo = new JCheckBox();
-        JCheckBox cbImunoHem = new JCheckBox();
-        JCheckBox cbGene = new JCheckBox();
-        JCheckBox cbBio = new JCheckBox();
-        JCheckBox cbImunoLog = new JCheckBox();
-        JCheckBox cbSero = new JCheckBox();
+        cbAlergo.setMnemonic(KeyEvent.VK_1);
+        cbAlergo.setText(specs.get(0));
+        checkBoxes.add(cbAlergo);
 
-//        ButtonGroup bg = new ButtonGroup();
-//        bg.add(cbAlergo);
-//        bg.add(cbImunoHem);
-//        bg.add(cbGene);
-//        bg.add(cbBio);
-//        bg.add(cbImunoLog);
-//        bg.add(cbSero);
+        JCheckBox cbImunoHem = new JCheckBox();
+        cbImunoHem.setMnemonic(KeyEvent.VK_2);
+        cbAlergo.setText(specs.get(1));
+        checkBoxes.add(cbImunoHem);
+
+        JCheckBox cbGene = new JCheckBox();
+        cbGene.setMnemonic(KeyEvent.VK_3);
+        cbAlergo.setText(specs.get(2));
+        checkBoxes.add(cbGene);
+
+        JCheckBox cbBio = new JCheckBox();
+        cbBio.setMnemonic(KeyEvent.VK_4);
+        cbAlergo.setText(specs.get(3));
+        checkBoxes.add(cbBio);
+
+        JCheckBox cbImunoLog = new JCheckBox();
+        cbImunoLog.setMnemonic(KeyEvent.VK_5);
+        cbAlergo.setText(specs.get(4));
+        checkBoxes.add(cbImunoLog);
+
+        JCheckBox cbSero = new JCheckBox();
+        cbSero.setMnemonic(KeyEvent.VK_6);
+        cbAlergo.setText(specs.get(5));
+        checkBoxes.add(cbSero);
 
         add(lblAlergo, "sg 1");
         add(cbAlergo);
@@ -66,4 +93,13 @@ public class SpecializationsPanel extends JPanel {
         add(lblSero, "sg 1");
         add(cbSero);
     }
+
+    public List<String> getSelection() {
+        ArrayList<String> retVal = new ArrayList<>();
+        for (JCheckBox cb: checkBoxes) {
+            if (cb.isSelected())
+                retVal.add(cb.getText());
+        } return retVal;
+    }
+
 }

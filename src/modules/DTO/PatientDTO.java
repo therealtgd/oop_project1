@@ -1,20 +1,20 @@
 package modules.DTO;
 
-public class PatientAccountDTO extends AccountDTO {
+public class PatientDTO extends AccountDTO {
     private String LBO;
     private String address;
     private String phone;
     private String gender;
 
-    public PatientAccountDTO() {
+    public PatientDTO() {
     }
 
-    public PatientAccountDTO(String username, String name, String surname, String LBO) {
+    public PatientDTO(String username, String name, String surname, String LBO) {
         super(username, name, surname);
         this.LBO = LBO;
     }
 
-    public PatientAccountDTO(String username, String password, String name, String surname, String LBO) {
+    public PatientDTO(String username, String password, String name, String surname, String LBO) {
         super(username, password, name, surname);
         this.LBO = LBO;
         this.address = "";

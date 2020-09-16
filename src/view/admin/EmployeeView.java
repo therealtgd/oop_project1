@@ -36,8 +36,13 @@ public class EmployeeView extends JPanel {
     private LaborantTablePanel laborantPanel() {
         UserDatabase laborantDatabase = null;
         for (UserDatabase uDb: userDatabase) {
-            if (uDb.getData().get(0) instanceof Laborant)
-                laborantDatabase = uDb;
+            uDb.loadData();
+            if (uDb.getData().size() > 0) {
+                if (uDb.getData().get(0) instanceof Laborant) {
+                    laborantDatabase = uDb;
+                    break;
+                }
+            }
         }
         return new LaborantTablePanel(laborantDatabase);
 
@@ -47,8 +52,13 @@ public class EmployeeView extends JPanel {
     private MedicalTechnicianTablePanel medicalTechnicianPanel() {
         UserDatabase medTechnicianDatabase = null;
         for (UserDatabase uDb: userDatabase) {
-            if (uDb.getData().get(0) instanceof MedicalTechnician)
-                medTechnicianDatabase = uDb;
+            uDb.loadData();
+            if (uDb.getData().size() > 0) {
+                if (uDb.getData().get(0) instanceof MedicalTechnician) {
+                    medTechnicianDatabase = uDb;
+                    break;
+                }
+            }
         }
         return new MedicalTechnicianTablePanel(medTechnicianDatabase);
     }
