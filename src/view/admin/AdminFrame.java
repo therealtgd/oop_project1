@@ -6,9 +6,15 @@ import modules.users.Admin;
 import modules.utils.MyPassword;
 import services.utils.PasswordUtils;
 import view.ProfileMenu;
+import view.admin.laborant.LaborantRegistrationDialog;
+import view.admin.medicalTechnician.MedTechRegistrationDialog;
+import view.admin.patient.PatientRegistrationDialog;
+import view.admin.patient.PatientView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AdminFrame extends JFrame {
@@ -16,11 +22,13 @@ public class AdminFrame extends JFrame {
     private Admin admin;
     private ArrayList<UserDatabase> userDatabase;
     private EmployeeView employeeView;
+    private PatientView patientView;
 
     public AdminFrame(Admin a, ArrayList<UserDatabase> userDatabase) {
         this.admin = a;
         this.userDatabase = userDatabase;
         this.employeeView = null;
+        this.patientView = null;
         adminFrame();
     }
 
@@ -30,14 +38,6 @@ public class AdminFrame extends JFrame {
 
     public ArrayList<UserDatabase> getUserDatabase() {
         return userDatabase;
-    }
-
-    public EmployeeView getEmployeeView() {
-        return employeeView;
-    }
-
-    public void setEmployeeView(EmployeeView employeeView) {
-        this.employeeView = employeeView;
     }
 
     private void adminFrame() {
@@ -54,21 +54,28 @@ public class AdminFrame extends JFrame {
 
         JMenu profileMenu = new ProfileMenu(admin);
 
-        JMenu userMenu = new JMenu("Korisnici");
+        JMenu patientMenu = new JMenu("Pacjenti");
+        JMenuItem viewPatientsItem = new JMenuItem("Pregled pacjenata");
+        JMenuItem addPatientItem = new JMenuItem("Registruj pacjenta");
+        JMenuItem removePatientItem = new JMenuItem("Ukloni pacjenta");
+
+        patientMenu.add(viewPatientsItem);
+        patientMenu.add(addPatientItem);
+        patientMenu.add(removePatientItem);
 
         JMenu employeeMenu = new JMenu("Zaposleni");
         JMenuItem viewEmployeesItem = new JMenuItem("Pregled zaposlenih");
         employeeMenu.add(viewEmployeesItem);
 
-        JMenu addUserMenu = new JMenu("Registruj zaposlenog");
+        JMenu addEmployeeMenu = new JMenu("Registruj zaposlenog");
         JMenuItem addLaborantItem = new JMenuItem("Laborant");
         JMenuItem addMedicalTechnicianItem = new JMenuItem("Med. tehničar");
 
-        addUserMenu.add(addLaborantItem);
-        addUserMenu.add(addMedicalTechnicianItem);
-        employeeMenu.add(addUserMenu);
+        addEmployeeMenu.add(addLaborantItem);
+        addEmployeeMenu.add(addMedicalTechnicianItem);
+        employeeMenu.add(addEmployeeMenu);
 
-        JMenu removeUserMenu = new JMenu("Izbriši zaposlenog");
+        JMenu removeUserMenu = new JMenu("Ukloni zaposlenog");
         JMenuItem removeLaborantItem = new JMenuItem("Laborant");
         JMenuItem removeMedicalTehnicinItem = new JMenuItem("Med. tehničar");
 //        JMenuItem removePatientItem = new JMenuItem("Pacjent");
@@ -81,7 +88,7 @@ public class AdminFrame extends JFrame {
         JMenu reportMenu = new JMenu("Analize");
 
         mainMenu.add(profileMenu);
-        mainMenu.add(userMenu);
+        mainMenu.add(patientMenu);
         mainMenu.add(employeeMenu);
         mainMenu.add(reportMenu);
 
@@ -89,17 +96,28 @@ public class AdminFrame extends JFrame {
 
         viewEmployeesItem.addActionListener(e -> {
             if (employeeView == null) {
-                setEmployeeView(new EmployeeView(userDatabase));
-                add(getEmployeeView(), BorderLayout.CENTER);
+                employeeView = new EmployeeView(userDatabase);
+                add(employeeView, BorderLayout.CENTER);
                 pack();
             } else {
-                getEmployeeView().refresh();
+                employeeView.refresh();
             }
         });
+
 
         addLaborantItem.addActionListener(e -> new LaborantRegistrationDialog());
         addMedicalTechnicianItem.addActionListener(e -> new MedTechRegistrationDialog());
 
+        addPatientItem.addActionListener(e -> new PatientRegistrationDialog());
+        viewPatientsItem.addActionListener(e -> {
+            if (patientView == null) {
+                patientView = new PatientView(userDatabase);
+                add(patientView, BorderLayout.CENTER);
+                pack();
+            } else {
+                patientView.refresh();
+            }
+        });
     }
 
 

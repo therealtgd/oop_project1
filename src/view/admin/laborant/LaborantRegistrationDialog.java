@@ -1,6 +1,7 @@
-package view.admin;
+package view.admin.laborant;
 
 import modules.DTO.LaborantDTO;
+import services.utils.PasswordUtils;
 import services.view.RegistrationServices;
 import services.view.exceptions.RegistrationException;
 import view.validators.Validator;
@@ -25,7 +26,9 @@ public class LaborantRegistrationDialog extends LaborantDialog {
 
             if (errCodes.size() == 0) {
                 try {
-                    String key = rS.registerLaborant(lDTO);
+                    String key = PasswordUtils.generateRandomAlphanumericString(10);
+                    lDTO.setPassword(key);
+                    rS.registerLaborant(lDTO);
                     System.out.println("Registracija uspješna.");
                     System.out.println(key);
                     dispose();

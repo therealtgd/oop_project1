@@ -6,12 +6,12 @@ public class PatientDTO extends AccountDTO {
     private String phone;
     private String gender;
 
-    public PatientDTO() {
-    }
-
-    public PatientDTO(String username, String name, String surname, String LBO) {
+    public PatientDTO(String username, String name, String surname, String LBO, String address, String phone, String gender) {
         super(username, name, surname);
         this.LBO = LBO;
+        this.address = address;
+        this.phone = phone;
+        this.gender = gender;
     }
 
     public PatientDTO(String username, String password, String name, String surname, String LBO) {

@@ -1,4 +1,4 @@
-package view.admin;
+package view.admin.medicalTechnician;
 
 import manage.users.UserDatabase;
 import modules.DTO.MedicalTechnicianDTO;
@@ -9,7 +9,8 @@ import view.validators.Validator;
 
 import java.util.Map;
 
-public class MedicalTechnicianEditDialog extends  MedicalTechnicianDialog{
+public class MedicalTechnicianEditDialog extends MedicalTechnicianDialog {
+
     private UserDatabase medTechnicianDatabase;
     private MedicalTechnician editMedTechnician;
 
@@ -36,7 +37,7 @@ public class MedicalTechnicianEditDialog extends  MedicalTechnicianDialog{
                 medTechnicianDatabase.edit(mT);
                 dispose();
             } else {
-                processErrors(usernameTxt, nameTxt, surnameTxt, salaryTxt, errCodes);
+                processErrors(errCodes);
             }
 
         });

@@ -4,6 +4,9 @@ import manage.users.UserDatabase;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
 import net.miginfocom.swing.MigLayout;
+import view.admin.table.LaborantTablePanel;
+import view.admin.table.MedicalTechnicianTablePanel;
+import view.admin.table.UserTablePanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

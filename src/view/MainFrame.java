@@ -139,7 +139,6 @@ public class MainFrame extends JDialog {
         ButtonGroup genderBtnGrp = new ButtonGroup();
         genderBtnGrp.add(maleRBtn);
         genderBtnGrp.add(femaleRBtn);
-        JLabel errMessage = new JLabel("");
         JButton registerBtn = new JButton("Registruj se");
         JButton cancelBtn = new JButton("Izađi");
 
@@ -162,7 +161,6 @@ public class MainFrame extends JDialog {
         d.add(maleRBtn);
         d.add(new JLabel("žensko"));
         d.add(femaleRBtn, "wrap");
-        d.add(errMessage, "span, wrap");
         d.add(registerBtn, "split 2");
         d.add(cancelBtn);
 

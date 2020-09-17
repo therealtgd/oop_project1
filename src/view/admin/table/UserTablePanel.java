@@ -1,4 +1,4 @@
-package view.admin;
+package view.admin.table;
 
 import manage.users.UserDatabase;
 import net.miginfocom.swing.MigLayout;
@@ -109,11 +109,9 @@ public abstract class UserTablePanel extends JPanel {
         return p;
     }
 
+    public abstract void refresh();
+
     protected abstract void sort(int index);
 
-    protected abstract void refresh();
-
     protected abstract void initActions();
-
-
 }

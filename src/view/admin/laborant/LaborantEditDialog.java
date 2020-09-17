@@ -1,4 +1,4 @@
-package view.admin;
+package view.admin.laborant;
 
 import manage.users.UserDatabase;
 import modules.DTO.LaborantDTO;

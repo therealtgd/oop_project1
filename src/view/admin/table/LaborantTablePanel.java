@@ -1,30 +1,30 @@
-package view.admin;
+package view.admin.table;
 
 import manage.users.UserDatabase;
 import modules.users.Laborant;
-import modules.users.MedicalTechnician;
-import view.model.MedicalTechnicianModel;
+import view.admin.laborant.LaborantEditDialog;
+import view.admin.laborant.LaborantRegistrationDialog;
+import view.model.LaborantModel;
 
 import javax.swing.*;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MedicalTechnicianTablePanel extends UserTablePanel {
+public class LaborantTablePanel extends UserTablePanel {
 
+    public LaborantTablePanel(UserDatabase laborantDatabase) {
+        super(laborantDatabase, new JTable(new LaborantModel(laborantDatabase)), "Pregled laboranata");
 
-    public MedicalTechnicianTablePanel(UserDatabase medTechnicianDatabase) {
-        super(medTechnicianDatabase, new JTable(new MedicalTechnicianModel(medTechnicianDatabase)), "Pregled med. tehničara");
     }
 
     @Override
     public void refresh() {
-        MedicalTechnicianModel sm = (MedicalTechnicianModel) this.table.getModel();
-        sm.fireTableDataChanged();
+        LaborantModel lm = (LaborantModel) this.table.getModel();
+        lm.fireTableDataChanged();
     }
 
     // Pamcenje redosleda sortiranja za svaku kolonu posebno - primer
-
     @SuppressWarnings("serial")
     private Map<Integer, Integer> sortOrder = new HashMap<Integer, Integer>() {{
         put(0, 1);
@@ -34,16 +34,17 @@ public class MedicalTechnicianTablePanel extends UserTablePanel {
         put(4, 1);
         put(5, 1);
         put(6, 1);
+        put(7, 1);
     }};
 
     @Override
     protected void sort(int index) {
         // index of table column
 
-        this.getDatabase().getData().sort(new Comparator<MedicalTechnician>() {
+        this.getDatabase().getData().sort(new Comparator<Laborant>() {
             int retVal = 0;
 
-            public int compare(MedicalTechnician l1, MedicalTechnician l2) {
+            public int compare(Laborant l1, Laborant l2) {
                 switch (index) {
                     case 0:
                         retVal = Integer.compare(l1.getId(), l2.getId());
@@ -63,7 +64,10 @@ public class MedicalTechnicianTablePanel extends UserTablePanel {
                         retVal = Integer.compare(l1.getExperience(), l2.getExperience());
                         break;
                     case 6:
-                        retVal = Integer.compare(l1.getHomeVisits(), l2.getHomeVisits());
+                        retVal = l1.getQualification().compareTo(l2.getQualification());
+                        break;
+                    case 7:
+                        retVal = Integer.compare(l1.getSpecializations().size(), l2.getSpecializations().size());
                         break;
                     default:
                         System.out.println("Prosirena tabela");
@@ -82,25 +86,25 @@ public class MedicalTechnicianTablePanel extends UserTablePanel {
 
     @Override
     protected void initActions() {
-        btnAdd.addActionListener(e -> new MedTechRegistrationDialog());
+        btnAdd.addActionListener(e -> new LaborantRegistrationDialog());
         btnDelete.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row == -1) {
                 JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
             } else {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
-                MedicalTechnician mT = (MedicalTechnician) getDatabase().getById(id);
-                if (mT != null) {
+                Laborant l = (Laborant) getDatabase().getById(id);
+                if (l != null) {
                     int selection = JOptionPane.showConfirmDialog(null,
-                            "Da li ste sigurni da želite da obrišete med. tehničara?",
-                            mT.getName() + " " + mT.getSurname() + " - Potvrda brisanja",
+                            "Da li ste sigurni da želite da obrišete laboranta?",
+                            l.getName() + " " + l.getSurname() + " - Potvrda brisanja",
                             JOptionPane.YES_NO_OPTION);
                     if (selection == JOptionPane.YES_OPTION) {
-                        getDatabase().remove(mT.getId());
+                        getDatabase().remove(l.getId());
                         refresh();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Med. tehničar nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Laborant nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -110,17 +114,18 @@ public class MedicalTechnicianTablePanel extends UserTablePanel {
                 JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
             } else {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
-                MedicalTechnician mT = (MedicalTechnician) getDatabase().getById(id);
-                if (mT != null) {
-                    new MedicalTechnicianEditDialog(getDatabase(), mT);
+                Laborant l = (Laborant) getDatabase().getById(id);
+                if (l != null) {
+                    new LaborantEditDialog(getDatabase(), l);
                     refresh();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Med. tehničar nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Laborant nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
     }
 
-
 }
+
+

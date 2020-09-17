@@ -1,4 +1,4 @@
-package view.admin;
+package view.admin.medicalTechnician;
 
 import net.miginfocom.swing.MigLayout;
 import view.utils.PlaceholderFocusListener;
@@ -70,7 +70,7 @@ public abstract class MedicalTechnicianDialog extends JDialog {
     protected abstract void initActions();
 
 
-    protected void processErrors(JTextField usernameTxt, JTextField nameTxt, JTextField surnameTxt, JTextField salaryTxt, Map<String, String> errCodes) {
+    protected void processErrors(Map<String, String> errCodes) {
         if (errCodes.containsKey("username")) {
             usernameTxt.setText(String.valueOf(errCodes.get("username")));
             usernameTxt.addFocusListener(new PlaceholderFocusListener(usernameTxt, errCodes.get("username")));

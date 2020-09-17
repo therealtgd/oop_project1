@@ -11,6 +11,7 @@ import services.utils.Builder;
 import services.utils.PasswordUtils;
 import services.view.exceptions.RegistrationException;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class RegistrationServices extends Services {
@@ -28,23 +29,16 @@ public class RegistrationServices extends Services {
         getDatabaseHandler().getUserDatabase().getPatientDatabase().addData(p);
     }
 
-    public String registerMedicalTechnician(MedicalTechnicianDTO mTDTO) throws RegistrationException {
+    public void registerMedicalTechnician(MedicalTechnicianDTO mTDTO) throws RegistrationException {
         checkUsername(mTDTO);
-        String key = PasswordUtils.generateRandomAlphanumericString(10);
-        mTDTO.setPassword(key);
         MedicalTechnician mT = Builder.buildMedicalTechnician(mTDTO);
         getDatabaseHandler().getUserDatabase().getMedTechnicianDatabase().addData(mT);
-        return key;
     }
 
-    public String registerLaborant(LaborantDTO lDTO) throws RegistrationException {
+    public void registerLaborant(LaborantDTO lDTO) throws RegistrationException {
         checkUsername(lDTO);
-        String key = PasswordUtils.generateRandomAlphanumericString(10);
-        lDTO.setPassword(key);
         Laborant l = Builder.buildLaborant(lDTO);
         getDatabaseHandler().getUserDatabase().getLaborantDatabase().addData(l);
-        return key;
-
     }
 
     private void checkUsername(AccountDTO pDTO) throws RegistrationException {
@@ -88,5 +82,9 @@ public class RegistrationServices extends Services {
 
     public MedicalTechnicianDTO getMedicalTechnicianDTO(String username, String name, String surname, String salary, String experience) {
         return new MedicalTechnicianDTO(getEmployeeDTO(username, name, surname, salary, experience));
+    }
+
+    public PatientDTO getPatientDTO(String username, String name, String surname, String LBO, String address, String phone, String gender) {
+        return new PatientDTO(username, name, surname, LBO, address, phone, gender);
     }
 }

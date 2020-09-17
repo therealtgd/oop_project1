@@ -1,6 +1,7 @@
-package view.admin;
+package view.admin.medicalTechnician;
 
 import modules.DTO.MedicalTechnicianDTO;
+import services.utils.PasswordUtils;
 import services.view.RegistrationServices;
 import services.view.exceptions.RegistrationException;
 import view.validators.Validator;
@@ -19,12 +20,14 @@ public class MedTechRegistrationDialog extends MedicalTechnicianDialog {
     protected void initActions() {
         confirmBtn.addActionListener(e -> {
             RegistrationServices rS = new RegistrationServices();
-            MedicalTechnicianDTO mDTO = rS.getMedicalTechnicianDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), salaryTxt.getText(), xpTxt.getText());
-            Map<String, String> errCodes = Validator.validateMedicalTechnicianRegistration(mDTO);
+            MedicalTechnicianDTO mTDTO = rS.getMedicalTechnicianDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), salaryTxt.getText(), xpTxt.getText());
+            Map<String, String> errCodes = Validator.validateMedicalTechnicianRegistration(mTDTO);
 
             if (errCodes.size() == 0) {
                 try {
-                    String key = rS.registerMedicalTechnician(mDTO);
+                    String key = PasswordUtils.generateRandomAlphanumericString(10);
+                    mTDTO.setPassword(key);
+                    rS.registerMedicalTechnician(mTDTO);
                     System.out.println("Registracija uspješna.");
                     System.out.println(key);
                 } catch (RegistrationException ex) {
@@ -33,7 +36,7 @@ public class MedTechRegistrationDialog extends MedicalTechnicianDialog {
                 }
 
             } else {
-                processErrors(usernameTxt, nameTxt, surnameTxt, salaryTxt, errCodes);
+                processErrors(errCodes);
             }
 
         });

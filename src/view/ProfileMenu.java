@@ -2,7 +2,6 @@ package view;
 
 import modules.users.User;
 import net.miginfocom.swing.MigLayout;
-import services.utils.PasswordUtils;
 import view.validators.Validator;
 
 import javax.swing.*;

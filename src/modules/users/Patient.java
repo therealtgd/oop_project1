@@ -65,6 +65,8 @@ public class Patient extends User {
     }
 
     public void setGender(String gender) {
+        if (!gender.equals(gender.toUpperCase()))
+            gender = gender.toUpperCase();
         this.gender = Gender.valueOf(gender);
     }
 

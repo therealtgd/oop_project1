@@ -15,9 +15,12 @@ public class Builder {
     public static Patient buildPatient(PatientDTO pDTO) {
         MyPassword pass = PasswordUtils.generateRandomPass(pDTO.getPassword());
         Patient p = new Patient(pDTO.getUsername(), pDTO.getName(), pDTO.getSurname(), pass, pDTO.getLBO());
-        p.setAddress(pDTO.getAddress());
-        p.setPhone(pDTO.getPhone());
-        p.setGender(pDTO.getGender());
+        if (!pDTO.getAddress().equals(""))
+            p.setAddress(pDTO.getAddress());
+        if (!pDTO.getPhone().equals(""))
+            p.setPhone(pDTO.getPhone());
+        if (pDTO.getGender() != null)
+            p.setGender(pDTO.getGender());
         return p;
     }
 

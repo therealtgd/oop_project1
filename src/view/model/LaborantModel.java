@@ -1,19 +1,19 @@
 package view.model;
 
 import manage.users.UserDatabase;
-import modules.users.MedicalTechnician;
+import modules.users.Laborant;
 
-public class MedicalTechnicianModel extends UserModel {
+public class LaborantModel extends UserModel {
 
-
-    public MedicalTechnicianModel(UserDatabase userDatabase) {
+    public LaborantModel(UserDatabase userDatabase) {
         super(userDatabase);
-        columnNames = new String[]{"Id", "Korisničko ime", "Ime", "Prezime", "Platna baza", "Iskustvo", "Kućne posjete"};
+        columnNames = new String[]{"Id", "Korisničko ime", "Ime", "Prezime", "Platna baza", "Iskustvo", "Kvalifikacije", "Specijalizacije"};
+
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        MedicalTechnician l = (MedicalTechnician) userDatabase.getData().get(rowIndex);
+        Laborant l = (Laborant) userDatabase.getData().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return l.getId();
@@ -28,7 +28,9 @@ public class MedicalTechnicianModel extends UserModel {
             case 5:
                 return l.getExperience();
             case 6:
-                return l.getHomeVisits();
+                return l.getQualification();
+            case 7:
+                return l.getSpecializations();
             default:
                 return null;
         }

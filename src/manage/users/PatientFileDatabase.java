@@ -1,7 +1,7 @@
 package manage.users;
 
 import manage.FileDatabase;
-import modules.users.Laborant;
+import modules.users.MedicalTechnician;
 import modules.users.Patient;
 import modules.utils.MyPassword;
 import services.utils.PasswordUtils;
@@ -50,6 +50,17 @@ public class PatientFileDatabase extends FileDatabase<Patient> implements UserDa
     }
 
     @Override
+    public void edit(Patient editPatient) {
+        for (Patient p : getData()) {
+            if (p.getId() == editPatient.getId()) {
+                editPatient.setPassword(p.getPassword());
+                remove(p.getId());
+                addData(editPatient);
+            }
+        }
+    }
+
+    @Override
     public Patient validateLogin(String username, String password, List<Patient> data) throws LoginException {
         for (Patient p : data) {
             String salt = p.getPassword().getSalt();
@@ -61,6 +72,7 @@ public class PatientFileDatabase extends FileDatabase<Patient> implements UserDa
                     break;
                 }
             }
-        } throw new LoginException("Neispravni podaci. Pokušajte ponovo.");
+        }
+        throw new LoginException("Neispravni podaci. Pokušajte ponovo.");
     }
 }
