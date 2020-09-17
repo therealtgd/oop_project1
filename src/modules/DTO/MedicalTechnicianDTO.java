@@ -6,6 +6,7 @@ public class MedicalTechnicianDTO extends EmployeeDTO {
     int homeVisits;
 
     public MedicalTechnicianDTO(EmployeeDTO employeeDTO) {
+        super(employeeDTO.getUsername(), employeeDTO.getName(), employeeDTO.getSurname(), employeeDTO.getSalaryBase(), employeeDTO.getExperience());
         this.homeVisits = 0;
     }
 

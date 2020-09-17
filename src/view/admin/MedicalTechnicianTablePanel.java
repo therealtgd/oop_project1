@@ -3,70 +3,28 @@ package view.admin;
 import manage.users.UserDatabase;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
-import net.miginfocom.swing.MigLayout;
-import view.model.LaborantModel;
 import view.model.MedicalTechnicianModel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableRowSorter;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MedicalTechnicianTablePanel extends JPanel{
+public class MedicalTechnicianTablePanel extends UserTablePanel {
 
-    protected JTable table;
-    protected TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<AbstractTableModel>();
-    private UserDatabase medTechnicianDatabase;
 
     public MedicalTechnicianTablePanel(UserDatabase medTechnicianDatabase) {
-        this.medTechnicianDatabase = medTechnicianDatabase;
-        initGUI();
+        super(medTechnicianDatabase, new JTable(new MedicalTechnicianModel(medTechnicianDatabase)), "Pregled med. tehničara");
     }
 
-
-    public UserDatabase getMedTechnicianDatabase() {
-        return medTechnicianDatabase;
-    }
-
-    private void initGUI() {
-        MigLayout layout = new MigLayout();
-        setLayout(layout);
-
-        String title = "Pregled med. tehničara";
-        Border border = BorderFactory.createTitledBorder(title);
-        setBorder(border);
-        JTable table;
-        TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<>();
-
-        table = new JTable(new MedicalTechnicianModel(getMedTechnicianDatabase()));
-        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getTableHeader().setReorderingAllowed(false);
-        tableSorter.setModel((AbstractTableModel) table.getModel());
-        table.setRowSorter(tableSorter);
-        JScrollPane sc = new JScrollPane(table);
-        add(sc, "pushx, growx");
-
-        table.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int index = table.getTableHeader().columnAtPoint(e.getPoint());
-                sort(index);
-            }
-        });
-    }
-
-    public void refreshData() {
+    @Override
+    public void refresh() {
         MedicalTechnicianModel sm = (MedicalTechnicianModel) this.table.getModel();
         sm.fireTableDataChanged();
     }
 
     // Pamcenje redosleda sortiranja za svaku kolonu posebno - primer
+
     @SuppressWarnings("serial")
     private Map<Integer, Integer> sortOrder = new HashMap<Integer, Integer>() {{
         put(0, 1);
@@ -78,10 +36,11 @@ public class MedicalTechnicianTablePanel extends JPanel{
         put(6, 1);
     }};
 
+    @Override
     protected void sort(int index) {
         // index of table column
 
-        this.medTechnicianDatabase.getData().sort(new Comparator<MedicalTechnician>() {
+        this.getDatabase().getData().sort(new Comparator<MedicalTechnician>() {
             int retVal = 0;
 
             public int compare(MedicalTechnician l1, MedicalTechnician l2) {
@@ -117,8 +76,51 @@ public class MedicalTechnicianTablePanel extends JPanel{
 
         System.out.println("column " + index + " row " + sortOrder.get(index));
         sortOrder.put(index, sortOrder.get(index) * -1);
-        refreshData();
+        refresh();
 
     }
+
+    @Override
+    protected void initActions() {
+        btnAdd.addActionListener(e -> new MedTechRegistrationDialog());
+        btnDelete.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
+            } else {
+                int id = Integer.parseInt(table.getValueAt(row, 0).toString());
+                MedicalTechnician mT = (MedicalTechnician) getDatabase().getById(id);
+                if (mT != null) {
+                    int selection = JOptionPane.showConfirmDialog(null,
+                            "Da li ste sigurni da želite da obrišete med. tehničara?",
+                            mT.getName() + " " + mT.getSurname() + " - Potvrda brisanja",
+                            JOptionPane.YES_NO_OPTION);
+                    if (selection == JOptionPane.YES_OPTION) {
+                        getDatabase().remove(mT.getId());
+                        refresh();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Med. tehničar nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnEdit.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
+            } else {
+                int id = Integer.parseInt(table.getValueAt(row, 0).toString());
+                MedicalTechnician mT = (MedicalTechnician) getDatabase().getById(id);
+                if (mT != null) {
+                    new MedicalTechnicianEditDialog(getDatabase(), mT);
+                    refresh();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Med. tehničar nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+    }
+
 
 }

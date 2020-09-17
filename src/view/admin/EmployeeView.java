@@ -12,9 +12,13 @@ import java.util.ArrayList;
 public class EmployeeView extends JPanel {
 
     private ArrayList<UserDatabase> userDatabase;
+    private UserTablePanel laborantPanel;
+    private UserTablePanel medicalTechnicianPanel;
 
     public EmployeeView(ArrayList<UserDatabase> userDatabase) {
         this.userDatabase = userDatabase;
+        this.laborantPanel = laborantPanel();
+        this.medicalTechnicianPanel = medicalTechnicianPanel();
         MigLayout layout = new MigLayout("fill", "[]");
         setLayout(layout);
         employeePanel();
@@ -22,10 +26,10 @@ public class EmployeeView extends JPanel {
 
     private void employeePanel() {
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.add("Laboranti", laborantPanel());
+        tabbedPane.add("Laboranti", laborantPanel);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-        tabbedPane.add("Med. tehničari", medicalTechnicianPanel());
+        tabbedPane.add("Med. tehničari", medicalTechnicianPanel);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
         add(tabbedPane, "push, grow");
@@ -61,6 +65,11 @@ public class EmployeeView extends JPanel {
             }
         }
         return new MedicalTechnicianTablePanel(medTechnicianDatabase);
+    }
+
+    public void refresh() {
+        laborantPanel.refresh();
+        medicalTechnicianPanel.refresh();
     }
 
 }

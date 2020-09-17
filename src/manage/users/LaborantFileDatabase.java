@@ -47,6 +47,17 @@ public class LaborantFileDatabase extends FileDatabase<Laborant> implements User
         return true;
     }
 
+    @Override
+    public void edit(Laborant editLaborant) {
+        for (Laborant l : getData()) {
+            if (l.getId() == editLaborant.getId()) {
+                editLaborant.setPassword(l.getPassword());
+                remove(l.getId());
+                addData(editLaborant);
+            }
+        }
+    }
+
 
     @Override
     public Laborant validateLogin(String username, String password, List<Laborant> data) throws LoginException {

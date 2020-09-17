@@ -14,7 +14,7 @@ public class LaborantDTO extends EmployeeDTO {
         this.specialization = specializations;
     }
 
-    public LaborantDTO(EmployeeDTO employeeDTO, String qualification, List<String> specialization) {
+    public LaborantDTO(EmployeeDTO employeeDTO, String qualification, ArrayList<String> specialization) {
         super(employeeDTO.getUsername(), employeeDTO.getName(), employeeDTO.getSurname(), employeeDTO.getSalaryBase(), employeeDTO.getExperience());
         this.qualification = qualification;
         this.specialization = specialization;

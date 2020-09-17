@@ -2,64 +2,22 @@ package view.admin;
 
 import manage.users.UserDatabase;
 import modules.users.Laborant;
-import net.miginfocom.swing.MigLayout;
 import view.model.LaborantModel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableRowSorter;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LaborantTablePanel extends JPanel {
-
-    protected JTable table;
-    protected TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<AbstractTableModel>();
-    private UserDatabase laborantDatabase;
+public class LaborantTablePanel extends UserTablePanel {
 
     public LaborantTablePanel(UserDatabase laborantDatabase) {
-        super();
-        this.laborantDatabase = laborantDatabase;
-        initGUI();
+        super(laborantDatabase, new JTable(new LaborantModel(laborantDatabase)), "Pregled laboranata");
+
     }
 
-    public UserDatabase getLaborantDatabase() {
-        return laborantDatabase;
-    }
-
-    private void initGUI() {
-        MigLayout layout = new MigLayout();
-        setLayout(layout);
-
-        String title = "Pregled laboranata";
-        Border border = BorderFactory.createTitledBorder(title);
-        setBorder(border);
-        JTable table;
-        TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<>();
-
-        table = new JTable(new LaborantModel(getLaborantDatabase()));
-        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getTableHeader().setReorderingAllowed(false);
-        tableSorter.setModel((AbstractTableModel) table.getModel());
-        table.setRowSorter(tableSorter);
-        JScrollPane sc = new JScrollPane(table);
-        add(sc, "pushx, growx");
-
-        table.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int index = table.getTableHeader().columnAtPoint(e.getPoint());
-                sort(index);
-            }
-        });
-    }
-
-    public void refreshData() {
+    @Override
+    public void refresh() {
         LaborantModel sm = (LaborantModel) this.table.getModel();
         sm.fireTableDataChanged();
     }
@@ -74,12 +32,14 @@ public class LaborantTablePanel extends JPanel {
         put(4, 1);
         put(5, 1);
         put(6, 1);
+        put(7, 1);
     }};
 
+    @Override
     protected void sort(int index) {
         // index of table column
 
-        this.laborantDatabase.getData().sort(new Comparator<Laborant>() {
+        this.getDatabase().getData().sort(new Comparator<Laborant>() {
             int retVal = 0;
 
             public int compare(Laborant l1, Laborant l2) {
@@ -102,6 +62,9 @@ public class LaborantTablePanel extends JPanel {
                         retVal = Integer.compare(l1.getExperience(), l2.getExperience());
                         break;
                     case 6:
+                        retVal = l1.getQualification().compareTo(l2.getQualification());
+                        break;
+                    case 7:
                         retVal = Integer.compare(l1.getSpecializations().size(), l2.getSpecializations().size());
                         break;
                     default:
@@ -115,7 +78,49 @@ public class LaborantTablePanel extends JPanel {
 
         System.out.println("column " + index + " row " + sortOrder.get(index));
         sortOrder.put(index, sortOrder.get(index) * -1);
-        refreshData();
+        refresh();
+
+    }
+
+    @Override
+    protected void initActions() {
+        btnAdd.addActionListener(e -> new LaborantRegistrationDialog());
+        btnDelete.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
+            } else {
+                int id = Integer.parseInt(table.getValueAt(row, 0).toString());
+                Laborant l = (Laborant) getDatabase().getById(id);
+                if (l != null) {
+                    int selection = JOptionPane.showConfirmDialog(null,
+                            "Da li ste sigurni da želite da obrišete laboranta?",
+                            l.getName() + " " + l.getSurname() + " - Potvrda brisanja",
+                            JOptionPane.YES_NO_OPTION);
+                    if (selection == JOptionPane.YES_OPTION) {
+                        getDatabase().remove(l.getId());
+                        refresh();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Laborant nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnEdit.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
+            } else {
+                int id = Integer.parseInt(table.getValueAt(row, 0).toString());
+                Laborant l = (Laborant) getDatabase().getById(id);
+                if (l != null) {
+                    new LaborantEditDialog(getDatabase(), l);
+                    refresh();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Laborant nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
     }
 

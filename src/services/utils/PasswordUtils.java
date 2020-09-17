@@ -73,7 +73,7 @@ public class PasswordUtils {
     }
 
     public static MyPassword generateRandomPass(String pass) {
-        String salt = generateSalt(512).get();
+        String salt = generateSalt(12).get();
         String key = hashPassword(pass, salt).get();
         return new MyPassword(key, salt);
     }

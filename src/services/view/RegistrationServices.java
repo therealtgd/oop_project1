@@ -12,7 +12,6 @@ import services.utils.PasswordUtils;
 import services.view.exceptions.RegistrationException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RegistrationServices extends Services {
 
@@ -83,7 +82,7 @@ public class RegistrationServices extends Services {
         return salValue;
     }
 
-    public LaborantDTO getLaborantDTO(String username, String name, String surname, String salary, String experience, String qualifications, List<String> specializations) {
+    public LaborantDTO getLaborantDTO(String username, String name, String surname, String salary, String experience, String qualifications, ArrayList<String> specializations) {
         return new LaborantDTO(getEmployeeDTO(username, name, surname, salary, experience), qualifications, specializations);
     }
 

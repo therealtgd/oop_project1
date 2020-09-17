@@ -72,4 +72,14 @@ public abstract class FileDatabase<T extends Data> implements Database<T> {
         return retVal;
     }
 
+    @Override
+    public void remove(int id) {
+        data.removeIf(o -> o.getId() == id);
+        saveData();
+    }
+
+    @Override
+    public void edit(T editObj) {
+
+    }
 }

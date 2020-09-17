@@ -55,10 +55,10 @@ public class Laborant extends Employee {
     @Override
     public String toFileString() {
         String retVal = super.toFileString() + "," + qualification;
-        String ids = null;
+        String ids = "";
         if (!specializations.isEmpty()) {
             for (String s: specializations) {
-                ids += specializations + ";";
+                ids += s + ";";
             }
             retVal += "," + ids;
         }

@@ -40,6 +40,16 @@ public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnicia
         return true;
     }
 
+    @Override
+    public void edit(MedicalTechnician editMedTechnician) {
+        for (MedicalTechnician mT : getData()) {
+            if (mT.getId() == editMedTechnician.getId()) {
+                editMedTechnician.setPassword(mT.getPassword());
+                remove(mT.getId());
+                addData(editMedTechnician);
+            }
+        }
+    }
 
     @Override
     public MedicalTechnician validateLogin(String username, String password, List<MedicalTechnician> data) throws LoginException {

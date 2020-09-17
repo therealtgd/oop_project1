@@ -18,6 +18,8 @@ public class Validator {
     private static final String ERR_ADDRESS_INVALID = "Unesite adresu u formatu 'ulica br, grad'";
     private static final String ERR_PHONE_INVALID = "Unesite telefon u obliku '+381xxxxxxxxx'";
     private static final String ERR_SALARY_INVALID = "Uneta platna osnova je neispravna";
+    private static final String ERR_SAME_PASSWORD = "Nova šifra ne može biti ista kao stara";
+    private static final String ERR_NO_MATCH_PASSWORD = "Šifre se ne podudaraju";
 
     public static void validateLogin(String username, String password) throws LoginException {
         if (username.isEmpty() && password.isEmpty()) {
@@ -80,4 +82,20 @@ public class Validator {
         return errCodes;
     }
 
+    public static  Map<String, String> validatePasswordChange(String currPass, String newPass, String confirmPass) {
+        Map<String, String> errCodes = new HashMap<>();
+        if (currPass.equals(""))
+            errCodes.put("currPass", ERR_FIELD_REQUIRED);
+        else if(currPass.equals(newPass))
+            errCodes.put("currPass", ERR_SAME_PASSWORD);
+        if (newPass.equals(""))
+            errCodes.put("newPass", ERR_FIELD_REQUIRED);
+        else if (!newPass.equals(confirmPass))
+            errCodes.put("newPass", ERR_NO_MATCH_PASSWORD);
+        else if (!newPass.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"))
+            errCodes.put("newPass", ERR_PASS_INVALID);
+        if (confirmPass.equals(""))
+            errCodes.put("confirmPass", ERR_FIELD_REQUIRED);
+        return errCodes;
+    }
 }

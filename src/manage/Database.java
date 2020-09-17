@@ -10,4 +10,6 @@ public interface Database<T> {
     boolean saveData();
     T getById(int id);
     void addData(T t);
+    void remove(int id);
+    void edit(T editObj);
 }

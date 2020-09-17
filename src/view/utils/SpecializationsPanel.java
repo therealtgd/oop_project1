@@ -37,69 +37,60 @@ public class SpecializationsPanel extends JPanel {
     }
 
     private void initGUI() {
-        MigLayout layout = new MigLayout("wrap 4", "[][][][]", "[][][]");
+        MigLayout layout = new MigLayout("wrap 2", "[][]", "[][][]");
         setLayout(layout);
 
         Border border = new TitledBorder("Specijalizacije");
         setBorder(border);
 
-        JLabel lblAlergo = new JLabel("Alergorogija");
-        JLabel lblImunoHem = new JLabel("Imunohemija");
-        JLabel lblGene = new JLabel("Genetika");
-        JLabel lblBio = new JLabel("Biohemija");
-        JLabel lblImunoLog = new JLabel("Imunologija");
-        JLabel lblSero = new JLabel("Serologija");
-
-        JCheckBox cbAlergo = new JCheckBox();
+        JCheckBox cbAlergo = new JCheckBox(specs.get(0));
         cbAlergo.setMnemonic(KeyEvent.VK_1);
-        cbAlergo.setText(specs.get(0));
         checkBoxes.add(cbAlergo);
 
-        JCheckBox cbImunoHem = new JCheckBox();
+        JCheckBox cbImunoHem = new JCheckBox(specs.get(1));
         cbImunoHem.setMnemonic(KeyEvent.VK_2);
-        cbAlergo.setText(specs.get(1));
         checkBoxes.add(cbImunoHem);
 
-        JCheckBox cbGene = new JCheckBox();
+        JCheckBox cbGene = new JCheckBox(specs.get(2));
         cbGene.setMnemonic(KeyEvent.VK_3);
-        cbAlergo.setText(specs.get(2));
         checkBoxes.add(cbGene);
 
-        JCheckBox cbBio = new JCheckBox();
+        JCheckBox cbBio = new JCheckBox(specs.get(3));
         cbBio.setMnemonic(KeyEvent.VK_4);
-        cbAlergo.setText(specs.get(3));
         checkBoxes.add(cbBio);
 
-        JCheckBox cbImunoLog = new JCheckBox();
+        JCheckBox cbImunoLog = new JCheckBox(specs.get(4));
         cbImunoLog.setMnemonic(KeyEvent.VK_5);
-        cbAlergo.setText(specs.get(4));
         checkBoxes.add(cbImunoLog);
 
-        JCheckBox cbSero = new JCheckBox();
+        JCheckBox cbSero = new JCheckBox(specs.get(5));
         cbSero.setMnemonic(KeyEvent.VK_6);
-        cbAlergo.setText(specs.get(5));
         checkBoxes.add(cbSero);
 
-        add(lblAlergo, "sg 1");
-        add(cbAlergo);
-        add(lblImunoHem, "sg 1");
-        add(cbImunoHem);
-        add(lblGene, "sg 1");
-        add(cbGene);
-        add(lblBio, "sg 1");
-        add(cbBio);
-        add(lblImunoLog, "sg 1");
-        add(cbImunoLog);
-        add(lblSero, "sg 1");
-        add(cbSero);
+        add(cbAlergo, "sg 1");
+        add(cbImunoHem, "sg 1");
+        add(cbGene, "sg 1");
+        add(cbBio, "sg 1");
+        add(cbImunoLog, "sg 1");
+        add(cbSero, "sg 1");
     }
 
-    public List<String> getSelection() {
+    public ArrayList<String> getSelection() {
         ArrayList<String> retVal = new ArrayList<>();
-        for (JCheckBox cb: checkBoxes) {
+        for (JCheckBox cb : checkBoxes) {
             if (cb.isSelected())
                 retVal.add(cb.getText());
-        } return retVal;
+        }
+        return retVal;
+    }
+
+    public void setSelection(List<String> selections) {
+        for (String s : selections) {
+            for (JCheckBox cb : checkBoxes) {
+                if (cb.getText().equals(s))
+                    cb.setSelected(true);
+            }
+        }
     }
 
 }

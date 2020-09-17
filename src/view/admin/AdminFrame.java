@@ -6,6 +6,7 @@ import modules.users.Admin;
 import modules.utils.MyPassword;
 import net.miginfocom.swing.MigLayout;
 import services.utils.PasswordUtils;
+import view.ProfileMenu;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -55,10 +56,7 @@ public class AdminFrame extends JFrame {
     private void initAdminGUI() {
         JMenuBar mainMenu = new JMenuBar();
 
-        JMenu profileMenu = new JMenu("Profil");
-        JMenuItem passwordItem = new JMenuItem("Promeni šifru");
-
-        profileMenu.add(passwordItem);
+        JMenu profileMenu = new ProfileMenu();
 
         JMenu userMenu = new JMenu("Korisnici");
 
@@ -99,10 +97,7 @@ public class AdminFrame extends JFrame {
                 add(getEmployeeView(), BorderLayout.CENTER);
                 pack();
             } else {
-                getEmployeeView().setVisible(false);
-                remove(getEmployeeView());
-                setEmployeeView(new EmployeeView(userDatabase));
-                add(getEmployeeView(), BorderLayout.CENTER);
+                getEmployeeView().refresh();
             }
         });
 
@@ -111,14 +106,6 @@ public class AdminFrame extends JFrame {
 
     }
 
-    private void registerPanel() {
-        JPanel p = new JPanel();
-        p.setVisible(true);
-    }
-
-    private void initRegisterGUI() {
-
-    }
 
     public static void main(String[] args) {
         MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
