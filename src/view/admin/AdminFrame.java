@@ -4,15 +4,11 @@ import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.users.Admin;
 import modules.utils.MyPassword;
-import net.miginfocom.swing.MigLayout;
 import services.utils.PasswordUtils;
 import view.ProfileMenu;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AdminFrame extends JFrame {
@@ -56,7 +52,7 @@ public class AdminFrame extends JFrame {
     private void initAdminGUI() {
         JMenuBar mainMenu = new JMenuBar();
 
-        JMenu profileMenu = new ProfileMenu();
+        JMenu profileMenu = new ProfileMenu(admin);
 
         JMenu userMenu = new JMenu("Korisnici");
 

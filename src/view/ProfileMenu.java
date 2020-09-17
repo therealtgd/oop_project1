@@ -1,7 +1,8 @@
 package view;
 
+import modules.users.User;
 import net.miginfocom.swing.MigLayout;
-import view.utils.PlaceholderFocusListener;
+import services.utils.PasswordUtils;
 import view.validators.Validator;
 
 import javax.swing.*;
@@ -12,8 +13,10 @@ import java.util.Map;
 public class ProfileMenu extends JMenu {
 
     private JMenuItem passwordItem;
+    private User user;
 
-    public ProfileMenu() {
+    public ProfileMenu(User user) {
+        this.user = user;
         setText("Profil");
         this.passwordItem = new JMenuItem("Promeni šifru");
         add(passwordItem);
@@ -60,7 +63,7 @@ public class ProfileMenu extends JMenu {
         btnConfirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Map<String, String> errCodes = Validator.validatePasswordChange(new String(txtCurrPass.getPassword()), new String(txtNewPass.getPassword()), new String(txtConfirm.getPassword()));
+                Map<String, String> errCodes = Validator.validatePasswordChange(user, new String(txtCurrPass.getPassword()), new String(txtNewPass.getPassword()), new String(txtConfirm.getPassword()));
                 processErrors(errCodes);
             }
         });
@@ -69,7 +72,6 @@ public class ProfileMenu extends JMenu {
 
     public static void main(String[] args) {
         JFrame f = new JFrame();
-        f.add(new ProfileMenu());
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.pack();

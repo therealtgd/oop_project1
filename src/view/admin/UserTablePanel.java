@@ -5,6 +5,8 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -73,13 +75,45 @@ public abstract class UserTablePanel extends JPanel {
             }
         });
 
+        add(searchPanel(), BorderLayout.SOUTH);
         initActions();
     }
 
-    protected abstract void sort(int index);
-    protected abstract void refresh();
-    protected abstract void initActions();
+    protected JPanel searchPanel() {
+        JPanel p = new JPanel();
+        p.setBackground(Color.YELLOW);
+        p.add(new JLabel("Pretraga:"));
+        p.add(tfSearch);
 
+        tfSearch.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                changedUpdate(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                changedUpdate(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (tfSearch.getText().trim().length() == 0) {
+                    tableSorter.setRowFilter(null);
+                } else {
+                    tableSorter.setRowFilter(RowFilter.regexFilter("(?i)" + tfSearch.getText().trim()));
+                }
+            }
+        });
+
+        return p;
+    }
+
+    protected abstract void sort(int index);
+
+    protected abstract void refresh();
+
+    protected abstract void initActions();
 
 
 }

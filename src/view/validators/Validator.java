@@ -4,6 +4,8 @@ import modules.DTO.EmployeeDTO;
 import modules.DTO.LaborantDTO;
 import modules.DTO.MedicalTechnicianDTO;
 import modules.DTO.PatientDTO;
+import modules.users.User;
+import services.utils.PasswordUtils;
 import view.validators.exceptions.LoginException;
 
 import java.util.*;
@@ -18,6 +20,7 @@ public class Validator {
     private static final String ERR_ADDRESS_INVALID = "Unesite adresu u formatu 'ulica br, grad'";
     private static final String ERR_PHONE_INVALID = "Unesite telefon u obliku '+381xxxxxxxxx'";
     private static final String ERR_SALARY_INVALID = "Uneta platna osnova je neispravna";
+    private static final String ERR_WRONG_PASSWORD = "Šifra nije tačna";
     private static final String ERR_SAME_PASSWORD = "Nova šifra ne može biti ista kao stara";
     private static final String ERR_NO_MATCH_PASSWORD = "Šifre se ne podudaraju";
 
@@ -82,10 +85,12 @@ public class Validator {
         return errCodes;
     }
 
-    public static  Map<String, String> validatePasswordChange(String currPass, String newPass, String confirmPass) {
+    public static  Map<String, String> validatePasswordChange(User user, String currPass, String newPass, String confirmPass) {
         Map<String, String> errCodes = new HashMap<>();
         if (currPass.equals(""))
             errCodes.put("currPass", ERR_FIELD_REQUIRED);
+        if(!PasswordUtils.verifyPassword(currPass, user.getPassword().getKey(), user.getPassword().getSalt()))
+            errCodes.put("currPass", ERR_WRONG_PASSWORD);
         else if(currPass.equals(newPass))
             errCodes.put("currPass", ERR_SAME_PASSWORD);
         if (newPass.equals(""))
