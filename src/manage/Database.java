@@ -12,4 +12,5 @@ public interface Database<T> {
     void addData(T t);
     void remove(int id);
     void edit(T editObj);
+    int getMaxId();
 }

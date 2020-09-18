@@ -1,6 +1,9 @@
 package manage.users;
 
+import manage.Database;
 import manage.FileDatabase;
+import modules.Data;
+import modules.entities.MyNotification;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
 import modules.utils.MyPassword;
@@ -14,8 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnician> implements UserDatabase<MedicalTechnician> {
-    public MedicalTechnicianFileDatabase(String file) {
+
+    private Database<MyNotification> notificationDatabase;
+
+    public MedicalTechnicianFileDatabase(String file, Database<MyNotification> notificationDatabase) {
         super(file);
+        this.notificationDatabase = notificationDatabase;
+        loadData();
     }
 
     @Override
@@ -28,7 +36,13 @@ public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnicia
                 String[] tokens = line.split(",");
                 MedicalTechnician mT = new MedicalTechnician(Integer.parseInt(tokens[0]), tokens[1], tokens[2],
                         tokens[3],  MyPassword.parseMyPassword(tokens[4]), Double.parseDouble(tokens[5]),
-                        Integer.parseInt(tokens[6]));
+                        Integer.parseInt(tokens[6]), Integer.parseInt(tokens[7]));
+                if (tokens.length > 8) {
+                    for (String nId: tokens[8].split(";")) {
+                        int id = Integer.parseInt(nId);
+                        mT.addNotification(notificationDatabase.getById(id));
+                    }
+                }
                 List<MedicalTechnician> data = getData();
                 data.add(mT);
                 setData(data);

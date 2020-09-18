@@ -1,6 +1,7 @@
 package modules.entities;
 
 import modules.Data;
+import modules.users.Patient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,34 +15,29 @@ public class AnalysisRequest extends Data {
         FINISHED
 
     }
-    private String patient;
-
+    private Patient patient;
     private States state;
     private List<Analysis> analyses;
     private List<Measurement> measurements;
+    private boolean homeVisit;
 
-    public AnalysisRequest(int id) {
-        super(id);
-        this.state = States.INITIAL_STATE;
-    }
-
-    public AnalysisRequest(int id, String patient) {
-        super(id);
+    public AnalysisRequest(Patient patient, List<Analysis> analyses, boolean homeVisit) {
         this.patient = patient;
+        this.analyses = analyses;
+        this.homeVisit = homeVisit;
+        this.measurements = new ArrayList<>();
         this.state = States.INITIAL_STATE;
-        this.analyses = new ArrayList<Analysis>();
-        this.measurements = new ArrayList<Measurement>();
     }
 
-    public AnalysisRequest(int id, String patient, String state) {
+    public AnalysisRequest(int id, Patient patient, String state) {
         super(id);
         this.patient = patient;
         this.state = States.valueOf(state);
-        this.analyses = new ArrayList<Analysis>();
-        this.measurements = new ArrayList<Measurement>();
+        this.analyses = new ArrayList<>();
+        this.measurements = new ArrayList<>();
     }
 
-    public String getPatient() {
+    public Patient getPatient() {
         return patient;
     }
 
@@ -61,6 +57,10 @@ public class AnalysisRequest extends Data {
         this.state = state;
     }
 
+    public boolean isHomeVisit() {
+        return homeVisit;
+    }
+
     public void addAnalysis(Analysis a) {
         analyses.add(a);
     }
@@ -68,6 +68,7 @@ public class AnalysisRequest extends Data {
     public void addMeasurement(Measurement m) {
         measurements.add(m);
     }
+
 
     @Override
     public String toString() {
@@ -77,15 +78,16 @@ public class AnalysisRequest extends Data {
 
     @Override
     public String toFileString() {
-        String anaId = null;
+        String pId = String.valueOf(getPatient().getId());
+        String anaId = "";
         for (Analysis a: analyses) {
             anaId += a.getId() + ";";
         }
-        String mesId = null;
+        String mesId = "";
         for (Measurement m: measurements) {
-            mesId += m.getId();
+            mesId += m.getId() + ";";
         }
 
-        return getId() + "," +  patient + "," + state + "," + anaId + "," + mesId;
+        return getId() + "," +  pId + "," + state + "," + anaId + "," + mesId;
     }
 }

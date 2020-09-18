@@ -1,21 +1,20 @@
 package manage.entities;
 
 import manage.Database;
-import modules.entities.Analysis;
-import modules.entities.AnalysisRequest;
-import modules.entities.Measurement;
 import manage.FileDatabase;
+import modules.entities.Analysis;
+import modules.entities.AnalysisGroup;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-public class MeasurementFileDatabase extends FileDatabase<Measurement> {
+public class AnalysisGroupFileDatabase extends FileDatabase<AnalysisGroup> {
 
     private Database<Analysis> analysisDatabase;
 
-    public MeasurementFileDatabase(String file, Database<Analysis> analysisDatabase) {
+    public AnalysisGroupFileDatabase(String file, Database<Analysis> analysisDatabase) {
         super(file);
         this.analysisDatabase = analysisDatabase;
         loadData();
@@ -23,20 +22,20 @@ public class MeasurementFileDatabase extends FileDatabase<Measurement> {
 
     @Override
     public boolean loadData() {
-       try {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(getFile()));
             String line = null;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                Measurement m = new Measurement(Integer.parseInt(tokens[0]), tokens[1], Double.parseDouble(tokens[2]));
-                if (tokens.length > 3) {
-					for (String qId : tokens[3].split(";")) {
-						int id = Integer.parseInt(qId);
-						m.setAnalysis(this.analysisDatabase.getById(id));
-					}
-				}
-                List<Measurement> data = getData();
-                data.add(m);
+                AnalysisGroup aG = new AnalysisGroup(Integer.parseInt(tokens[0]), tokens[1]);
+                if (tokens.length > 2) {
+                    for (String aId : tokens[2].split(";")) {
+                        int id = Integer.parseInt(aId);
+                        aG.addAnalyses(this.analysisDatabase.getById(id));
+                    }
+                }
+                List<AnalysisGroup> data = getData();
+                data.add(aG);
                 setData(data);
             }
             br.close();

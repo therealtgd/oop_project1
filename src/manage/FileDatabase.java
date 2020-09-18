@@ -20,7 +20,6 @@ public abstract class FileDatabase<T extends Data> implements Database<T> {
     public FileDatabase(String file) {
         this.data = new ArrayList<T>();
         this.file = file;
-        loadData();
     }
 
     public List<T> getData() {
@@ -39,7 +38,7 @@ public abstract class FileDatabase<T extends Data> implements Database<T> {
         if (data.isEmpty()) {
             d.setId(0);
         } else {
-            d.setId(data.get(data.size() - 1).getId() + 1);
+            d.setId(getMaxId() + 1);
         }
         data.add(d);
         saveData();
@@ -81,5 +80,15 @@ public abstract class FileDatabase<T extends Data> implements Database<T> {
     @Override
     public void edit(T editObj) {
 
+    }
+
+    @Override
+    public int getMaxId() {
+        int max = 0;
+        for (T d: data) {
+            if (d.getId() > max) {
+                max = d.getId();
+            }
+        } return max;
     }
 }

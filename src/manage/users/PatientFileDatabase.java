@@ -1,7 +1,6 @@
 package manage.users;
 
 import manage.FileDatabase;
-import modules.users.MedicalTechnician;
 import modules.users.Patient;
 import modules.utils.MyPassword;
 import services.utils.PasswordUtils;
@@ -17,6 +16,7 @@ public class PatientFileDatabase extends FileDatabase<Patient> implements UserDa
 
     public PatientFileDatabase(String file) {
         super(file);
+        loadData();
     }
 
     @Override

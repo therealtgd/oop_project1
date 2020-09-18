@@ -1,9 +1,7 @@
 package services.utils;
 
-import modules.DTO.EmployeeDTO;
-import modules.DTO.LaborantDTO;
-import modules.DTO.MedicalTechnicianDTO;
-import modules.DTO.PatientDTO;
+import modules.DTO.*;
+import modules.entities.AnalysisRequest;
 import modules.users.Employee;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
@@ -42,4 +40,7 @@ public class Builder {
         };
     }
 
+    public static AnalysisRequest buildAnalysis(AnalysisRequestDTO aRDTO) {
+        return new AnalysisRequest(aRDTO.getPatient(), aRDTO.getAnalyses(), aRDTO.getHomeVisit());
+    }
 }

@@ -12,6 +12,15 @@ public class Analysis extends Data {
     private String unit;
     private double cost;
 
+    public Analysis(int id, String type, Range referenceValue, String unit, double cost) {
+        super(id);
+        this.type = type;
+        this.referenceValue = referenceValue;
+        this.unit = unit;
+        this.cost = cost;
+        this.analysisGroup = "";
+    }
+
     public Analysis(int id, String analysisGroup, String type, Range referenceValue, String unit, double cost) {
         super(id);
         this.analysisGroup = analysisGroup;
@@ -23,6 +32,10 @@ public class Analysis extends Data {
 
     public String getAnalysisGroup() {
         return analysisGroup;
+    }
+
+    public void setAnalysisGroup(String analysisGroup) {
+        this.analysisGroup = analysisGroup;
     }
 
     public String getType() {

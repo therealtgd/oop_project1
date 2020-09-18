@@ -14,10 +14,15 @@ public class AnalysisGroup extends Data {
         super(id);
     }
 
+    public AnalysisGroup(String type) {
+        this.type = type;
+        this.analyses = new ArrayList<>();
+    }
+
     public AnalysisGroup(int id, String type) {
         super(id);
         this.type = type;
-        this.analyses = new ArrayList<Analysis>();
+        this.analyses = new ArrayList<>();
     }
 
     public String getType() {
@@ -34,6 +39,7 @@ public class AnalysisGroup extends Data {
 
     public void addAnalyses(Analysis a) {
         this.analyses.add(a);
+        a.setAnalysisGroup(type);
     }
 
     @Override
@@ -44,10 +50,11 @@ public class AnalysisGroup extends Data {
 
     @Override
     public String toFileString() {
-        String retVal = getId() + type;
+        String retVal = getId() + "," + type;
+        String ids = "";
         for (Analysis a : analyses){
-            retVal += a.toFileString() + ";";
+            ids += a.getId() + ";";
         }
-        return retVal;
+        return retVal + "," + ids;
     }
 }

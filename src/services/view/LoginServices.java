@@ -5,8 +5,8 @@ import manage.users.UserDatabase;
 import modules.users.*;
 import services.Services;
 import view.admin.AdminFrame;
-import view.LaborantFrame;
-import view.PatientFrame;
+import view.laborant.LaborantFrame;
+import view.patient.PatientFrame;
 import view.MedicalTechnicianFrame;
 import view.validators.exceptions.LoginException;
 
@@ -42,7 +42,7 @@ public class LoginServices extends Services {
                      new MedicalTechnicianFrame((MedicalTechnician) u);
                      return;
                 } else if (u instanceof Patient) {
-                     new PatientFrame((Patient) u);
+                     new PatientFrame((Patient) u, userDatabase);
                      return;
                 }
             } catch (LoginException ignored) {

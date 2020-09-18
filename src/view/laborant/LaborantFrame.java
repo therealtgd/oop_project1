@@ -1,6 +1,11 @@
-package view;
+package view.laborant;
 
+import manage.DatabaseHandler;
+import modules.users.Admin;
 import modules.users.Laborant;
+import modules.utils.MyPassword;
+import services.utils.PasswordUtils;
+import view.admin.AdminFrame;
 
 import javax.swing.*;
 
@@ -39,4 +44,12 @@ public class LaborantFrame extends JFrame {
         mainMenu.add(analysisMenu);
         this.setJMenuBar(mainMenu);
     }
+
+    public static void main(String[] args) {
+        MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
+        Admin a = new Admin(0, "admin", "admi", "adminic", mP2);
+        DatabaseHandler dH = new DatabaseHandler();
+        AdminFrame aF = new AdminFrame(a, dH.getUserDatabase().getUsers());
+    }
+
 }

@@ -7,23 +7,29 @@ public class AppSettings {
     private String medicalTechnicianFilename;
     private String patientFilename;
     private String analysisFilename;
-    private String analysisRequestFilename;
+    private String analysisGroupFilename;
     private String measurementFilename;
+    private String analysisRequestFilename;
+    private String notificationFilename;
 
     public AppSettings(String adminFilename,
                        String laborantFilename,
                        String medicalTechnicianFilename,
                        String patientFilename,
                        String analysisFilename,
+                       String analysisGroupFilename,
+                       String measurementFilename,
                        String analysisRequestFilename,
-                       String measurementFilename) {
+                       String notificationFilename) {
         this.adminFilename = adminFilename;
         this.laborantFilename = laborantFilename;
         this.medicalTechnicianFilename = medicalTechnicianFilename;
         this.patientFilename = patientFilename;
         this.analysisFilename = analysisFilename;
-        this.analysisRequestFilename = analysisRequestFilename;
+        this.analysisGroupFilename = analysisGroupFilename;
         this.measurementFilename = measurementFilename;
+        this.analysisRequestFilename = analysisRequestFilename;
+        this.notificationFilename = notificationFilename;
     }
 
     public String getAdminFilename() {
@@ -46,11 +52,17 @@ public class AppSettings {
         return analysisFilename;
     }
 
+    public String getAnalysisGroupFilename() { return analysisGroupFilename; }
+
+    public String getMeasurementFilename() {
+        return measurementFilename;
+    }
+
     public String getAnalysisRequestFilename() {
         return analysisRequestFilename;
     }
 
-    public String getMeasurementFilename() {
-        return measurementFilename;
+    public String getNotificationFilename() {
+        return notificationFilename;
     }
 }

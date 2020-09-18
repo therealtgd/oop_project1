@@ -1,9 +1,6 @@
 package view.validators;
 
-import modules.DTO.EmployeeDTO;
-import modules.DTO.LaborantDTO;
-import modules.DTO.MedicalTechnicianDTO;
-import modules.DTO.PatientDTO;
+import modules.DTO.*;
 import modules.users.User;
 import services.utils.PasswordUtils;
 import view.validators.exceptions.LoginException;
@@ -53,10 +50,8 @@ public class Validator {
             errCodes.put("LBO", ERR_FIELD_REQUIRED);
         else if (!pDTO.getLBO().matches("[0-9]{8}"))
             errCodes.put("LBO", ERR_LBO_INVALID);
-        if (!pDTO.getAddress().isEmpty() && !pDTO.getAddress().matches("([A-z]+\\s)+\\d+,+\\s+([A-z])+"))
-            errCodes.put("address", ERR_ADDRESS_INVALID);
-        if (!pDTO.getPhone().isEmpty() && !pDTO.getPhone().matches("(\\+381)?(\\s|-)?6(([0-6]|[8-9])\\d{7}|(77|78)\\d{6})"))
-            errCodes.put("phone", ERR_PHONE_INVALID);
+        validateAddress(errCodes, pDTO.getAddress());
+        validatePhone(errCodes, pDTO.getPhone());
         return errCodes;
 
     }
@@ -101,6 +96,25 @@ public class Validator {
             errCodes.put("newPass", ERR_PASS_INVALID);
         if (confirmPass.equals(""))
             errCodes.put("confirmPass", ERR_FIELD_REQUIRED);
+        return errCodes;
+    }
+
+    public static Map<String, String> validatePhone(Map<String, String> errCodes, String phone) {
+        if (!phone.isEmpty() && !phone.matches("(\\+381)?(\\s|-)?6(([0-6]|[8-9])\\d{7}|(77|78)\\d{6})"))
+            errCodes.put("phone", ERR_PHONE_INVALID);
+        return errCodes;
+    }
+
+    public static Map<String, String> validateAddress(Map<String, String> errCodes, String address) {
+        if (!address.isEmpty() && !address.matches("([A-z]+\\s)+\\d+,+\\s+([A-z])+"))
+            errCodes.put("address", ERR_ADDRESS_INVALID);
+        return errCodes;
+    }
+
+    public static Map<String, String> validateAnalysisRequest(AnalysisRequestDTO aDTO) {
+        Map<String, String> errCodes = new HashMap<>();
+        if (aDTO.getAnalyses().isEmpty())
+            errCodes.put("analyses", ERR_FIELD_REQUIRED);
         return errCodes;
     }
 }

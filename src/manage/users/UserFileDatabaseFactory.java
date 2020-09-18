@@ -1,6 +1,7 @@
 package manage.users;
 
 import manage.FileDatabaseFactory;
+import manage.entities.NotificationFileDatabase;
 import modules.utils.AppSettings;
 
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ public class UserFileDatabaseFactory extends FileDatabaseFactory implements User
         super(appSettings);
         this.adminDatabase = new AdminFileDatabase(getAppSettings().getAdminFilename());
         this.laborantDatabase = new LaborantFileDatabase(getAppSettings().getLaborantFilename());
-        this.medTechnicianDatabase = new MedicalTechnicianFileDatabase(getAppSettings().getMedicalTechnicianFilename());
+        this.medTechnicianDatabase = new MedicalTechnicianFileDatabase(getAppSettings().getMedicalTechnicianFilename(),
+                new NotificationFileDatabase(getAppSettings().getNotificationFilename()));
         this.patientDatabase = new PatientFileDatabase(getAppSettings().getPatientFilename());
     }
 

@@ -13,8 +13,6 @@ import view.admin.patient.PatientView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AdminFrame extends JFrame {
@@ -78,11 +76,9 @@ public class AdminFrame extends JFrame {
         JMenu removeUserMenu = new JMenu("Ukloni zaposlenog");
         JMenuItem removeLaborantItem = new JMenuItem("Laborant");
         JMenuItem removeMedicalTehnicinItem = new JMenuItem("Med. tehničar");
-//        JMenuItem removePatientItem = new JMenuItem("Pacjent");
 
         removeUserMenu.add(removeLaborantItem);
         removeUserMenu.add(removeMedicalTehnicinItem);
-//        removeUserMenu.add(removePatientItem);
         employeeMenu.add(removeUserMenu);
 
         JMenu reportMenu = new JMenu("Analize");

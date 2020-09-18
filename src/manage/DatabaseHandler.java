@@ -16,9 +16,11 @@ public class DatabaseHandler {
                 "data/users/laborant.csv",
                 "data/users/medicalTehnician.csv",
                 "data/users/patient.csv",
-                "data/entities/analysis.csv",
+                "data/entites/analysis.csv",
+                "data/entites/analysisGroup.csv",
+                "data/entites/measurement.csv",
                 "data/entites/analysisRequest.csv",
-                "data/entites/measurement.csv");
+                 "data/entites/notification.csv");
          this.userDatabase = new UserFileDatabaseFactory(aS);
          this.entityDatabase = new EntityFileDatabaseFactory(aS);
 

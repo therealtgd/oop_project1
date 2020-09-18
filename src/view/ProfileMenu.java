@@ -2,11 +2,10 @@ package view;
 
 import modules.users.User;
 import net.miginfocom.swing.MigLayout;
+import services.utils.PasswordUtils;
 import view.validators.Validator;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class ProfileMenu extends JMenu {
@@ -59,12 +58,12 @@ public class ProfileMenu extends JMenu {
         d.add(btnConfirm);
         d.add(btnCancel);
 
-        btnConfirm.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Map<String, String> errCodes = Validator.validatePasswordChange(user, new String(txtCurrPass.getPassword()), new String(txtNewPass.getPassword()), new String(txtConfirm.getPassword()));
-                processErrors(errCodes);
-            }
+        btnConfirm.addActionListener(e -> {
+            Map<String, String> errCodes = Validator.validatePasswordChange(user, new String(txtCurrPass.getPassword()), new String(txtNewPass.getPassword()), new String(txtConfirm.getPassword()));
+            if (errCodes.isEmpty())
+                    user.setPassword(PasswordUtils.generateRandomPass(new String(txtNewPass.getPassword())));
+                else
+                    processErrors(errCodes);
         });
 
     }

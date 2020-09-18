@@ -17,6 +17,7 @@ public class AdminFileDatabase extends FileDatabase<Admin> implements UserDataba
 
     public AdminFileDatabase(String file) {
         super(file);
+        loadData();
     }
 
     @Override

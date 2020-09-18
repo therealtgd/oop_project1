@@ -19,7 +19,9 @@ public class LaborantFileDatabase extends FileDatabase<Laborant> implements User
 
     public LaborantFileDatabase(String file) {
         super(file);
+        loadData();
     }
+
 
     @Override
     public boolean loadData() {
