@@ -7,7 +7,7 @@ import services.Services;
 import view.admin.AdminFrame;
 import view.laborant.LaborantFrame;
 import view.patient.PatientFrame;
-import view.MedicalTechnicianFrame;
+import view.medicalTechnician.MedicalTechnicianFrame;
 import view.validators.exceptions.LoginException;
 
 import java.util.ArrayList;

@@ -19,13 +19,14 @@ public class NotificationServices extends Services {
         for (MedicalTechnician mT: getDatabaseHandler().getUserDatabase().getMedTechnicianDatabase().getData()) {
             mT.addNotification(n);
         }
+        getDatabaseHandler().getEntityDatabase().getNotificationDatabase().addData(n);
         getDatabaseHandler().getUserDatabase().getMedTechnicianDatabase().saveData();
 
     }
 
     private MyNotification buildNotification(AnalysisRequest aR) {
-        String message = "Zahtjev za analizu: " + aR.getPatient().getName() + " " + aR.getPatient().getSurname() + ".\n"
-                + "Kućna posjeta: " + aR.isHomeVisit();
+        String message = "Zahtjev za analizu: " + aR.getPatient().getName() + " " + aR.getPatient().getSurname()
+                + ". Kućna posjeta: " + aR.isHomeVisit();
         return new MyNotification(message);
     }
 

@@ -47,9 +47,9 @@ public class LaborantFrame extends JFrame {
 
     public static void main(String[] args) {
         MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
-        Admin a = new Admin(0, "admin", "admi", "adminic", mP2);
+        Laborant l = new Laborant(0, "laborant", "labo", "labaratovic", mP2, 100.10, 12, "SSS");
         DatabaseHandler dH = new DatabaseHandler();
-        AdminFrame aF = new AdminFrame(a, dH.getUserDatabase().getUsers());
+        LaborantFrame lF = new LaborantFrame(l);
     }
 
 }

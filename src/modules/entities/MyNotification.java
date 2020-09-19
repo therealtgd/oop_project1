@@ -1,10 +1,11 @@
 package modules.entities;
 
 import modules.Data;
+import modules.users.Patient;
 
 import java.time.LocalDateTime;
 
-public class MyNotification extends Data {
+public abstract class MyNotification extends Data {
     private enum States {
         INITIAL_STATE,
         OPENED,
@@ -12,12 +13,14 @@ public class MyNotification extends Data {
 
     }
 
+    private String title;
     private String message;
     private LocalDateTime dateTime;
     private States state;
 
-    public MyNotification(String message) {
-        this.message = message;
+
+    public MyNotification(String title) {
+        this.title = title;
         this.dateTime = LocalDateTime.now();
         this.state = States.INITIAL_STATE;
     }
@@ -27,6 +30,10 @@ public class MyNotification extends Data {
         this.message = message;
         this.dateTime = dateTime;
         this.state = States.valueOf(state);
+    }
+
+    public States[] getStates() {
+        return States.values();
     }
 
     public String getMessage() {
@@ -41,6 +48,9 @@ public class MyNotification extends Data {
         return state;
     }
 
+    public void setState(String state) {
+        this.state = States.valueOf(state);
+    }
 
     @Override
     public String toString() {

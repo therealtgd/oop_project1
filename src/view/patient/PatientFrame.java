@@ -82,6 +82,8 @@ public class PatientFrame extends JFrame {
                 processErrors(errCodes);
         });
 
+        requestItem.addActionListener(e -> new AnalysisRequestFrame(patient));
+
     }
 
     private void processErrors(Map<String, String> errCodes) {
@@ -96,7 +98,7 @@ public class PatientFrame extends JFrame {
 
     public static void main(String[] args) {
         MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
-        Patient p = new Patient("pcjent", "pacjentko", "Pacjentkic", mP2, "11114523");
+        Patient p = new Patient(6, "pcjent", "pacjentko", "Pacjentkic", mP2, "11114523");
         DatabaseHandler dH = new DatabaseHandler();
         PatientFrame aF = new PatientFrame(p, dH.getUserDatabase().getUsers());
     }

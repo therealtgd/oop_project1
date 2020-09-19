@@ -3,6 +3,7 @@ package modules.users;
 import modules.entities.MyNotification;
 import modules.utils.MyPassword;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalTechnician extends Employee {
@@ -13,30 +14,35 @@ public class MedicalTechnician extends Employee {
     public MedicalTechnician(int id, String username, String name, String surname) {
         super(id, username, name, surname);
         this.homeVisits = 0;
+        this.notifications = new ArrayList<>();
         setBonusBase(2000);
     }
 
     public MedicalTechnician(String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
         super(username, name, surname, password, salaryBase, experience);
         this.homeVisits = 0;
+        this.notifications = new ArrayList<>();
         setBonusBase(2000);
     }
 
     public MedicalTechnician(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience) {
         super(id, username, name, surname, password, salaryBase, experience);
         this.homeVisits = 0;
+        this.notifications = new ArrayList<>();
         setBonusBase(2000);
     }
 
-     public MedicalTechnician(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience, int homeVisits) {
+    public MedicalTechnician(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience, int homeVisits) {
         super(id, username, name, surname, password, salaryBase, experience);
         this.homeVisits = 0;
+        this.notifications = new ArrayList<>();
         setBonusBase(2000);
     }
 
     public MedicalTechnician(Employee employee) {
         super(employee.getUsername(), employee.getName(), employee.getSurname(), employee.getPassword(), employee.getSalaryBase(), employee.getExperience());
         this.homeVisits = 0;
+        this.notifications = new ArrayList<>();
         setBonusBase(2000);
     }
 
@@ -69,7 +75,7 @@ public class MedicalTechnician extends Employee {
     @Override
     public String toFileString() {
         StringBuilder ids = new StringBuilder();
-        for (MyNotification n: notifications) {
+        for (MyNotification n : notifications) {
             ids.append(n.getId()).append(";");
         }
         return super.toFileString() + ',' + homeVisits + "," + ids;

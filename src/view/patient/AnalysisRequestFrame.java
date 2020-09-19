@@ -32,9 +32,9 @@ public class AnalysisRequestFrame extends JFrame {
     private boolean homeVisit;
 
 
-    public AnalysisRequestFrame(Patient patient, Database<AnalysisGroup> analysisGroupDatabase) {
+    public AnalysisRequestFrame(Patient patient) {
         this.patient = patient;
-        this.analysisGroupDatabase = analysisGroupDatabase;
+        this.analysisGroupDatabase = new DatabaseHandler().getEntityDatabase().getAnalysisGroupDatabase();
         this.analyses = new ArrayList<>();
         this.homeVisit = false;
         analysisRequest();
@@ -81,10 +81,13 @@ public class AnalysisRequestFrame extends JFrame {
         btnConfirm.addActionListener(e -> {
             AnalysisRequestDTO aDTO = new AnalysisRequestDTO(patient, analyses, homeVisit, Double.parseDouble(price.getText()));
             Map<String, String> errCodes = Validator.validateAnalysisRequest(aDTO);
-            if (errCodes.isEmpty())
+            if (errCodes.isEmpty()) {
                 new AnalysisRequestServices().requestAnalysis(aDTO);
-            else
+                setVisible(false);
+                dispose();
+            } else {
                 processErrors(errCodes);
+            }
         });
 
         btnCancel.addActionListener(e -> {
@@ -151,7 +154,7 @@ public class AnalysisRequestFrame extends JFrame {
         JFrame f = new JFrame();
         MyPassword mP = PasswordUtils.generateRandomPass("Password");
         Patient p = new Patient(7, "sadasda", "asdasd", "asdasd", mP, "56523562", "MUŠKO", null, null);
-        f.add(new AnalysisRequestFrame(p, new DatabaseHandler().getEntityDatabase().getAnalysisGroupDatabase()));
+//        f.add(new AnalysisRequestFrame(p, new DatabaseHandler().getEntityDatabase().getAnalysisGroupDatabase()));
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.pack();

@@ -13,7 +13,7 @@ public class LaborantModel extends UserModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Laborant l = (Laborant) userDatabase.getData().get(rowIndex);
+        Laborant l = (Laborant) database.getData().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return l.getId();

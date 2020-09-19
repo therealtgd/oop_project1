@@ -14,7 +14,7 @@ public class DatabaseHandler {
     public DatabaseHandler() {
          AppSettings aS = new AppSettings("data/users/admin.csv",
                 "data/users/laborant.csv",
-                "data/users/medicalTehnician.csv",
+                "data/users/medicalTechnician.csv",
                 "data/users/patient.csv",
                 "data/entites/analysis.csv",
                 "data/entites/analysisGroup.csv",

@@ -13,7 +13,7 @@ public class PatientModel extends UserModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Patient l = (Patient) userDatabase.getData().get(rowIndex);
+        Patient l = (Patient) database.getData().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return l.getId();

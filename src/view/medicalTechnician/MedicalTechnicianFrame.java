@@ -1,12 +1,20 @@
-package view;
+package view.medicalTechnician;
 
+import manage.DatabaseHandler;
+import modules.users.Laborant;
 import modules.users.MedicalTechnician;
+import modules.utils.MyPassword;
+import services.utils.PasswordUtils;
+import view.admin.patient.PatientView;
+import view.laborant.LaborantFrame;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MedicalTechnicianFrame extends JFrame {
 
     private MedicalTechnician medicalTechnician;
+    private NotificationView notificationView;
 
     public MedicalTechnicianFrame(MedicalTechnician mT) {
         this.medicalTechnician = mT;
@@ -50,6 +58,25 @@ public class MedicalTechnicianFrame extends JFrame {
         mainMenu.add(analysisMenu);
 
         this.setJMenuBar(mainMenu);
+
+        showNotificationItem.addActionListener(e -> {
+            if (notificationView == null) {
+                notificationView = new NotificationView();
+                add(notificationView, BorderLayout.CENTER);
+                pack();
+            } else {
+                notificationView.refresh();
+            }
+        });
     }
+
+    public static void main(String[] args) {
+        MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
+        MedicalTechnician mT = new MedicalTechnician(0, "laborant", "labo", "labaratovic", mP2, 100.10, 12);
+        System.out.println(mT.toFileString());
+        DatabaseHandler dH = new DatabaseHandler();
+        MedicalTechnicianFrame mTF = new MedicalTechnicianFrame(mT);
+    }
+
 }
 
