@@ -2,12 +2,17 @@ package manage;
 
 
 import manage.entities.EntityFileDatabaseFactory;
-import manage.users.UserDatabaseFactory;
-import manage.users.UserFileDatabaseFactory;
+import manage.users.*;
+import modules.entities.*;
+import modules.users.Admin;
+import modules.users.Laborant;
+import modules.users.MedicalTechnician;
+import modules.users.Patient;
 import modules.utils.AppSettings;
 
 public class DatabaseHandler {
 
+    private DatabaseFactory databaseFactory;
     private UserDatabaseFactory userDatabase;
     private EntityDatabaseFactory entityDatabase;
 
@@ -21,8 +26,9 @@ public class DatabaseHandler {
                 "data/entites/measurement.csv",
                 "data/entites/analysisRequest.csv",
                  "data/entites/notification.csv");
-         this.userDatabase = new UserFileDatabaseFactory(aS);
-         this.entityDatabase = new EntityFileDatabaseFactory(aS);
+         this.databaseFactory = new DataFileDatabaseFactory(aS);
+         this.userDatabase = new UserFileDatabaseFactory(databaseFactory);
+         this.entityDatabase = new EntityFileDatabaseFactory(databaseFactory);
 
     }
 

@@ -1,5 +1,6 @@
 package view.admin.medicalTechnician;
 
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.DTO.MedicalTechnicianDTO;
 import modules.users.MedicalTechnician;
@@ -11,12 +12,14 @@ import java.util.Map;
 
 public class MedicalTechnicianEditDialog extends MedicalTechnicianDialog {
 
+    private DatabaseHandler dH;
     private UserDatabase medTechnicianDatabase;
     private MedicalTechnician editMedTechnician;
 
-    public MedicalTechnicianEditDialog(UserDatabase medTechnicianDatabase, MedicalTechnician editMedTechnician) {
+    public MedicalTechnicianEditDialog(DatabaseHandler dH, MedicalTechnician editMedTechnician) {
         super("Izmena med. tehničara");
-        this.medTechnicianDatabase = medTechnicianDatabase;
+        this.dH = dH;
+        this.medTechnicianDatabase = dH.getUserDatabase().getMedTechnicianDatabase();
         this.editMedTechnician = editMedTechnician;
         initActions();
 
@@ -26,7 +29,7 @@ public class MedicalTechnicianEditDialog extends MedicalTechnicianDialog {
     protected void initActions() {
         fill();
         confirmBtn.addActionListener(e -> {
-            RegistrationServices rS = new RegistrationServices();
+            RegistrationServices rS = new RegistrationServices(dH);
             MedicalTechnicianDTO mTDTO = rS.getMedicalTechnicianDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), salaryTxt.getText(), xpTxt.getText());
             Map<String, String> errCodes = Validator.validateMedicalTechnicianRegistration(mTDTO);
 

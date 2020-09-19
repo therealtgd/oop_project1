@@ -3,18 +3,20 @@ package view.model;
 import manage.Database;
 import modules.entities.AnalysisRequestNotification;
 
+import java.util.List;
 
-public class AnalysisRequestNotificationModel extends DataModel {
 
-    public AnalysisRequestNotificationModel(Database<AnalysisRequestNotification> database) {
-        super(database);
+public class AnalysisRequestNotificationModel extends DataModel<AnalysisRequestNotification> {
+
+    public AnalysisRequestNotificationModel(List<AnalysisRequestNotification> data) {
+        super(data);
         columnNames = new String[]{"Id", "Naslov", "Stanje", "Pacjent", "Kućna posjeta", "Analiza (id)"};
 
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        AnalysisRequestNotification n = (AnalysisRequestNotification) database.getData().get(rowIndex);
+        AnalysisRequestNotification n = data.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return n.getId();

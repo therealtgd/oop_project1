@@ -1,21 +1,22 @@
 package view.model;
 
-import manage.Database;
+import modules.IData;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.List;
 
-public abstract class DataModel extends AbstractTableModel {
+public abstract class DataModel<T extends IData> extends AbstractTableModel {
 
-    protected Database database;
+    protected List<T> data;
     protected String[] columnNames;
 
-    public DataModel(Database database) {
-        this.database = database;
+    public DataModel(List<T> data) {
+        this.data = data;
     }
 
     @Override
     public int getRowCount() {
-        return database.getData().size();
+        return data.size();
     }
 
     @Override

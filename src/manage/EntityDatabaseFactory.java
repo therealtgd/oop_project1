@@ -1,11 +1,13 @@
 package manage;
 
+import modules.entities.*;
+
 public interface EntityDatabaseFactory {
-    Database getAnalysisDatabase();
-    Database getAnalysisGroupDatabase();
-    Database getAnalysisRequestDatabase();
-    Database getMeasurementDatabase();
-    Database getAnalysisRequestNotificationDatabase();
+    Database<Analysis> getAnalysisDatabase();
+    Database<AnalysisGroup> getAnalysisGroupDatabase();
+    Database<AnalysisRequest> getAnalysisRequestDatabase();
+    Database<Measurement> getMeasurementDatabase();
+    Database<AnalysisRequestNotification> getAnalysisRequestNotificationDatabase();
 
     void loadData();
 }

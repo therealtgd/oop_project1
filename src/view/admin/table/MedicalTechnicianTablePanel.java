@@ -1,6 +1,6 @@
 package view.admin.table;
 
-import manage.users.UserDatabase;
+import manage.DatabaseHandler;
 import modules.users.MedicalTechnician;
 import view.admin.medicalTechnician.MedTechRegistrationDialog;
 import view.admin.medicalTechnician.MedicalTechnicianEditDialog;
@@ -13,9 +13,11 @@ import java.util.Map;
 
 public class MedicalTechnicianTablePanel extends UserTablePanel {
 
+    private DatabaseHandler dH;
 
-    public MedicalTechnicianTablePanel(UserDatabase<MedicalTechnician> medTechnicianDatabase) {
-        super(medTechnicianDatabase, new JTable(new MedicalTechnicianModel(medTechnicianDatabase)), "Pregled med. tehničara");
+    public MedicalTechnicianTablePanel(DatabaseHandler dH) {
+        super(dH.getUserDatabase().getMedTechnicianDatabase(), new JTable(new MedicalTechnicianModel(dH.getUserDatabase().getMedTechnicianDatabase().getData())), "Pregled med. tehničara");
+        this.dH = dH;
     }
 
     @Override
@@ -83,7 +85,7 @@ public class MedicalTechnicianTablePanel extends UserTablePanel {
 
     @Override
     protected void initActions() {
-        btnAdd.addActionListener(e -> new MedTechRegistrationDialog());
+        btnAdd.addActionListener(e -> new MedTechRegistrationDialog(dH));
         btnDelete.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row == -1) {
@@ -113,7 +115,7 @@ public class MedicalTechnicianTablePanel extends UserTablePanel {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
                 MedicalTechnician mT = (MedicalTechnician) getDatabase().getById(id);
                 if (mT != null) {
-                    new MedicalTechnicianEditDialog(getDatabase(), mT);
+                    new MedicalTechnicianEditDialog(dH, mT);
                     refresh();
                 } else {
                     JOptionPane.showMessageDialog(null, "Med. tehničar nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);

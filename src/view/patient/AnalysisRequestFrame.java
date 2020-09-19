@@ -30,11 +30,13 @@ public class AnalysisRequestFrame extends JFrame {
     private HomeVisitPanel homeVisitPanel;
     private List<Analysis> analyses;
     private boolean homeVisit;
+    private DatabaseHandler dH;
 
 
-    public AnalysisRequestFrame(Patient patient) {
+    public AnalysisRequestFrame(Patient patient, DatabaseHandler dH) {
         this.patient = patient;
-        this.analysisGroupDatabase = new DatabaseHandler().getEntityDatabase().getAnalysisGroupDatabase();
+        this.dH = dH;
+        this.analysisGroupDatabase = dH.getEntityDatabase().getAnalysisGroupDatabase();
         this.analyses = new ArrayList<>();
         this.homeVisit = false;
         analysisRequest();
@@ -83,7 +85,7 @@ public class AnalysisRequestFrame extends JFrame {
             AnalysisRequestDTO aDTO = new AnalysisRequestDTO(patient, analyses, homeVisit, Double.parseDouble(price.getText()));
             Map<String, String> errCodes = Validator.validateAnalysisRequest(aDTO);
             if (errCodes.isEmpty()) {
-                new AnalysisRequestServices(new DatabaseHandler()).requestAnalysis(aDTO);
+                new AnalysisRequestServices(dH).requestAnalysis(aDTO);
                 setVisible(false);
                 dispose();
             } else {

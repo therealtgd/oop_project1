@@ -16,9 +16,10 @@ import java.util.Map;
 
 public class MainFrame extends JDialog {
 
-    DatabaseHandler databaseHandler;
+    DatabaseHandler dH;
 
-    public MainFrame() throws HeadlessException {
+    public MainFrame(DatabaseHandler dH) throws HeadlessException {
+        this.dH = dH;
         mainFrame();
     }
 
@@ -91,7 +92,7 @@ public class MainFrame extends JDialog {
             System.out.println(username + " " + password);
 
 
-            LoginServices lS = new LoginServices();
+            LoginServices lS = new LoginServices(dH);
             try {
                 Validator.validateLogin(username, password);
                 lS.login(username, password);
@@ -169,7 +170,7 @@ public class MainFrame extends JDialog {
             Map<String, String> errCodes = Validator.validatePatientRegistration(pDTO);
 
             if (errCodes.size() == 0) {
-                RegistrationServices rS = new RegistrationServices();
+                RegistrationServices rS = new RegistrationServices(dH);
                 setOptionalParams(pDTO);
                 try {
                     rS.registerPatient(pDTO);
@@ -251,7 +252,7 @@ public class MainFrame extends JDialog {
 
     public static void main(String[] args) {
 
-        MainFrame mf = new MainFrame();
+        MainFrame mf = new MainFrame(new DatabaseHandler());
 
     }
 

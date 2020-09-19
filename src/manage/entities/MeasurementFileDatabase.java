@@ -1,10 +1,7 @@
 package manage.entities;
 
-import manage.Database;
-import modules.entities.Analysis;
-import modules.entities.AnalysisRequest;
-import modules.entities.Measurement;
 import manage.FileDatabase;
+import modules.entities.Measurement;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,12 +18,15 @@ public class MeasurementFileDatabase extends FileDatabase<Measurement> {
 
     @Override
     public boolean loadData() {
-       try {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(getFile()));
             String line = null;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                Measurement m = new Measurement(Integer.parseInt(tokens[0]), tokens[1], Double.parseDouble(tokens[2]));
+                Measurement m = new Measurement(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Double.parseDouble(tokens[3]));
+                if (!tokens[2].equals("null")) {
+                    m.setDate(tokens[2]);
+                }
                 List<Measurement> data = getData();
                 data.add(m);
                 setData(data);

@@ -1,5 +1,6 @@
 package services.view;
 
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.DTO.*;
 import modules.users.Laborant;
@@ -8,37 +9,36 @@ import modules.users.Patient;
 import modules.users.User;
 import services.Services;
 import services.utils.Builder;
-import services.utils.PasswordUtils;
 import services.view.exceptions.RegistrationException;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class RegistrationServices extends Services {
 
     private ArrayList<UserDatabase> userDatabase;
 
-    public RegistrationServices() {
-        super();
-        this.userDatabase = getDatabaseHandler().getUserDatabase().getUsers();
+
+    public RegistrationServices(DatabaseHandler dH) {
+        super(dH);
+        this.userDatabase = getdH().getUserDatabase().getUsers();
     }
 
     public void registerPatient(PatientDTO pDTO) throws RegistrationException {
         checkUsername(pDTO);
         Patient p = Builder.buildPatient(pDTO);
-        getDatabaseHandler().getUserDatabase().getPatientDatabase().addData(p);
+        getdH().getUserDatabase().getPatientDatabase().addData(p);
     }
 
     public void registerMedicalTechnician(MedicalTechnicianDTO mTDTO) throws RegistrationException {
         checkUsername(mTDTO);
         MedicalTechnician mT = Builder.buildMedicalTechnician(mTDTO);
-        getDatabaseHandler().getUserDatabase().getMedTechnicianDatabase().addData(mT);
+        getdH().getUserDatabase().getMedTechnicianDatabase().addData(mT);
     }
 
     public void registerLaborant(LaborantDTO lDTO) throws RegistrationException {
         checkUsername(lDTO);
         Laborant l = Builder.buildLaborant(lDTO);
-        getDatabaseHandler().getUserDatabase().getLaborantDatabase().addData(l);
+        getdH().getUserDatabase().getLaborantDatabase().addData(l);
     }
 
     private void checkUsername(AccountDTO pDTO) throws RegistrationException {

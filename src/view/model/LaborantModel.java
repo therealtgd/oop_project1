@@ -3,17 +3,19 @@ package view.model;
 import manage.users.UserDatabase;
 import modules.users.Laborant;
 
-public class LaborantModel extends UserModel {
+import java.util.List;
 
-    public LaborantModel(UserDatabase userDatabase) {
-        super(userDatabase);
+public class LaborantModel extends UserModel<Laborant> {
+
+    public LaborantModel(List<Laborant> data) {
+        super(data);
         columnNames = new String[]{"Id", "Korisničko ime", "Ime", "Prezime", "Platna baza", "Iskustvo", "Kvalifikacije", "Specijalizacije"};
 
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Laborant l = (Laborant) database.getData().get(rowIndex);
+        Laborant l = (Laborant) data.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return l.getId();

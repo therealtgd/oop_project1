@@ -16,15 +16,9 @@ public class LoginServices extends Services {
 
     private ArrayList<UserDatabase> userDatabase;
 
-    public LoginServices() {
-        super();
-        this.userDatabase = getDatabaseHandler().getUserDatabase().getUsers();
-
-    }
-
-    public LoginServices(DatabaseHandler databaseHandler) {
-        super(databaseHandler);
-        this.userDatabase = getDatabaseHandler().getUserDatabase().getUsers();
+    public LoginServices(DatabaseHandler dH) {
+        super(dH);
+        this.userDatabase = getdH().getUserDatabase().getUsers();
 
     }
 
@@ -33,16 +27,16 @@ public class LoginServices extends Services {
             try {
                 User u = dB.validateLogin(username, password, dB.getData());
                 if (u instanceof Admin) {
-                     new AdminFrame((Admin) u, userDatabase);
+                     new AdminFrame((Admin) u, getdH());
                      return;
                 } else if (u instanceof Laborant) {
-                     new LaborantFrame((Laborant) u);
+                     new LaborantFrame((Laborant) u, getdH());
                      return;
                 } else if (u instanceof MedicalTechnician) {
-                     new MedicalTechnicianFrame((MedicalTechnician) u);
+                     new MedicalTechnicianFrame((MedicalTechnician) u, getdH());
                      return;
                 } else if (u instanceof Patient) {
-                     new PatientFrame((Patient) u, userDatabase);
+                     new PatientFrame((Patient) u, getdH());
                      return;
                 }
             } catch (LoginException ignored) {

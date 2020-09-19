@@ -5,6 +5,7 @@ import modules.users.Laborant;
 import modules.users.MedicalTechnician;
 import modules.utils.MyPassword;
 import services.utils.PasswordUtils;
+import view.ProfileMenu;
 import view.admin.patient.PatientView;
 import view.laborant.LaborantFrame;
 
@@ -14,10 +15,12 @@ import java.awt.*;
 public class MedicalTechnicianFrame extends JFrame {
 
     private MedicalTechnician medicalTechnician;
+    private DatabaseHandler dH;
     private NotificationView notificationView;
 
-    public MedicalTechnicianFrame(MedicalTechnician mT) {
+    public MedicalTechnicianFrame(MedicalTechnician mT, DatabaseHandler dH) {
         this.medicalTechnician = mT;
+        this.dH = dH;
         medicalTechnicianFrame();
     }
 
@@ -37,9 +40,7 @@ public class MedicalTechnicianFrame extends JFrame {
     private void initMedicalTechnicianGUI() {
         JMenuBar mainMenu = new JMenuBar();
 
-        JMenu profileMenu = new JMenu("Profil");
-        JMenuItem passwordItem = new JMenuItem("Promeni šifru");
-        profileMenu.add(passwordItem);
+        JMenu profileMenu = new ProfileMenu(medicalTechnician);
 
         JMenu notificationMenu = new JMenu("Notifikacije");
         JMenuItem showNotificationItem = new JMenuItem("Prikaži notifikacije");
@@ -61,7 +62,7 @@ public class MedicalTechnicianFrame extends JFrame {
 
         showNotificationItem.addActionListener(e -> {
             if (notificationView == null) {
-                notificationView = new NotificationView();
+                notificationView = new NotificationView(dH);
                 add(notificationView, BorderLayout.CENTER);
                 pack();
             } else {
@@ -75,7 +76,7 @@ public class MedicalTechnicianFrame extends JFrame {
         MedicalTechnician mT = new MedicalTechnician(0, "laborant", "labo", "labaratovic", mP2, 100.10, 12);
         System.out.println(mT.toFileString());
         DatabaseHandler dH = new DatabaseHandler();
-        MedicalTechnicianFrame mTF = new MedicalTechnicianFrame(mT);
+        MedicalTechnicianFrame mTF = new MedicalTechnicianFrame(mT, dH);
     }
 
 }

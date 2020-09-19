@@ -1,5 +1,7 @@
 package view.admin.laborant;
 
+import manage.Database;
+import manage.DatabaseHandler;
 import modules.DTO.LaborantDTO;
 import services.utils.PasswordUtils;
 import services.view.RegistrationServices;
@@ -11,8 +13,11 @@ import java.util.Map;
 
 public class LaborantRegistrationDialog extends LaborantDialog {
 
-    public LaborantRegistrationDialog() {
+    private DatabaseHandler dH;
+
+    public LaborantRegistrationDialog(DatabaseHandler dH) {
         super("Registracija laboranta");
+        this.dH = dH;
         initActions();
 
     }
@@ -20,7 +25,7 @@ public class LaborantRegistrationDialog extends LaborantDialog {
     @Override
     protected void initActions() {
         confirmBtn.addActionListener(e -> {
-            RegistrationServices rS = new RegistrationServices();
+            RegistrationServices rS = new RegistrationServices(dH);
             LaborantDTO lDTO = rS.getLaborantDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), salaryTxt.getText(), xpTxt.getText(), (String) quaComboBox.getSelectedItem(), specPanel.getSelection());
             Map<String, String> errCodes = Validator.validateLaborantRegistration(lDTO);
 

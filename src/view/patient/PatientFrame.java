@@ -4,14 +4,12 @@ import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.users.Patient;
 import modules.utils.MyPassword;
+import net.miginfocom.swing.MigLayout;
 import services.utils.PasswordUtils;
 import view.ProfileMenu;
 import view.validators.Validator;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +18,12 @@ public class PatientFrame extends JFrame {
 
     private Patient patient;
     private List<UserDatabase> userDatabase;
+    private DatabaseHandler dH;
 
-    public PatientFrame(Patient p,  ArrayList<UserDatabase> userDatabase) {
+    public PatientFrame(Patient p, DatabaseHandler dH) {
         this.patient = p;
-         this.userDatabase = userDatabase;
+        this.dH = dH;
+        this.userDatabase = dH.getUserDatabase().getUsers();
         patientFrame();
     }
 
@@ -64,13 +64,15 @@ public class PatientFrame extends JFrame {
 
         this.setJMenuBar(mainMenu);
 
+        add(new AllAnalysisRequestsPanel(dH, patient));
+
         phoneItem.addActionListener(e -> {
             String phone = JOptionPane.showInputDialog("Unesite novi br. telefona:");
             Map<String, String> errCodes = Validator.validatePhone(new HashMap<>(), phone);
             if (errCodes.isEmpty())
-                    patient.setPhone(phone);
-                else
-                    processErrors(errCodes);
+                patient.setPhone(phone);
+            else
+                processErrors(errCodes);
         });
 
         addressItem.addActionListener(e -> {
@@ -82,7 +84,7 @@ public class PatientFrame extends JFrame {
                 processErrors(errCodes);
         });
 
-        requestItem.addActionListener(e -> new AnalysisRequestFrame(patient));
+        requestItem.addActionListener(e -> new AnalysisRequestFrame(patient, dH));
 
     }
 
@@ -100,6 +102,6 @@ public class PatientFrame extends JFrame {
         MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
         Patient p = new Patient(6, "pcjent", "pacjentko", "Pacjentkic", mP2, "11114523");
         DatabaseHandler dH = new DatabaseHandler();
-        PatientFrame aF = new PatientFrame(p, dH.getUserDatabase().getUsers());
+        PatientFrame aF = new PatientFrame(p, dH);
     }
 }

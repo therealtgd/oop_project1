@@ -1,5 +1,6 @@
 package view.admin.patient;
 
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.DTO.PatientDTO;
 import modules.users.Patient;
@@ -11,11 +12,13 @@ import java.util.Map;
 
 public class PatientEditDialog extends PatientDialog {
 
+    private DatabaseHandler dH;
     private UserDatabase patientDatabase;
     private Patient editPatient;
 
-    public PatientEditDialog(UserDatabase patientDatabase, Patient editPatient) {
+    public PatientEditDialog(DatabaseHandler dH, Patient editPatient) {
         super("Uređivanje pacjenta");
+        this.dH = dH;
         this.patientDatabase = patientDatabase;
         this.editPatient = editPatient;
         initActions();
@@ -26,7 +29,7 @@ public class PatientEditDialog extends PatientDialog {
     protected void initActions() {
         fill();
         confirmBtn.addActionListener(e -> {
-            RegistrationServices rS = new RegistrationServices();
+            RegistrationServices rS = new RegistrationServices(dH);
             PatientDTO pDTO = rS.getPatientDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), LBOTxt.getText(), addressTxt.getText(), phoneTxt.getText(), genderSelector.getSelection());
             Map<String, String> errCodes = Validator.validatePatientRegistration(pDTO);
 

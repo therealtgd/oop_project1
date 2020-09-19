@@ -1,5 +1,6 @@
 package view.admin.laborant;
 
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.DTO.LaborantDTO;
 import modules.users.Laborant;
@@ -11,12 +12,14 @@ import java.util.Map;
 
 public class LaborantEditDialog extends LaborantDialog {
 
+    private DatabaseHandler dH;
     private UserDatabase laborantDatabase;
     private Laborant editLaborant;
 
-    public LaborantEditDialog(UserDatabase laborantDatabase, Laborant editLaborant) {
+    public LaborantEditDialog(DatabaseHandler dH, Laborant editLaborant) {
         super("Izmena laboranta");
-        this.laborantDatabase = laborantDatabase;
+        this.dH = dH;
+        this.laborantDatabase = dH.getUserDatabase().getLaborantDatabase();
         this.editLaborant = editLaborant;
         initActions();
 
@@ -30,7 +33,7 @@ public class LaborantEditDialog extends LaborantDialog {
     protected void initActions() {
         fill();
         confirmBtn.addActionListener(e -> {
-            RegistrationServices rS = new RegistrationServices();
+            RegistrationServices rS = new RegistrationServices(dH);
             LaborantDTO lDTO = rS.getLaborantDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), salaryTxt.getText(), xpTxt.getText(), (String) quaComboBox.getSelectedItem(), specPanel.getSelection());
             Map<String, String> errCodes = Validator.validateLaborantRegistration(lDTO);
 

@@ -19,7 +19,7 @@ public class Laborant extends Employee {
                     int experience, String qualification) {
         super(id, username, name, surname, password, salaryBase, experience);
         this.qualification = qualification;
-        this.specializations = new ArrayList<String>();
+        this.specializations = new ArrayList<>();
         setBonusBase(500);
     }
 

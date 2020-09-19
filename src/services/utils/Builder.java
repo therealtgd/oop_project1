@@ -1,14 +1,26 @@
 package services.utils;
 
+import manage.DatabaseHandler;
 import modules.DTO.*;
+import modules.entities.Analysis;
 import modules.entities.AnalysisRequest;
+import modules.entities.Measurement;
 import modules.users.Employee;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
 import modules.users.Patient;
 import modules.utils.MyPassword;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Builder {
+
+    private DatabaseHandler dH;
+
+    public Builder(DatabaseHandler dH) {
+        this.dH = dH;
+    }
 
     public static Patient buildPatient(PatientDTO pDTO) {
         MyPassword pass = PasswordUtils.generateRandomPass(pDTO.getPassword());
@@ -40,7 +52,14 @@ public class Builder {
         };
     }
 
-    public static AnalysisRequest buildAnalysiRequest(AnalysisRequestDTO aRDTO) {
-        return new AnalysisRequest(aRDTO.getPatient(), aRDTO.getAnalyses(), aRDTO.getHomeVisit());
+    public AnalysisRequest buildAnalysiRequest(AnalysisRequestDTO aRDTO) {
+        Map<Analysis, Measurement> map = new HashMap<>();
+        for (Analysis a: aRDTO.getAnalyses()) {
+            int id = dH.getEntityDatabase().getMeasurementDatabase().getMaxId() + 1;
+            Measurement m = new Measurement(id, a.getId());
+            dH.getEntityDatabase().getMeasurementDatabase().addData(m);
+            map.put(a, m);
+        }
+        return new AnalysisRequest(aRDTO.getPatient(), map, aRDTO.getHomeVisit());
     }
 }

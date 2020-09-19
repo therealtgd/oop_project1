@@ -18,7 +18,7 @@ public class MedicalTechnicianServices extends Services {
     public String registerPatient(PatientDTO pDTO) {
         pDTO.setPassword(generateRandomAlphanumericString(10));
         Patient p = Builder.buildPatient(pDTO);
-        getDatabaseHandler().getUserDatabase().getPatientDatabase().addData(p);
+        getdH().getUserDatabase().getPatientDatabase().addData(p);
         return pDTO.getPassword();
     }
 

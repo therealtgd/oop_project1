@@ -1,50 +1,41 @@
 package manage.users;
 
+import manage.DatabaseFactory;
 import manage.FileDatabaseFactory;
-import manage.entities.AnalysisFileDatabase;
-import manage.entities.AnalysisRequestFileDatabase;
-import manage.entities.AnalysisRequestNotificationFileDatabase;
-import manage.entities.MeasurementFileDatabase;
-import modules.entities.AnalysisRequest;
-import modules.utils.AppSettings;
+import modules.users.Admin;
+import modules.users.Laborant;
+import modules.users.MedicalTechnician;
+import modules.users.Patient;
 
 import java.util.ArrayList;
 
-public class UserFileDatabaseFactory extends FileDatabaseFactory implements UserDatabaseFactory {
+public class UserFileDatabaseFactory implements UserDatabaseFactory {
 
-    private AdminFileDatabase adminDatabase;
-    private LaborantFileDatabase laborantDatabase;
-    private MedicalTechnicianFileDatabase medTechnicianDatabase;
-    private PatientFileDatabase patientDatabase;
+    private UserDatabase<Admin> adminDatabase;
+    private UserDatabase<Laborant> laborantDatabase;
+    private UserDatabase<MedicalTechnician> medTechnicianDatabase;
+    private UserDatabase<Patient> patientDatabase;
 
-    public UserFileDatabaseFactory(AppSettings appSettings) {
-        super(appSettings);
-        this.adminDatabase = new AdminFileDatabase(getAppSettings().getAdminFilename());
-        this.laborantDatabase = new LaborantFileDatabase(getAppSettings().getLaborantFilename());
-        this.patientDatabase = new PatientFileDatabase(getAppSettings().getPatientFilename());
-        this.medTechnicianDatabase = new MedicalTechnicianFileDatabase(getAppSettings().getMedicalTechnicianFilename(),
-
-                new AnalysisRequestNotificationFileDatabase(getAppSettings().getNotificationFilename(),
-                        new AnalysisRequestFileDatabase(getAppSettings().getAnalysisRequestFilename(),
-
-                                new AnalysisFileDatabase(getAppSettings().getAnalysisFilename(),
-                                        new MeasurementFileDatabase(getAppSettings().getMeasurementFilename())),
-                                                patientDatabase)));
+    public UserFileDatabaseFactory(DatabaseFactory dF) {
+        this.adminDatabase = dF.getAdminDatabase();
+        this.laborantDatabase = dF.getLaborantDatabase();
+        this.patientDatabase = dF.getPatientDatabase();
+        this.medTechnicianDatabase = dF.getMedTechnicianDatabase();
     }
 
-    public AdminFileDatabase getAdminDatabase() {
+    public UserDatabase<Admin> getAdminDatabase() {
         return adminDatabase;
     }
 
-    public LaborantFileDatabase getLaborantDatabase() {
+    public UserDatabase<Laborant> getLaborantDatabase() {
         return laborantDatabase;
     }
 
-    public MedicalTechnicianFileDatabase getMedTechnicianDatabase() {
+    public UserDatabase<MedicalTechnician> getMedTechnicianDatabase() {
         return medTechnicianDatabase;
     }
 
-    public PatientFileDatabase getPatientDatabase() {
+    public UserDatabase<Patient> getPatientDatabase() {
         return patientDatabase;
     }
 

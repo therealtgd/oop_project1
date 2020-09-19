@@ -23,7 +23,7 @@ public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnicia
 
     private Database<AnalysisRequestNotification> notificationDatabase;
 
-    public MedicalTechnicianFileDatabase(String file, AnalysisRequestNotificationFileDatabase notificationDatabase) {
+    public MedicalTechnicianFileDatabase(String file, Database<AnalysisRequestNotification> notificationDatabase) {
         super(file);
         this.notificationDatabase = notificationDatabase;
         loadData();

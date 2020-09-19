@@ -8,8 +8,10 @@ import javax.swing.*;
 public class NotificationView extends JPanel {
 
     private NotificationTablePanel notificationPanel;
+    private DatabaseHandler dH;
 
-    public NotificationView() {
+    public NotificationView(DatabaseHandler dH) {
+        this.dH = dH;
         this.notificationPanel = notificationPanel();
         MigLayout layout = new MigLayout("fill", "[]");
         setLayout(layout);
@@ -24,7 +26,7 @@ public class NotificationView extends JPanel {
     }
 
     private NotificationTablePanel notificationPanel() {
-        return new NotificationTablePanel(new DatabaseHandler().getEntityDatabase().getAnalysisRequestNotificationDatabase());
+        return new NotificationTablePanel(dH);
     }
 
     public void refresh() {

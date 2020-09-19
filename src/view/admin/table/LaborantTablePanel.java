@@ -1,5 +1,6 @@
 package view.admin.table;
 
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.users.Laborant;
 import view.admin.laborant.LaborantEditDialog;
@@ -13,9 +14,11 @@ import java.util.Map;
 
 public class LaborantTablePanel extends UserTablePanel {
 
-    public LaborantTablePanel(UserDatabase laborantDatabase) {
-        super(laborantDatabase, new JTable(new LaborantModel(laborantDatabase)), "Pregled laboranata");
+    private DatabaseHandler dH;
 
+    public LaborantTablePanel(DatabaseHandler dH) {
+        super(dH.getUserDatabase().getLaborantDatabase(), new JTable(new LaborantModel(dH.getUserDatabase().getLaborantDatabase().getData())), "Pregled laboranata");
+        this.dH = dH;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class LaborantTablePanel extends UserTablePanel {
 
     @Override
     protected void initActions() {
-        btnAdd.addActionListener(e -> new LaborantRegistrationDialog());
+        btnAdd.addActionListener(e -> new LaborantRegistrationDialog(dH));
         btnDelete.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row == -1) {
@@ -116,7 +119,7 @@ public class LaborantTablePanel extends UserTablePanel {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
                 Laborant l = (Laborant) getDatabase().getById(id);
                 if (l != null) {
-                    new LaborantEditDialog(getDatabase(), l);
+                    new LaborantEditDialog(dH, l);
                     refresh();
                 } else {
                     JOptionPane.showMessageDialog(null, "Laborant nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);

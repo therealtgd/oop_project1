@@ -1,5 +1,6 @@
 package view.admin.medicalTechnician;
 
+import manage.DatabaseHandler;
 import modules.DTO.MedicalTechnicianDTO;
 import services.utils.PasswordUtils;
 import services.view.RegistrationServices;
@@ -11,15 +12,18 @@ import java.util.Map;
 
 public class MedTechRegistrationDialog extends MedicalTechnicianDialog {
 
-    public MedTechRegistrationDialog() {
+    private DatabaseHandler dH;
+
+    public MedTechRegistrationDialog(DatabaseHandler dH) {
         super("Registracija med. tehničara");
+        this.dH = dH;
         initActions();
     }
 
     @Override
     protected void initActions() {
         confirmBtn.addActionListener(e -> {
-            RegistrationServices rS = new RegistrationServices();
+            RegistrationServices rS = new RegistrationServices(dH);
             MedicalTechnicianDTO mTDTO = rS.getMedicalTechnicianDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), salaryTxt.getText(), xpTxt.getText());
             Map<String, String> errCodes = Validator.validateMedicalTechnicianRegistration(mTDTO);
 

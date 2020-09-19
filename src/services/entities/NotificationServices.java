@@ -9,18 +9,18 @@ import services.Services;
 
 public class NotificationServices extends Services {
 
-    public NotificationServices() {
-        super(new DatabaseHandler());
+    public NotificationServices(DatabaseHandler dH) {
+        super(dH);
     }
 
 
     public void sendAnalysisRequestNotification(AnalysisRequest aR) {
         AnalysisRequestNotification n = buildAnalysisRequestNotification(aR);
-        for (MedicalTechnician mT : getDatabaseHandler().getUserDatabase().getMedTechnicianDatabase().getData()) {
+        for (MedicalTechnician mT : getdH().getUserDatabase().getMedTechnicianDatabase().getData()) {
             mT.addNotification(n);
         }
-        getDatabaseHandler().getEntityDatabase().getAnalysisRequestNotificationDatabase().addData(n);
-        getDatabaseHandler().getUserDatabase().getMedTechnicianDatabase().saveData();
+        getdH().getEntityDatabase().getAnalysisRequestNotificationDatabase().addData(n);
+        getdH().getUserDatabase().getMedTechnicianDatabase().saveData();
 
     }
 
@@ -28,11 +28,16 @@ public class NotificationServices extends Services {
         return new AnalysisRequestNotification(aR.getPatient().getName() + " " + aR.getPatient().getSurname(), aR.isHomeVisit(), aR);
     }
 
-    public void setNotificationState(AnalysisRequestNotification n) {
+    public void setNotificationOpened(AnalysisRequestNotification n) {
         n.setState("OPENED");
         n.getAnalysisRequest().setState("COLLECTING_SAMPLE");
-        getDatabaseHandler().getEntityDatabase().getAnalysisRequestNotificationDatabase().saveData();
-//        getDatabaseHandler().getEntityDatabase().getAnalysisRequestDatabase().saveData();
+        getdH().getEntityDatabase().getAnalysisRequestNotificationDatabase().saveData();
+    }
+
+    public void setNotificationDeleted(AnalysisRequestNotification n) {
+        n.setState("DELETED");
+        n.getAnalysisRequest().setState("PROCESSING");
+        getdH().getEntityDatabase().getAnalysisRequestNotificationDatabase().saveData();
     }
 
 }

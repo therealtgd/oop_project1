@@ -4,7 +4,9 @@ import modules.Data;
 import modules.users.Patient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnalysisRequest extends Data {
 
@@ -15,14 +17,15 @@ public class AnalysisRequest extends Data {
         FINISHED
 
     }
+
     private Patient patient;
     private States state;
-    private List<Analysis> analyses;
+    private Map<Analysis, Measurement> analysisMeasurementMap;
     private boolean homeVisit;
 
-    public AnalysisRequest(Patient patient, List<Analysis> analyses, boolean homeVisit) {
+    public AnalysisRequest(Patient patient, Map<Analysis, Measurement> analysisMeasurementMap, boolean homeVisit) {
         this.patient = patient;
-        this.analyses = analyses;
+        this.analysisMeasurementMap = analysisMeasurementMap;
         this.homeVisit = homeVisit;
         this.state = States.INITIAL_STATE;
     }
@@ -31,7 +34,7 @@ public class AnalysisRequest extends Data {
         super(id);
         this.patient = patient;
         this.state = States.valueOf(state);
-        this.analyses = new ArrayList<>();
+        this.analysisMeasurementMap = new HashMap<>();
     }
 
     public Patient getPatient() {
@@ -42,11 +45,6 @@ public class AnalysisRequest extends Data {
         return state;
     }
 
-    public List<Analysis> getAnalyses() {
-        return analyses;
-    }
-
-
     public void setState(String state) {
         this.state = States.valueOf(state);
     }
@@ -55,15 +53,21 @@ public class AnalysisRequest extends Data {
         return homeVisit;
     }
 
-    public void addAnalysis(Analysis a) {
-        analyses.add(a);
+    public States[] getStates() {
+        return States.values();
     }
 
+    public Map<Analysis, Measurement> getAnalysisMeasurementMap() {
+        return analysisMeasurementMap;
+    }
 
+    public void setAnalysisMeasurementMap(Map<Analysis, Measurement> analysisMeasurementMap) {
+        this.analysisMeasurementMap = analysisMeasurementMap;
+    }
 
     @Override
     public String toString() {
-        return "ZahtjevZaAnalizu [" + super.toString() + ", pacjent=" + patient + ", stanje=" + state + ", analize=" + analyses + "]";
+        return "ZahtjevZaAnalizu [" + super.toString() + ", pacjent=" + patient + ", stanje=" + state + ", analize=" + analysisMeasurementMap.keySet() + "]";
 
     }
 
@@ -71,10 +75,14 @@ public class AnalysisRequest extends Data {
     public String toFileString() {
         String pId = String.valueOf(getPatient().getId());
         String anaId = "";
-        for (Analysis a: analyses) {
+        for (Analysis a : analysisMeasurementMap.keySet()) {
             anaId += a.getId() + ";";
         }
+        String mId = "";
+        for (Measurement m : analysisMeasurementMap.values()) {
+            mId += m.getId() + ";";
+        }
 
-        return getId() + "," +  pId + "," + state + "," + anaId;
+        return getId() + "," + pId + "," + state + "," + anaId + "," + mId;
     }
 }

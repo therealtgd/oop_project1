@@ -1,5 +1,7 @@
 package view.admin.patient;
 
+import manage.Database;
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.users.Patient;
 import net.miginfocom.swing.MigLayout;
@@ -11,11 +13,13 @@ import java.util.ArrayList;
 
 public class PatientView extends JPanel {
 
+    private DatabaseHandler dH;
     private ArrayList<UserDatabase> userDatabase;
     private UserTablePanel patientPanel;
 
-    public PatientView(ArrayList<UserDatabase> userDatabase) {
-        this.userDatabase = userDatabase;
+    public PatientView(DatabaseHandler dH) {
+        this.dH = dH;
+        this.userDatabase = dH.getUserDatabase().getUsers();
         this.patientPanel = patientPanel();
         MigLayout layout = new MigLayout("fill", "[]");
         setLayout(layout);
@@ -41,7 +45,7 @@ public class PatientView extends JPanel {
                 }
             }
         }
-        return new PatientTablePanel(pDB);
+        return new PatientTablePanel(dH);
 
     }
 

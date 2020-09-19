@@ -1,5 +1,7 @@
 package view.admin.table;
 
+import manage.Database;
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.users.Patient;
 import view.admin.patient.PatientEditDialog;
@@ -13,9 +15,11 @@ import java.util.Map;
 
 public class PatientTablePanel extends UserTablePanel {
 
-    public PatientTablePanel(UserDatabase patientDatabase) {
-        super(patientDatabase, new JTable(new PatientModel(patientDatabase)), "Pregled pacjenata");
+    private DatabaseHandler dH;
 
+    public PatientTablePanel(DatabaseHandler dH) {
+        super(dH.getUserDatabase().getPatientDatabase(), new JTable(new PatientModel(dH.getUserDatabase().getPatientDatabase().getData())), "Pregled pacjenata");
+        this.dH = dH;
     }
 
     @Override
@@ -82,7 +86,7 @@ public class PatientTablePanel extends UserTablePanel {
 
     @Override
     protected void initActions() {
-        btnAdd.addActionListener(e -> new PatientRegistrationDialog());
+        btnAdd.addActionListener(e -> new PatientRegistrationDialog(dH));
         btnDelete.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row == -1) {
@@ -112,7 +116,7 @@ public class PatientTablePanel extends UserTablePanel {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
                 Patient l = (Patient) getDatabase().getById(id);
                 if (l != null) {
-                    new PatientEditDialog(getDatabase(), l);
+                    new PatientEditDialog(dH, l);
                     refresh();
                 } else {
                     JOptionPane.showMessageDialog(null, "Patient nije pronađen.", "Greška", JOptionPane.ERROR_MESSAGE);

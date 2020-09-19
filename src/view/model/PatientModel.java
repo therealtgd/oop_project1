@@ -3,17 +3,19 @@ package view.model;
 import manage.users.UserDatabase;
 import modules.users.Patient;
 
-public class PatientModel extends UserModel {
+import java.util.List;
+
+public class PatientModel extends UserModel<Patient> {
 
 
-    public PatientModel(UserDatabase userDatabase) {
-        super(userDatabase);
+    public PatientModel(List<Patient> data) {
+        super(data);
         columnNames = new String[]{"Id", "Korisničko ime", "Ime", "Prezime", "LBO", "Adresa", "Pol"};
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Patient l = (Patient) database.getData().get(rowIndex);
+        Patient l = data.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return l.getId();

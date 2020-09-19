@@ -27,7 +27,7 @@ public class AnalysisRequestPanel extends JPanel {
 //        Border border = new TitledBorder("Analize");
 //        setBorder(border);
 
-        for (Analysis a : aR.getAnalyses()) {
+        for (Analysis a : aR.getAnalysisMeasurementMap().keySet()) {
             JPanel p = new JPanel();
             p.setLayout(new MigLayout("wrap 2", "[sg1][]"));
             Border b = new TitledBorder("");

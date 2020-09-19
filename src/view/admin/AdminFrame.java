@@ -18,13 +18,16 @@ import java.util.ArrayList;
 public class AdminFrame extends JFrame {
 
     private Admin admin;
+    private DatabaseHandler dH;
     private ArrayList<UserDatabase> userDatabase;
     private EmployeeView employeeView;
     private PatientView patientView;
 
-    public AdminFrame(Admin a, ArrayList<UserDatabase> userDatabase) {
+
+    public AdminFrame(Admin a, DatabaseHandler dH) {
         this.admin = a;
-        this.userDatabase = userDatabase;
+        this.dH = dH;
+        this.userDatabase = dH.getUserDatabase().getUsers();
         this.employeeView = null;
         this.patientView = null;
         adminFrame();
@@ -92,7 +95,7 @@ public class AdminFrame extends JFrame {
 
         viewEmployeesItem.addActionListener(e -> {
             if (employeeView == null) {
-                employeeView = new EmployeeView(userDatabase);
+                employeeView = new EmployeeView(dH);
                 add(employeeView, BorderLayout.CENTER);
                 pack();
             } else {
@@ -101,13 +104,13 @@ public class AdminFrame extends JFrame {
         });
 
 
-        addLaborantItem.addActionListener(e -> new LaborantRegistrationDialog());
-        addMedicalTechnicianItem.addActionListener(e -> new MedTechRegistrationDialog());
+        addLaborantItem.addActionListener(e -> new LaborantRegistrationDialog(dH));
+        addMedicalTechnicianItem.addActionListener(e -> new MedTechRegistrationDialog(dH));
 
-        addPatientItem.addActionListener(e -> new PatientRegistrationDialog());
+        addPatientItem.addActionListener(e -> new PatientRegistrationDialog(dH));
         viewPatientsItem.addActionListener(e -> {
             if (patientView == null) {
-                patientView = new PatientView(userDatabase);
+                patientView = new PatientView(dH);
                 add(patientView, BorderLayout.CENTER);
                 pack();
             } else {
@@ -121,6 +124,6 @@ public class AdminFrame extends JFrame {
         MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
         Admin a = new Admin(0, "admin", "admi", "adminic", mP2);
         DatabaseHandler dH = new DatabaseHandler();
-        AdminFrame aF = new AdminFrame(a, dH.getUserDatabase().getUsers());
+        AdminFrame aF = new AdminFrame(a, dH);
     }
 }

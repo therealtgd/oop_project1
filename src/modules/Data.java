@@ -1,6 +1,6 @@
 package modules;
 
-public abstract class Data {
+public abstract class Data implements IData {
 
     private int id;
 

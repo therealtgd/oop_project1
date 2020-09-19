@@ -1,6 +1,8 @@
 package modules.utils;
 
-public class Range {
+import modules.Data;
+
+public class Range implements Comparable<Range>{
 
     private double max;
     private double min;
@@ -19,6 +21,14 @@ public class Range {
         return new Range(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1]));
     }
 
+    public double getMax() {
+        return max;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
     @Override
     public String toString() {
         return "Opseg [" + min + "-" + max + "]";
@@ -26,5 +36,10 @@ public class Range {
 
     public String toFileString() {
         return min + "-" + max;
+    }
+
+    @Override
+    public int compareTo(Range o) {
+        return Double.compare(min, o.min) + Double.compare(max, o.max);
     }
 }

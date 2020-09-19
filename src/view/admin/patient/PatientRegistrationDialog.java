@@ -1,5 +1,6 @@
 package view.admin.patient;
 
+import manage.DatabaseHandler;
 import modules.DTO.PatientDTO;
 import services.utils.PasswordUtils;
 import services.view.RegistrationServices;
@@ -11,15 +12,18 @@ import java.util.Map;
 
 public class PatientRegistrationDialog extends PatientDialog{
 
-    public PatientRegistrationDialog() {
+    private DatabaseHandler dH;
+
+    public PatientRegistrationDialog(DatabaseHandler dH) {
         super("Registracija pacjenta");
+        this.dH = dH;
         initActions();
     }
 
     @Override
     protected void initActions() {
         confirmBtn.addActionListener(e -> {
-            RegistrationServices rS = new RegistrationServices();
+            RegistrationServices rS = new RegistrationServices(dH);
             PatientDTO pDTO = rS.getPatientDTO(usernameTxt.getText(), nameTxt.getText(), surnameTxt.getText(), LBOTxt.getText(), addressTxt.getText(), phoneTxt.getText(), genderSelector.getSelection());
             String key = PasswordUtils.generateRandomAlphanumericString(10);
             pDTO.setPassword(key);

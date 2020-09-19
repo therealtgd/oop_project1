@@ -1,6 +1,7 @@
 package view.medicalTechnician;
 
 import manage.Database;
+import manage.DatabaseHandler;
 import modules.entities.AnalysisRequest;
 import modules.entities.AnalysisRequestNotification;
 import net.miginfocom.swing.MigLayout;
@@ -13,11 +14,13 @@ import java.util.Map;
 
 public class CheckNotificationDialog extends JDialog {
 
+    private DatabaseHandler dH;
     private Database<AnalysisRequestNotification> notificationDatabase;
     private AnalysisRequestNotification notification;
 
-    public CheckNotificationDialog(Database<AnalysisRequestNotification> notificationDatabase, AnalysisRequestNotification notification) {
-        this.notificationDatabase = notificationDatabase;
+    public CheckNotificationDialog(DatabaseHandler dH, AnalysisRequestNotification notification) {
+        this.dH = dH;
+        this.notificationDatabase = dH.getEntityDatabase().getAnalysisRequestNotificationDatabase();
         this.notification = notification;
         notificationDialog();
     }
@@ -55,7 +58,7 @@ public class CheckNotificationDialog extends JDialog {
             } else {
                 int selection = JOptionPane.showConfirmDialog(null, "Želim da preuzmem kućnu posjetu: ", "Preuzimanje kućne posjete", JOptionPane.YES_NO_OPTION);
                 if (selection == JOptionPane.YES_OPTION) {
-                    new NotificationServices().setNotificationState(notification);
+                    new NotificationServices(dH).setNotificationOpened(notification);
                     setVisible(false);
                     dispose();
                 }

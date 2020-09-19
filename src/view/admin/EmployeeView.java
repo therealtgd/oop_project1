@@ -1,5 +1,6 @@
 package view.admin;
 
+import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
@@ -14,12 +15,14 @@ import java.util.ArrayList;
 
 public class EmployeeView extends JPanel {
 
+    private DatabaseHandler dH;
     private ArrayList<UserDatabase> userDatabase;
     private UserTablePanel laborantPanel;
     private UserTablePanel medicalTechnicianPanel;
 
-    public EmployeeView(ArrayList<UserDatabase> userDatabase) {
-        this.userDatabase = userDatabase;
+    public EmployeeView(DatabaseHandler dH) {
+        this.dH = dH;
+        this.userDatabase = dH.getUserDatabase().getUsers();
         this.laborantPanel = laborantPanel();
         this.medicalTechnicianPanel = medicalTechnicianPanel();
         MigLayout layout = new MigLayout("fill", "[]");
@@ -51,7 +54,7 @@ public class EmployeeView extends JPanel {
                 }
             }
         }
-        return new LaborantTablePanel(laborantDatabase);
+        return new LaborantTablePanel(dH);
 
     }
 
@@ -67,7 +70,7 @@ public class EmployeeView extends JPanel {
                 }
             }
         }
-        return new MedicalTechnicianTablePanel(medTechnicianDatabase);
+        return new MedicalTechnicianTablePanel(dH);
     }
 
     public void refresh() {
