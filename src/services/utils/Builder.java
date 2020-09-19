@@ -40,7 +40,7 @@ public class Builder {
         };
     }
 
-    public static AnalysisRequest buildAnalysis(AnalysisRequestDTO aRDTO) {
+    public static AnalysisRequest buildAnalysiRequest(AnalysisRequestDTO aRDTO) {
         return new AnalysisRequest(aRDTO.getPatient(), aRDTO.getAnalyses(), aRDTO.getHomeVisit());
     }
 }

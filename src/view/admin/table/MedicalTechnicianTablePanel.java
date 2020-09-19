@@ -14,7 +14,7 @@ import java.util.Map;
 public class MedicalTechnicianTablePanel extends UserTablePanel {
 
 
-    public MedicalTechnicianTablePanel(UserDatabase medTechnicianDatabase) {
+    public MedicalTechnicianTablePanel(UserDatabase<MedicalTechnician> medTechnicianDatabase) {
         super(medTechnicianDatabase, new JTable(new MedicalTechnicianModel(medTechnicianDatabase)), "Pregled med. tehničara");
     }
 

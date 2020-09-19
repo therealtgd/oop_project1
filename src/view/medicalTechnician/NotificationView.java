@@ -24,7 +24,7 @@ public class NotificationView extends JPanel {
     }
 
     private NotificationTablePanel notificationPanel() {
-        return new NotificationTablePanel(new DatabaseHandler().getEntityDatabase().getNotificationDatabase());
+        return new NotificationTablePanel(new DatabaseHandler().getEntityDatabase().getAnalysisRequestNotificationDatabase());
     }
 
     public void refresh() {

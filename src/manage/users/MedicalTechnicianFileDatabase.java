@@ -1,8 +1,11 @@
 package manage.users;
 
 import manage.Database;
+import manage.DatabaseHandler;
 import manage.FileDatabase;
+import manage.entities.AnalysisRequestNotificationFileDatabase;
 import modules.Data;
+import modules.entities.AnalysisRequestNotification;
 import modules.entities.MyNotification;
 import modules.users.Laborant;
 import modules.users.MedicalTechnician;
@@ -18,9 +21,9 @@ import java.util.List;
 
 public class MedicalTechnicianFileDatabase extends FileDatabase<MedicalTechnician> implements UserDatabase<MedicalTechnician> {
 
-    private Database<MyNotification> notificationDatabase;
+    private Database<AnalysisRequestNotification> notificationDatabase;
 
-    public MedicalTechnicianFileDatabase(String file, Database<MyNotification> notificationDatabase) {
+    public MedicalTechnicianFileDatabase(String file, AnalysisRequestNotificationFileDatabase notificationDatabase) {
         super(file);
         this.notificationDatabase = notificationDatabase;
         loadData();

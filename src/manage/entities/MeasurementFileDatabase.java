@@ -13,11 +13,9 @@ import java.util.List;
 
 public class MeasurementFileDatabase extends FileDatabase<Measurement> {
 
-    private Database<Analysis> analysisDatabase;
 
-    public MeasurementFileDatabase(String file, Database<Analysis> analysisDatabase) {
+    public MeasurementFileDatabase(String file) {
         super(file);
-        this.analysisDatabase = analysisDatabase;
         loadData();
     }
 
@@ -29,12 +27,6 @@ public class MeasurementFileDatabase extends FileDatabase<Measurement> {
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
                 Measurement m = new Measurement(Integer.parseInt(tokens[0]), tokens[1], Double.parseDouble(tokens[2]));
-                if (tokens.length > 3) {
-					for (String qId : tokens[3].split(";")) {
-						int id = Integer.parseInt(qId);
-						m.setAnalysis(this.analysisDatabase.getById(id));
-					}
-				}
                 List<Measurement> data = getData();
                 data.add(m);
                 setData(data);

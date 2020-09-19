@@ -15,13 +15,11 @@ import java.util.List;
 public class AnalysisRequestFileDatabase extends FileDatabase<AnalysisRequest> {
 
     private Database<Analysis> analysisDatabase;
-    private Database<Measurement> measurementDatabase;
     private Database<Patient> patientDatabase;
 
-    public AnalysisRequestFileDatabase(String file, Database<Analysis> analysisManager, Database<Measurement> measurementDatabase, Database<Patient> patientDatabase) {
+    public AnalysisRequestFileDatabase(String file, Database<Analysis> analysisDatabase, Database<Patient> patientDatabase) {
         super(file);
-        this.analysisDatabase = analysisManager;
-        this.measurementDatabase = measurementDatabase;
+        this.analysisDatabase = analysisDatabase;
         this.patientDatabase = patientDatabase;
         loadData();
     }
@@ -38,12 +36,6 @@ public class AnalysisRequestFileDatabase extends FileDatabase<AnalysisRequest> {
                     for (String qId : tokens[3].split(";")) {
                         int id = Integer.parseInt(qId);
                         aR.addAnalysis(analysisDatabase.getById(id));
-                    }
-                }
-                if (tokens.length > 4) {
-                    for (String qId : tokens[4].split(";")) {
-                        int id = Integer.parseInt(qId);
-                        aR.addMeasurement(measurementDatabase.getById(id));
                     }
                 }
                 List<AnalysisRequest> data = getData();

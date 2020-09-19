@@ -3,6 +3,11 @@ package modules.entities;
 import modules.Data;
 import modules.utils.Range;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class Analysis extends Data {
 
@@ -11,6 +16,7 @@ public class Analysis extends Data {
     private Range referenceValue;
     private String unit;
     private double cost;
+    private List<Measurement> measurements;
 
     public Analysis(int id, String type, Range referenceValue, String unit, double cost) {
         super(id);
@@ -19,6 +25,7 @@ public class Analysis extends Data {
         this.unit = unit;
         this.cost = cost;
         this.analysisGroup = "";
+        this.measurements = new ArrayList<>();
     }
 
     public Analysis(int id, String analysisGroup, String type, Range referenceValue, String unit, double cost) {
@@ -28,6 +35,8 @@ public class Analysis extends Data {
         this.referenceValue = referenceValue;
         this.unit = unit;
         this.cost = cost;
+        this.measurements = new ArrayList<>();
+
     }
 
     public String getAnalysisGroup() {
@@ -58,12 +67,31 @@ public class Analysis extends Data {
         this.unit = unit;
     }
 
+    public void addMeasurement(Measurement m) {
+        this.measurements.add(m);
+    }
+
+    public Map<String, Object> getParameters() {
+        Map<String, Object> retVal = new HashMap<>();
+        retVal.put("Grupa analiza:", analysisGroup);
+        retVal.put("Tip:", type);
+        retVal.put("Referentna vrednost:", referenceValue);
+        retVal.put("Merna jedinica:", unit);
+        retVal.put("Cena:", cost);
+        retVal.put("Izmerene vrednosti:", measurements);
+        return retVal;
+    }
+
     @Override
     public String toString() {
         return "Analiza[id=" + super.toString() + ", grupa=" + analysisGroup + ", tip=" + type + ", cena=" + cost + "]";
     }
 
     public String toFileString() {
-        return getId() + "," + type + "," + referenceValue.toFileString() + "," + unit + "," + cost;
+        String ids = "";
+        for (Measurement m : measurements) {
+            ids += m.getId() + ";";
+        }
+        return getId() + "," + analysisGroup + "," + type + "," + referenceValue.toFileString() + "," + unit + "," + cost + "," + ids;
     }
 }

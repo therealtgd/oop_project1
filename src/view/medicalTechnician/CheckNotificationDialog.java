@@ -1,37 +1,39 @@
 package view.medicalTechnician;
 
 import manage.Database;
-import modules.entities.MyNotification;
+import modules.entities.AnalysisRequest;
+import modules.entities.AnalysisRequestNotification;
 import net.miginfocom.swing.MigLayout;
-import view.utils.QualificationsComboBox;
-import view.utils.SpecializationsPanel;
+import services.entities.NotificationServices;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import java.util.Map;
 
 public class CheckNotificationDialog extends JDialog {
 
-    private Database<MyNotification> notificationDatabase;
-    private MyNotification notification;
+    private Database<AnalysisRequestNotification> notificationDatabase;
+    private AnalysisRequestNotification notification;
 
-    public CheckNotificationDialog(Database<MyNotification>  notificationDatabase, MyNotification notification) {
+    public CheckNotificationDialog(Database<AnalysisRequestNotification> notificationDatabase, AnalysisRequestNotification notification) {
         this.notificationDatabase = notificationDatabase;
         this.notification = notification;
         notificationDialog();
     }
 
     private void notificationDialog() {
-        this.setTitle("Pregled notifikacije - id: " + notification.getId());
-        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
+        setTitle("Pregled notifikacije - id: " + notification.getId());
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
         initGUI();
-        this.pack();
-        this.setVisible(true);
+        setSize(500, 500);
+        setVisible(true);
     }
 
     private void initGUI() {
-        MigLayout layout = new MigLayout("", "[][]");
+        MigLayout layout = new MigLayout("wrap 2", "[sg 1][sg 2]");
         setLayout(layout);
 
         JPanel p = new JPanel();
@@ -39,36 +41,60 @@ public class CheckNotificationDialog extends JDialog {
         p.setBorder(border);
         p.setLayout(layout);
 
-        usernameTxt = new JTextField();
-        nameTxt = new JTextField();
-        surnameTxt = new JTextField();
-        salaryTxt = new JTextField();
-        xpTxt = new JTextField();
-        quaComboBox = new QualificationsComboBox();
-        specPanel = new SpecializationsPanel();
-        confirmBtn = new JButton("Potvrdi");
-        JButton cancelBtn = new JButton("Izađi");
+        JButton btnConfirm = new JButton("Preuzmi kućnu posjetu");
+        JButton btnCancel = new JButton("Izađi");
 
+        initNotificationGUI();
 
-        add(new JLabel("Korisničko ime:"), "split 2, sg 1");
-        add(usernameTxt, "pushx, growx, wrap");
-        add(new JLabel("Ime:"), "split 2, sg 1");
-        add(nameTxt, "pushx, growx, wrap");
-        add(new JLabel("Prezime:"), "split 2, sg 1");
-        add(surnameTxt, "pushx, growx, wrap");
-        add(new JLabel("Platna osnova:"), "split 2, sg 1");
-        add(salaryTxt, "pushx, growx, wrap");
-        add(new JLabel("Kvalifikacija:"), "split 2, sg 1");
-        add(quaComboBox, "pushx, growx, wrap");
-        add(new JLabel("Iskustvo:"), "split 4, sg 1");
-        add(xpTxt, "pushx, growx");
-        add(specPanel, "wrap");
-        add(confirmBtn, "split 2");
-        add(cancelBtn);
+        add(btnConfirm);
+        add(btnCancel);
 
-        cancelBtn.addActionListener(e -> {
+        btnConfirm.addActionListener(e -> {
+            if (notification.getState() != notification.getStates()[0]) {
+                JOptionPane.showMessageDialog(null, "Kućna posjeta je već preuzeta.", "Greška", JOptionPane.ERROR_MESSAGE);
+            } else {
+                int selection = JOptionPane.showConfirmDialog(null, "Želim da preuzmem kućnu posjetu: ", "Preuzimanje kućne posjete", JOptionPane.YES_NO_OPTION);
+                if (selection == JOptionPane.YES_OPTION) {
+                    new NotificationServices().setNotificationState(notification);
+                    setVisible(false);
+                    dispose();
+                }
+            }
+        });
+
+        btnCancel.addActionListener(e -> {
             setVisible(false);
             dispose();
         });
+    }
+
+    private void initNotificationGUI() {
+        for (Map.Entry<String, Object> entry : notification.getParameters().entrySet()) {
+            if (entry.getValue() instanceof AnalysisRequest) {
+                initAnalysisRequestGUI(entry);
+            } else if (entry.getValue() instanceof Boolean) {
+                initAddressGUI(entry);
+            } else {
+                add(new JLabel(entry.getKey()));
+                add(new JLabel(entry.getValue().toString()));
+            }
+        }
+    }
+
+    private void initAddressGUI(Map.Entry<String, Object> entry) {
+        add(new JLabel(entry.getKey()));
+        add(new JLabel(entry.getValue().toString()));
+        add(new JLabel("Adresa:"));
+        add(new JLabel(notification.getAnalysisRequest().getPatient().getAddress()));
+    }
+
+    private void initAnalysisRequestGUI(Map.Entry<String, Object> entry) {
+        add(new JLabel(entry.getKey()));
+        JScrollPane scrollPane = new JScrollPane(new AnalysisRequestPanel((AnalysisRequest) entry.getValue()));
+        scrollPane.setBorder(new TitledBorder("Analize"));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        add(scrollPane, "pushx, growx");
     }
 }

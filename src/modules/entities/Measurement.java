@@ -10,8 +10,6 @@ public class Measurement extends Data {
 
     private LocalDate date;
     private double value;
-    private Analysis analysis;
-
 
     public Measurement(int id) {
         super(id);
@@ -31,21 +29,13 @@ public class Measurement extends Data {
         return value;
     }
 
-    public Analysis getAnalysis() {
-        return analysis;
-    }
-
-    public void setAnalysis(Analysis analysis) {
-        this.analysis = analysis;
-    }
-
     @Override
     public String toString() {
-        return "analiza=" + analysis + ", vrijednost=" + value + analysis.getUnit() + ", datum=" + date;
+        return  "vrijednost=" + value + ", datum=" + date;
     }
 
     @Override
     public String toFileString() {
-        return getId() + "," + date + "," + value + "," + analysis.getId();
+        return getId() + "," + date + "," + value;
     }
 }

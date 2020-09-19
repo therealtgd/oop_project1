@@ -1,20 +1,19 @@
 package modules.entities;
 
 import modules.Data;
-import modules.users.Patient;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class MyNotification extends Data {
     private enum States {
         INITIAL_STATE,
         OPENED,
         DELETED
-
     }
 
     private String title;
-    private String message;
     private LocalDateTime dateTime;
     private States state;
 
@@ -25,9 +24,9 @@ public abstract class MyNotification extends Data {
         this.state = States.INITIAL_STATE;
     }
 
-    public MyNotification(int id, String message, LocalDateTime dateTime, String state) {
+    public MyNotification(int id, String title, LocalDateTime dateTime, String state) {
         super(id);
-        this.message = message;
+        this.title = title;
         this.dateTime = dateTime;
         this.state = States.valueOf(state);
     }
@@ -36,8 +35,8 @@ public abstract class MyNotification extends Data {
         return States.values();
     }
 
-    public String getMessage() {
-        return message;
+    public String getTitle() {
+        return title;
     }
 
     public LocalDateTime getDateTime() {
@@ -52,13 +51,21 @@ public abstract class MyNotification extends Data {
         this.state = States.valueOf(state);
     }
 
+    public Map<String, Object> getParameters() {
+        Map<String, Object> retVal = new HashMap<>();
+        retVal.put("Naslov:", title);
+        retVal.put("Datum i vreme:", dateTime);
+        retVal.put("Stanje:", state);
+        return retVal;
+    }
+
     @Override
     public String toString() {
-        return "Notifikacija [poruka=" + message + ", datum i vreme=" + dateTime + ", stanje=" + state + "]";
+        return "naslov=" + title + ", datum i vreme=" + dateTime + ", stanje=" + state;
     }
 
     @Override
     public String toFileString() {
-        return super.toFileString() + "," + message + "," + dateTime.toString() + "," + state.toString();
+        return super.toFileString() + "," + title + "," + dateTime.toString() + "," + state.toString();
     }
 }

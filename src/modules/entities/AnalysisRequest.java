@@ -18,14 +18,12 @@ public class AnalysisRequest extends Data {
     private Patient patient;
     private States state;
     private List<Analysis> analyses;
-    private List<Measurement> measurements;
     private boolean homeVisit;
 
     public AnalysisRequest(Patient patient, List<Analysis> analyses, boolean homeVisit) {
         this.patient = patient;
         this.analyses = analyses;
         this.homeVisit = homeVisit;
-        this.measurements = new ArrayList<>();
         this.state = States.INITIAL_STATE;
     }
 
@@ -34,7 +32,6 @@ public class AnalysisRequest extends Data {
         this.patient = patient;
         this.state = States.valueOf(state);
         this.analyses = new ArrayList<>();
-        this.measurements = new ArrayList<>();
     }
 
     public Patient getPatient() {
@@ -49,12 +46,9 @@ public class AnalysisRequest extends Data {
         return analyses;
     }
 
-    public List<Measurement> getMeasurements() {
-        return measurements;
-    }
 
-    public void setState(States state) {
-        this.state = state;
+    public void setState(String state) {
+        this.state = States.valueOf(state);
     }
 
     public boolean isHomeVisit() {
@@ -65,14 +59,11 @@ public class AnalysisRequest extends Data {
         analyses.add(a);
     }
 
-    public void addMeasurement(Measurement m) {
-        measurements.add(m);
-    }
 
 
     @Override
     public String toString() {
-        return "ObradaAnalize [" + super.toString() + ", pacjent=" + patient + ", stanje=" + state + ", analize=" + analyses + "]";
+        return "ZahtjevZaAnalizu [" + super.toString() + ", pacjent=" + patient + ", stanje=" + state + ", analize=" + analyses + "]";
 
     }
 
@@ -83,11 +74,7 @@ public class AnalysisRequest extends Data {
         for (Analysis a: analyses) {
             anaId += a.getId() + ";";
         }
-        String mesId = "";
-        for (Measurement m: measurements) {
-            mesId += m.getId() + ";";
-        }
 
-        return getId() + "," +  pId + "," + state + "," + anaId + "," + mesId;
+        return getId() + "," +  pId + "," + state + "," + anaId;
     }
 }

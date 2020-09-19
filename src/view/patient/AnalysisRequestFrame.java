@@ -78,11 +78,12 @@ public class AnalysisRequestFrame extends JFrame {
         add(pricePanel(), BorderLayout.SOUTH);
 
         setHomeVisitActions();
+
         btnConfirm.addActionListener(e -> {
             AnalysisRequestDTO aDTO = new AnalysisRequestDTO(patient, analyses, homeVisit, Double.parseDouble(price.getText()));
             Map<String, String> errCodes = Validator.validateAnalysisRequest(aDTO);
             if (errCodes.isEmpty()) {
-                new AnalysisRequestServices().requestAnalysis(aDTO);
+                new AnalysisRequestServices(new DatabaseHandler()).requestAnalysis(aDTO);
                 setVisible(false);
                 dispose();
             } else {

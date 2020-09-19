@@ -13,23 +13,23 @@ public class EntityFileDatabaseFactory extends FileDatabaseFactory implements En
     private Database<AnalysisGroup> analysisGroupDatabase;
     private Database<Measurement> measurementDatabase;
     private Database<AnalysisRequest> analysisRequestDatabase;
-    private Database<MyNotification> notificationDatabase;
+    private Database<AnalysisRequestNotification> analysisRequestNotificationDatabase;
 
     public EntityFileDatabaseFactory(AppSettings appSettings) {
         super(appSettings);
-        this.analysisDatabase = new AnalysisFileDatabase(getAppSettings().getAnalysisFilename());
+        this.measurementDatabase = new MeasurementFileDatabase(getAppSettings().getMeasurementFilename());
+        this.analysisDatabase = new AnalysisFileDatabase(getAppSettings().getAnalysisFilename(), measurementDatabase);
         this.analysisGroupDatabase = new AnalysisGroupFileDatabase(getAppSettings().getAnalysisGroupFilename(), analysisDatabase);
-        this.measurementDatabase = new MeasurementFileDatabase(getAppSettings().getMeasurementFilename(), analysisDatabase);
         this.analysisRequestDatabase = new AnalysisRequestFileDatabase(getAppSettings().getAnalysisRequestFilename(),
-                analysisDatabase, measurementDatabase, new PatientFileDatabase(getAppSettings().getPatientFilename()));
-        this.notificationDatabase = new NotificationFileDatabase(getAppSettings().getNotificationFilename());
+                analysisDatabase, new PatientFileDatabase(getAppSettings().getPatientFilename()));
+        this.analysisRequestNotificationDatabase = new AnalysisRequestNotificationFileDatabase(getAppSettings().getNotificationFilename(), analysisRequestDatabase);
     }
 
     public void loadData() {
         this.analysisDatabase.loadData();
         this.analysisRequestDatabase.loadData();
         this.measurementDatabase.loadData();
-        this.notificationDatabase.loadData();
+        this.analysisRequestNotificationDatabase.loadData();
     }
 
     public Database<Analysis> getAnalysisDatabase() {
@@ -52,7 +52,7 @@ public class EntityFileDatabaseFactory extends FileDatabaseFactory implements En
     }
 
     @Override
-    public Database<MyNotification> getNotificationDatabase() {
-        return notificationDatabase;
+    public Database<AnalysisRequestNotification> getAnalysisRequestNotificationDatabase() {
+        return analysisRequestNotificationDatabase;
     }
 }

@@ -70,15 +70,15 @@ public class AnalysisGroupPanel extends JPanel {
 
     public static void main(String[] args) {
         JFrame f = new JFrame();
-        Analysis analysis = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
-        Analysis analysis2 = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
-        Analysis analysis3 = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
-        Analysis analysis4 = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
-        List<Analysis> analyses = new ArrayList<>();
-        analyses.add(analysis);
-        analyses.add(analysis2);
-        analyses.add(analysis3);
-        analyses.add(analysis4);
+//        Analysis analysis = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
+//        Analysis analysis2 = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
+//        Analysis analysis3 = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
+//        Analysis analysis4 = new Analysis(0, "Alergologija", "PHADIATOP INFANT - ALERGIJA", new Range(10, 20), "mol/l", 1500);
+//        List<Analysis> analyses = new ArrayList<>();
+//        analyses.add(analysis);
+//        analyses.add(analysis2);
+//        analyses.add(analysis3);
+//        analyses.add(analysis4);
 
 //        f.add(new AnalysisGroupPanel("Alergologija", analyses));
         f.setLocationRelativeTo(null);

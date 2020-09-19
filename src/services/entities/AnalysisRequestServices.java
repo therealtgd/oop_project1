@@ -3,15 +3,13 @@ package services.entities;
 import manage.DatabaseHandler;
 import modules.DTO.AnalysisRequestDTO;
 import modules.entities.AnalysisRequest;
-import modules.entities.MyNotification;
-import modules.users.MedicalTechnician;
 import services.Services;
 import services.utils.Builder;
 
 public class AnalysisRequestServices extends Services {
 
-    public AnalysisRequestServices() {
-        super(new DatabaseHandler());
+    public AnalysisRequestServices(DatabaseHandler dH) {
+        super(dH);
     }
 
     public String printAnalysisRequest(AnalysisRequest aR) {
@@ -19,8 +17,8 @@ public class AnalysisRequestServices extends Services {
     }
 
     public void requestAnalysis(AnalysisRequestDTO aRDTO) {
-        AnalysisRequest aR = Builder.buildAnalysis(aRDTO);
-        aR.setId(getDatabaseHandler().getEntityDatabase().getNotificationDatabase().getMaxId() + 1);
+        AnalysisRequest aR = Builder.buildAnalysiRequest(aRDTO);
+        aR.setId(getDatabaseHandler().getEntityDatabase().getAnalysisRequestNotificationDatabase().getMaxId() + 1);
         getDatabaseHandler().getEntityDatabase().getAnalysisRequestDatabase().addData(aR);
         new NotificationServices().sendAnalysisRequestNotification(aR);
     }

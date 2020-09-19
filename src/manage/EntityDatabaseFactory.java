@@ -5,7 +5,7 @@ public interface EntityDatabaseFactory {
     Database getAnalysisGroupDatabase();
     Database getAnalysisRequestDatabase();
     Database getMeasurementDatabase();
-    Database getNotificationDatabase();
+    Database getAnalysisRequestNotificationDatabase();
 
     void loadData();
 }

@@ -1,9 +1,11 @@
 package view.medicalTechnician;
 
 import manage.Database;
-import modules.entities.MyNotification;
+import modules.entities.AnalysisRequestNotification;
+import modules.entities.AnalysisRequestNotification;
 import net.miginfocom.swing.MigLayout;
-import view.model.NotificationModel;
+import services.entities.NotificationServices;
+import view.model.AnalysisRequestNotificationModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -22,19 +24,19 @@ public class NotificationTablePanel extends JPanel {
 
     protected String title;
     protected JToolBar mainToolbar = new JToolBar();
-    protected JButton btnAdd = new JButton();
-    protected JButton btnEdit = new JButton();
+    protected JButton btnHomeVisit = new JButton();
+    protected JButton btnView = new JButton();
     protected JButton btnDelete = new JButton();
     protected JTextField tfSearch = new JTextField(20);
     protected TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<>();
     protected JTable table;
-    private Database notificationDatabase;
+    private Database<AnalysisRequestNotification> notificationDatabase;
 
-    public NotificationTablePanel(Database notificationDatabase) {
+    public NotificationTablePanel(Database<AnalysisRequestNotification> notificationDatabase) {
         super();
         this.notificationDatabase = notificationDatabase;
         this.title = "Pregled notifikacija";
-        this.table = new JTable(new NotificationModel(notificationDatabase));
+        this.table = new JTable(new AnalysisRequestNotificationModel(notificationDatabase));
         initGUI();
     }
 
@@ -46,12 +48,12 @@ public class NotificationTablePanel extends JPanel {
         setBorder(border);
 
         ImageIcon addIcon = new ImageIcon("img/homeVisit.png");
-        btnAdd.setIcon(addIcon);
-        mainToolbar.add(btnAdd);
+        btnHomeVisit.setIcon(addIcon);
+        mainToolbar.add(btnHomeVisit);
 
-        ImageIcon editIcon = new ImageIcon("img/viewNotification.png");
-        btnEdit.setIcon(editIcon);
-        mainToolbar.add(btnEdit);
+        ImageIcon viewIcon = new ImageIcon("img/viewNotification.png");
+        btnView.setIcon(viewIcon);
+        mainToolbar.add(btnView);
 
         ImageIcon deleteIcon = new ImageIcon("img/delete.png");
         btnDelete.setIcon(deleteIcon);
@@ -111,7 +113,7 @@ public class NotificationTablePanel extends JPanel {
     }
 
     public void refresh() {
-        NotificationModel nM = (NotificationModel) this.table.getModel();
+        AnalysisRequestNotificationModel nM = (AnalysisRequestNotificationModel) this.table.getModel();
         nM.fireTableDataChanged();
     }
 
@@ -129,16 +131,16 @@ public class NotificationTablePanel extends JPanel {
     protected void sort(int index) {
         // index of table column
 
-        this.notificationDatabase.getData().sort(new Comparator<MyNotification>() {
+        this.notificationDatabase.getData().sort(new Comparator<AnalysisRequestNotification>() {
             int retVal = 0;
 
-            public int compare(MyNotification n1, MyNotification n2) {
+            public int compare(AnalysisRequestNotification n1, AnalysisRequestNotification n2) {
                 switch (index) {
                     case 0:
                         retVal = Integer.compare(n1.getId(), n2.getId());
                         break;
                     case 1:
-                        retVal = n1.getMessage().compareTo(n2.getMessage());
+                        retVal = n1.getTitle().compareTo(n2.getTitle());
                     case 2:
                         retVal = n1.getDateTime().compareTo(n2.getDateTime());
                         break;
@@ -161,21 +163,20 @@ public class NotificationTablePanel extends JPanel {
     }
 
     protected void initActions() {
-        btnAdd.addActionListener(e -> {
+        btnHomeVisit.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row == -1) {
                 JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
 
             } else {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
-                MyNotification n = (MyNotification) notificationDatabase.getById(id);
+                AnalysisRequestNotification n = notificationDatabase.getById(id);
                 if (n.getState() != n.getStates()[0]) {
                     JOptionPane.showMessageDialog(null, "Kućna posjeta je već preuzeta.", "Greška", JOptionPane.ERROR_MESSAGE);
                 } else {
                     int selection = JOptionPane.showConfirmDialog(null, "Želim da preuzmem kućnu posjetu: ", "Preuzimanje kućne posjete", JOptionPane.YES_NO_OPTION);
                     if (selection == JOptionPane.YES_OPTION) {
-                        n.setState("OPENED");
-                        notificationDatabase.saveData();
+                        new NotificationServices().setNotificationState(n);
                         refresh();
                     }
                 }
@@ -187,7 +188,7 @@ public class NotificationTablePanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
             } else {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
-                MyNotification n = (MyNotification) notificationDatabase.getById(id);
+                AnalysisRequestNotification n = notificationDatabase.getById(id);
                 if (n != null) {
                     if (n.getState() == n.getStates()[0]) {
                     JOptionPane.showMessageDialog(null, "Aktivna notifikacija ne može biti obrisana", "Greška", JOptionPane.ERROR_MESSAGE);
@@ -206,13 +207,13 @@ public class NotificationTablePanel extends JPanel {
                 }
             }
         });
-        btnEdit.addActionListener(e -> {
+        btnView.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row == -1) {
                 JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
             } else {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
-                MyNotification n = (MyNotification) notificationDatabase.getById(id);
+                AnalysisRequestNotification n = notificationDatabase.getById(id);
                 if (n != null) {
                     new CheckNotificationDialog(notificationDatabase, n);
                     refresh();
