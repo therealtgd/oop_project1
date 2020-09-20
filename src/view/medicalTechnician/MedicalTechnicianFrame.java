@@ -45,19 +45,19 @@ public class MedicalTechnicianFrame extends JFrame {
 
         JMenu notificationMenu = new JMenu("Notifikacije");
         JMenuItem showNotificationItem = new JMenuItem("Prikaži notifikacije");
-        JMenuItem deleteNotificationItem = new JMenuItem("Izbriši notifikacije");
+//        JMenuItem deleteNotificationItem = new JMenuItem("Izbriši notifikacije");
 
         notificationMenu.add(showNotificationItem);
-        notificationMenu.add(deleteNotificationItem);
+//        notificationMenu.add(deleteNotificationItem);
 
-        JMenu analysisMenu = new JMenu("Analize");
-        JMenuItem requestItem = new JMenuItem("Zahtjevi");
-
-        analysisMenu.add(requestItem);
+//        JMenu analysisMenu = new JMenu("Analize");
+//        JMenuItem requestItem = new JMenuItem("Zahtjevi");
+//
+//        analysisMenu.add(requestItem);
 
         mainMenu.add(profileMenu);
         mainMenu.add(notificationMenu);
-        mainMenu.add(analysisMenu);
+//        mainMenu.add(analysisMenu);
 
         this.setJMenuBar(mainMenu);
 

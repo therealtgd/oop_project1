@@ -10,6 +10,8 @@ import view.admin.laborant.LaborantRegistrationDialog;
 import view.admin.medicalTechnician.MedTechRegistrationDialog;
 import view.admin.patient.PatientRegistrationDialog;
 import view.admin.patient.PatientView;
+import view.admin.table.ViewAnalysis;
+import view.laborant.AnalysisTablePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,6 +90,10 @@ public class AdminFrame extends JFrame {
 //        employeeMenu.add(removeUserMenu);
 
         JMenu reportMenu = new JMenu("Analize");
+        JMenuItem viewAnalysisItem = new JMenuItem("Prikaži analize");
+        JMenuItem addAnalysisItem = new JMenuItem("Dodaj analizu");
+        reportMenu.add(viewAnalysisItem);
+        reportMenu.add(addAnalysisItem);
 
         mainMenu.add(profileMenu);
         mainMenu.add(patientMenu);
@@ -131,6 +137,9 @@ public class AdminFrame extends JFrame {
                 patientView.refresh();
             }
         });
+
+        viewAnalysisItem.addActionListener(e -> new ViewAnalysis(dH));
+        addAnalysisItem.addActionListener(e -> new AddAnalysisView(dH));
 
     }
 

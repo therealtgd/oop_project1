@@ -22,6 +22,7 @@ public class AdminRegistrationDialog extends JDialog {
 
     public AdminRegistrationDialog(DatabaseHandler dH) {
         super();
+        this.dH = dH;
         patientDialog();
     }
 
