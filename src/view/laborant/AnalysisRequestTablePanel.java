@@ -50,8 +50,8 @@ public class AnalysisRequestTablePanel extends JPanel {
         Border border = BorderFactory.createTitledBorder(title);
         setBorder(border);
 
-        ImageIcon generateIcon = new ImageIcon("img/create.png");
-        btnCreate.setIcon(generateIcon);
+        ImageIcon createIcon = new ImageIcon("img/create.png");
+        btnCreate.setIcon(createIcon);
         mainToolbar.add(btnCreate);
 
         mainToolbar.setFloatable(false);

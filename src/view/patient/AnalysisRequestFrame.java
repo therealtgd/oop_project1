@@ -5,6 +5,8 @@ import manage.DatabaseHandler;
 import modules.DTO.AnalysisRequestDTO;
 import modules.entities.Analysis;
 import modules.entities.AnalysisGroup;
+import modules.entities.AnalysisRequest;
+import modules.entities.Measurement;
 import modules.users.Patient;
 import modules.utils.MyPassword;
 import net.miginfocom.swing.MigLayout;
@@ -18,6 +20,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,14 +34,17 @@ public class AnalysisRequestFrame extends JFrame {
     private List<Analysis> analyses;
     private boolean homeVisit;
     private DatabaseHandler dH;
+    private List<AnalysisGroupPanel> aGPList;
 
 
     public AnalysisRequestFrame(Patient patient, DatabaseHandler dH) {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon2.png"));
         this.patient = patient;
         this.dH = dH;
         this.analysisGroupDatabase = dH.getEntityDatabase().getAnalysisGroupDatabase();
         this.analyses = new ArrayList<>();
         this.homeVisit = false;
+        this.aGPList = new ArrayList<>();
         analysisRequest();
     }
 
@@ -76,10 +82,11 @@ public class AnalysisRequestFrame extends JFrame {
         add(scrollPane, "pushx, growx");
         add(homeVisitPanel, "pushx, growx");
         add(btnConfirm, "split 2");
-        add(btnCancel,"wrap");
+        add(btnCancel, "wrap");
         add(pricePanel(), BorderLayout.SOUTH);
 
         setHomeVisitActions();
+        recommend();
 
         btnConfirm.addActionListener(e -> {
             AnalysisRequestDTO aDTO = new AnalysisRequestDTO(patient, analyses, homeVisit, Double.parseDouble(price.getText()));
@@ -109,6 +116,7 @@ public class AnalysisRequestFrame extends JFrame {
     private void addAnalysisGroupPanels() {
         for (AnalysisGroup a : analysisGroupDatabase.getData()) {
             AnalysisGroupPanel aGP = new AnalysisGroupPanel(a.getType(), a);
+            aGPList.add(aGP);
             setAnalysisBtnActions(aGP);
             analysesPanel.add(aGP, "pushx, growx");
         }
@@ -153,6 +161,63 @@ public class AnalysisRequestFrame extends JFrame {
         return p;
     }
 
+    private List<Analysis> priorAnalysisReport() {
+        List<AnalysisRequest> aRList = new ArrayList<>();
+        for (AnalysisRequest aR : dH.getEntityDatabase().getAnalysisRequestDatabase().getData()) {
+            if (aR.getPatient().getId() == patient.getId()) {
+                aRList.add(aR);
+            }
+        }
+
+        List<Analysis> retVal = new ArrayList<>();
+        if (!aRList.isEmpty()) {
+            Collections.reverse(aRList);
+            try {
+                for (int i = 0; i < 3; i++) {
+                    for (Map.Entry<Analysis, Measurement> entry : aRList.get(i).getAnalysisMeasurementMap().entrySet()) {
+                        if ((entry.getValue().getValue() != 0) && !(entry.getKey().getReferenceValue().contains(entry.getValue().getValue()))) {
+                            retVal.add(entry.getKey());
+                        }
+                    }
+                }
+            } catch (IndexOutOfBoundsException e) {
+                return retVal;
+            }
+        }
+        return retVal;
+    }
+
+    private void recommend() {
+        List<Analysis> aList = priorAnalysisReport();
+        StringBuilder message = getStringBuilder(aList);
+        if (message != null) {
+            int selection = JOptionPane.showConfirmDialog(null, message, "Primetili smo", JOptionPane.YES_NO_OPTION);
+            if (selection == JOptionPane.YES_OPTION) {
+                for (AnalysisGroupPanel aGP : aGPList) {
+                    for (Map.Entry<Analysis, JCheckBox> entry : aGP.getBtnMap().entrySet()) {
+                        for (Analysis a : aList) {
+                            if (a.getType().equals(entry.getKey().getType())) {
+                                entry.getValue().setSelected(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private StringBuilder getStringBuilder(List<Analysis> aList) {
+        StringBuilder m = null;
+        if (!aList.isEmpty()) {
+            m = new StringBuilder("Prosli put ste imali povisene sledece vrednosti:");
+            for (Analysis a : aList) {
+                m.append(", ").append(a.getType());
+            }
+            m.append(".\nDa li želite da dodate navedene analize u zahtev?");
+        }
+        return m;
+    }
+
     public static void main(String[] args) {
         JFrame f = new JFrame();
         MyPassword mP = PasswordUtils.generateRandomPass("Password");
@@ -163,4 +228,5 @@ public class AnalysisRequestFrame extends JFrame {
         f.pack();
         f.setVisible(true);
     }
+
 }

@@ -24,6 +24,7 @@ public class MainFrame extends JDialog {
     }
 
     private void mainFrame() {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon2.png"));
         this.setTitle("Labaratoriji");
         this.setSize(500, 300);
         this.setResizable(false);

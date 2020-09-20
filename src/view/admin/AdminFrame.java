@@ -25,6 +25,7 @@ public class AdminFrame extends JFrame {
 
 
     public AdminFrame(Admin a, DatabaseHandler dH) {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon2.png"));
         this.admin = a;
         this.dH = dH;
         this.userDatabase = dH.getUserDatabase().getUsers();

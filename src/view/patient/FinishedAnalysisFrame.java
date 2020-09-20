@@ -1,10 +1,8 @@
 package view.patient;
 
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import modules.entities.Analysis;
 import modules.entities.Measurement;
 import net.miginfocom.swing.MigLayout;
-import view.laborant.AnalysisTablePanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,6 +19,7 @@ public class FinishedAnalysisFrame extends JFrame {
     Map<String, ArrayList<Analysis>> analysisGroup;
 
     public FinishedAnalysisFrame(Map<Analysis, Measurement> map) {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon2.png"));
         this.map = map;
         this.analysisGroup = formAnalysisGroup();
         this.setTitle("Labaratoriji");

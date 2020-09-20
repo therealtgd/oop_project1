@@ -34,6 +34,7 @@ public class PatientFrame extends JFrame {
     }
 
     private void patientFrame() {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon2.png"));
         this.setTitle("Meni pacjenta");
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);

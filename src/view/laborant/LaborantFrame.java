@@ -8,6 +8,7 @@ import services.utils.PasswordUtils;
 import view.ProfileMenu;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class LaborantFrame extends JFrame {
     }
 
     private void laborantFrame() {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon2.png"));
         this.setTitle("Meni laboranta");
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);

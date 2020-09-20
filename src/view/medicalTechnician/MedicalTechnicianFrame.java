@@ -29,6 +29,7 @@ public class MedicalTechnicianFrame extends JFrame {
     }
 
     private void medicalTechnicianFrame() {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon2.png"));
         this.setTitle("Meni med. tehničara");
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);

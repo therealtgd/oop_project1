@@ -3,12 +3,10 @@ package view.patient;
 import manage.DatabaseHandler;
 import modules.entities.Analysis;
 import modules.entities.AnalysisRequest;
-import modules.entities.Measurement;
 import modules.users.Patient;
 import net.miginfocom.swing.MigLayout;
 import view.laborant.AnalysisTablePanel;
 import view.laborant.AvailableAnalysisFrame;
-import view.laborant.AvailableAnalysisTablePanel;
 import view.model.PatientAnalysisRequestModel;
 
 import javax.swing.*;

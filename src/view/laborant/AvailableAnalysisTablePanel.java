@@ -23,6 +23,9 @@ public class AvailableAnalysisTablePanel extends AnalysisTablePanel {
     @Override
     protected void initGUI() {
         super.initGUI();
+
+        Icon icon = new ImageIcon("img/generate.png");
+        btnGenerate.setIcon(icon);
         mainToolbar.add(btnGenerate);
 
         mainToolbar.setFloatable(false);
