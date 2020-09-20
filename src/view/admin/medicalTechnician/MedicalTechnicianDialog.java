@@ -28,6 +28,7 @@ public abstract class MedicalTechnicianDialog extends JDialog {
         this.setTitle(title);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         initGUI();
         this.pack();
         this.setVisible(true);
@@ -37,11 +38,11 @@ public abstract class MedicalTechnicianDialog extends JDialog {
         MigLayout layout = new MigLayout("", "[][]");
         setLayout(layout);
 
-        usernameTxt = new JTextField();
-        nameTxt = new JTextField();
-        surnameTxt = new JTextField();
-        salaryTxt = new JTextField();
-        xpTxt = new JTextField();
+        usernameTxt = new JTextField(20);
+        nameTxt = new JTextField(20);
+        surnameTxt = new JTextField(20);
+        salaryTxt = new JTextField(20);
+        xpTxt = new JTextField(20);
         quaComboBox = new QualificationsComboBox();
         confirmBtn = new JButton("Potvrdi");
         JButton cancelBtn = new JButton("Izađi");

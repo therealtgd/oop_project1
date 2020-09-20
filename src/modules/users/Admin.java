@@ -12,6 +12,10 @@ public class Admin extends User {
         super(id, username, name, surname, password);
     }
 
+    public Admin(String username, String name, String surname, MyPassword pass) {
+        super(username, name, surname, pass);
+    }
+
     @Override
     public String toString() {
         return "Admin [" + super.toString() + "]";

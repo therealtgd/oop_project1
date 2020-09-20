@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-public class MainFrame extends JDialog {
+public class MainFrame extends JFrame {
 
     DatabaseHandler dH;
 

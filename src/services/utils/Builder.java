@@ -5,10 +5,7 @@ import modules.DTO.*;
 import modules.entities.Analysis;
 import modules.entities.AnalysisRequest;
 import modules.entities.Measurement;
-import modules.users.Employee;
-import modules.users.Laborant;
-import modules.users.MedicalTechnician;
-import modules.users.Patient;
+import modules.users.*;
 import modules.utils.MyPassword;
 
 import java.util.HashMap;
@@ -50,6 +47,11 @@ public class Builder {
                 return 0;
             }
         };
+    }
+
+    public static Admin buildAdmin(AdminDTO aDTO) {
+        MyPassword pass = PasswordUtils.generateRandomPass(aDTO.getPassword());
+        return new Admin(aDTO.getUsername(), aDTO.getName(), aDTO.getSurname(), pass);
     }
 
     public AnalysisRequest buildAnalysiRequest(AnalysisRequestDTO aRDTO) {

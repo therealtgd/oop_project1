@@ -72,9 +72,11 @@ public class AdminFrame extends JFrame {
         JMenu addEmployeeMenu = new JMenu("Registruj zaposlenog");
         JMenuItem addLaborantItem = new JMenuItem("Laborant");
         JMenuItem addMedicalTechnicianItem = new JMenuItem("Med. tehničar");
+        JMenuItem addAdminItem = new JMenuItem("Administrator");
 
         addEmployeeMenu.add(addLaborantItem);
         addEmployeeMenu.add(addMedicalTechnicianItem);
+        addEmployeeMenu.add(addAdminItem);
         employeeMenu.add(addEmployeeMenu);
 
 //        JMenu removeUserMenu = new JMenu("Ukloni zaposlenog");
@@ -112,6 +114,7 @@ public class AdminFrame extends JFrame {
 
         addLaborantItem.addActionListener(e -> new LaborantRegistrationDialog(dH));
         addMedicalTechnicianItem.addActionListener(e -> new MedTechRegistrationDialog(dH));
+        addAdminItem.addActionListener(e -> new AdminRegistrationDialog(dH));
 
         addPatientItem.addActionListener(e -> new PatientRegistrationDialog(dH));
         viewPatientsItem.addActionListener(e -> {
@@ -128,6 +131,7 @@ public class AdminFrame extends JFrame {
                 patientView.refresh();
             }
         });
+
     }
 
 

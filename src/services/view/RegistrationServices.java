@@ -3,10 +3,7 @@ package services.view;
 import manage.DatabaseHandler;
 import manage.users.UserDatabase;
 import modules.DTO.*;
-import modules.users.Laborant;
-import modules.users.MedicalTechnician;
-import modules.users.Patient;
-import modules.users.User;
+import modules.users.*;
 import services.Services;
 import services.utils.Builder;
 import services.view.exceptions.RegistrationException;
@@ -21,6 +18,12 @@ public class RegistrationServices extends Services {
     public RegistrationServices(DatabaseHandler dH) {
         super(dH);
         this.userDatabase = getdH().getUserDatabase().getUsers();
+    }
+
+    public void registerAdmin(AdminDTO aDTO) throws RegistrationException {
+        checkUsername(aDTO);
+        Admin a = Builder.buildAdmin(aDTO);
+        getdH().getUserDatabase().getAdminDatabase().addData(a);
     }
 
     public void registerPatient(PatientDTO pDTO) throws RegistrationException {
@@ -86,5 +89,9 @@ public class RegistrationServices extends Services {
 
     public PatientDTO getPatientDTO(String username, String name, String surname, String LBO, String address, String phone, String gender) {
         return new PatientDTO(username, name, surname, LBO, address, phone, gender);
+    }
+
+    public AdminDTO getAdminDTO(String username, String name, String surname) {
+        return new AdminDTO(username, name, surname);
     }
 }

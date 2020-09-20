@@ -117,4 +117,17 @@ public class Validator {
             errCodes.put("analyses", ERR_FIELD_REQUIRED);
         return errCodes;
     }
+
+    public static Map<String, String> validateAdminRegistration(AdminDTO aDTO) {
+        Map<String, String> errCodes = new HashMap<>();
+        if (aDTO.getUsername().equals(""))
+            errCodes.put("username", ERR_FIELD_REQUIRED);
+        else if (!aDTO.getUsername().matches("^(?=.{5,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$"))
+            errCodes.put("username", ERR_USERNAME_INVALID);
+        if (aDTO.getName().equals(""))
+            errCodes.put("name", ERR_FIELD_REQUIRED);
+        if (aDTO.getSurname().equals(""))
+            errCodes.put("surname", ERR_FIELD_REQUIRED);
+        return errCodes;
+    }
 }
