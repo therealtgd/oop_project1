@@ -58,11 +58,11 @@ public class AdminFrame extends JFrame {
         JMenu patientMenu = new JMenu("Pacjenti");
         JMenuItem viewPatientsItem = new JMenuItem("Pregled pacjenata");
         JMenuItem addPatientItem = new JMenuItem("Registruj pacjenta");
-        JMenuItem removePatientItem = new JMenuItem("Ukloni pacjenta");
+//        JMenuItem removePatientItem = new JMenuItem("Ukloni pacjenta");
 
         patientMenu.add(viewPatientsItem);
         patientMenu.add(addPatientItem);
-        patientMenu.add(removePatientItem);
+//        patientMenu.add(removePatientItem);
 
         JMenu employeeMenu = new JMenu("Zaposleni");
         JMenuItem viewEmployeesItem = new JMenuItem("Pregled zaposlenih");
@@ -76,13 +76,13 @@ public class AdminFrame extends JFrame {
         addEmployeeMenu.add(addMedicalTechnicianItem);
         employeeMenu.add(addEmployeeMenu);
 
-        JMenu removeUserMenu = new JMenu("Ukloni zaposlenog");
-        JMenuItem removeLaborantItem = new JMenuItem("Laborant");
-        JMenuItem removeMedicalTehnicinItem = new JMenuItem("Med. tehničar");
-
-        removeUserMenu.add(removeLaborantItem);
-        removeUserMenu.add(removeMedicalTehnicinItem);
-        employeeMenu.add(removeUserMenu);
+//        JMenu removeUserMenu = new JMenu("Ukloni zaposlenog");
+//        JMenuItem removeLaborantItem = new JMenuItem("Laborant");
+//        JMenuItem removeMedicalTehnicinItem = new JMenuItem("Med. tehničar");
+//
+//        removeUserMenu.add(removeLaborantItem);
+//        removeUserMenu.add(removeMedicalTehnicinItem);
+//        employeeMenu.add(removeUserMenu);
 
         JMenu reportMenu = new JMenu("Analize");
 
@@ -95,10 +95,15 @@ public class AdminFrame extends JFrame {
 
         viewEmployeesItem.addActionListener(e -> {
             if (employeeView == null) {
+                if (patientView != null) {
+                    remove(patientView);
+                    patientView = null;
+                }
                 employeeView = new EmployeeView(dH);
                 add(employeeView, BorderLayout.CENTER);
                 pack();
             } else {
+                employeeView.setVisible(true);
                 employeeView.refresh();
             }
         });
@@ -110,10 +115,15 @@ public class AdminFrame extends JFrame {
         addPatientItem.addActionListener(e -> new PatientRegistrationDialog(dH));
         viewPatientsItem.addActionListener(e -> {
             if (patientView == null) {
+                if (employeeView != null) {
+                    remove(employeeView);
+                    employeeView = null;
+                }
                 patientView = new PatientView(dH);
                 add(patientView, BorderLayout.CENTER);
                 pack();
             } else {
+                patientView.setVisible(true);
                 patientView.refresh();
             }
         });

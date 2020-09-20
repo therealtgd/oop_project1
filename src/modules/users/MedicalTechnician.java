@@ -34,7 +34,7 @@ public class MedicalTechnician extends Employee {
 
     public MedicalTechnician(int id, String username, String name, String surname, MyPassword password, double salaryBase, int experience, int homeVisits) {
         super(id, username, name, surname, password, salaryBase, experience);
-        this.homeVisits = 0;
+        this.homeVisits = homeVisits;
         this.notifications = new ArrayList<>();
         setBonusBase(2000);
     }
@@ -52,6 +52,10 @@ public class MedicalTechnician extends Employee {
 
     public void setHomeVisits(int homeVisits) {
         this.homeVisits = homeVisits;
+    }
+
+    public void incrementHomeVisit() {
+        homeVisits += 1;
     }
 
     public List<MyNotification> getNotifications() {

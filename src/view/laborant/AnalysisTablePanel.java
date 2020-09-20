@@ -55,13 +55,6 @@ public class AnalysisTablePanel extends JPanel {
         Border border = BorderFactory.createTitledBorder(title);
         setBorder(border);
 
-        ImageIcon generateIcon = new ImageIcon("img/generate.png");
-        btnGenerate.setIcon(generateIcon);
-
-        mainToolbar.setFloatable(false);
-        add(mainToolbar, BorderLayout.NORTH);
-
-
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setReorderingAllowed(false);
         tableSorter.setModel((AbstractTableModel) table.getModel());

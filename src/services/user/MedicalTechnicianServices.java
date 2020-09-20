@@ -2,6 +2,7 @@ package services.user;
 
 import modules.DTO.PatientDTO;
 import manage.DatabaseHandler;
+import modules.users.MedicalTechnician;
 import modules.users.Patient;
 import services.Services;
 import services.utils.Builder;
@@ -22,6 +23,10 @@ public class MedicalTechnicianServices extends Services {
         return pDTO.getPassword();
     }
 
+    public void incrementHomeVisit(MedicalTechnician mT) {
+        getdH().getUserDatabase().getMedTechnicianDatabase().getById(mT.getId()).incrementHomeVisit();
+        getdH().getUserDatabase().getMedTechnicianDatabase().saveData();
+    }
 }
 
 

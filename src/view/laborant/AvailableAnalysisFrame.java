@@ -6,9 +6,9 @@ import java.awt.*;
 
 public class AvailableAnalysisFrame extends JFrame {
 
-    private AvailableAnalysisTablePanel aATablePanel;
+    private AnalysisTablePanel aATablePanel;
 
-    public AvailableAnalysisFrame(AvailableAnalysisTablePanel aATablePanel) throws HeadlessException {
+    public AvailableAnalysisFrame(AnalysisTablePanel aATablePanel) throws HeadlessException {
         this.aATablePanel = aATablePanel;
         this.setTitle("Labaratoriji");
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

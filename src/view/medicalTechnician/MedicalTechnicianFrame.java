@@ -62,7 +62,7 @@ public class MedicalTechnicianFrame extends JFrame {
 
         showNotificationItem.addActionListener(e -> {
             if (notificationView == null) {
-                notificationView = new NotificationView(dH);
+                notificationView = new NotificationView(dH, medicalTechnician);
                 add(notificationView, BorderLayout.CENTER);
                 pack();
             } else {

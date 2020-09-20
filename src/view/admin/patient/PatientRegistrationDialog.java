@@ -34,6 +34,7 @@ public class PatientRegistrationDialog extends PatientDialog{
                     rS.registerPatient(pDTO);
                     System.out.println("Registracija uspješna.");
                     System.out.println(key);
+                    dispose();
                 } catch (RegistrationException ex) {
                     System.out.println(ex.getMessage());
                     JOptionPane.showMessageDialog(PatientRegistrationDialog.this, ex.getMessage(), "Greška prilikom registracije", JOptionPane.ERROR_MESSAGE);

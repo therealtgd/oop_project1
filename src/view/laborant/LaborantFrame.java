@@ -51,7 +51,7 @@ public class LaborantFrame extends JFrame {
 
     public static void main(String[] args) {
         MyPassword mP2 = PasswordUtils.generateRandomPass("ZMxOAS5WD0");
-        List<String> specs = Arrays.asList("Alergologija", "Genetika", "Imunologija");
+        List<String> specs = Arrays.asList("Alergologija", "Genetika", "Imunologija", "Imunohemija", "Serologija", "Hematologija");
 
         Employee e = new Employee(0, "laborant_glavni", "Laboslav", "Labovski", mP2, 100.10, 12) {
             @Override

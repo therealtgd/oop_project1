@@ -2,14 +2,15 @@ package view.patient;
 
 import manage.DatabaseHandler;
 import manage.users.UserDatabase;
+import modules.entities.AnalysisRequest;
 import modules.users.Patient;
 import modules.utils.MyPassword;
-import net.miginfocom.swing.MigLayout;
 import services.utils.PasswordUtils;
 import view.ProfileMenu;
 import view.validators.Validator;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class PatientFrame extends JFrame {
     private Patient patient;
     private List<UserDatabase> userDatabase;
     private DatabaseHandler dH;
+    private JPanel noReq;
 
     public PatientFrame(Patient p, DatabaseHandler dH) {
         this.patient = p;
@@ -52,19 +54,20 @@ public class PatientFrame extends JFrame {
 
         JMenu analysisMenu = new JMenu("Analize");
         JMenuItem requestItem = new JMenuItem("Naruči analizu");
-        JMenuItem anamnesisItem = new JMenuItem("Anamneza");
-        JMenuItem activeAnalysisItem = new JMenuItem("Aktivna analiza");
+//        JMenuItem anamnesisItem = new JMenuItem("Anamneza");
+//        JMenuItem activeAnalysisItem = new JMenuItem("Aktivna analiza");
 
         analysisMenu.add(requestItem);
-        analysisMenu.add(anamnesisItem);
-        analysisMenu.add(activeAnalysisItem);
+//        analysisMenu.add(anamnesisItem);
+//        analysisMenu.add(activeAnalysisItem);
 
         mainMenu.add(profileMenu);
         mainMenu.add(analysisMenu);
 
         this.setJMenuBar(mainMenu);
 
-        add(new AllAnalysisRequestsPanel(dH, patient));
+        addAllAnalysisRequestPanel();
+
 
         phoneItem.addActionListener(e -> {
             String phone = JOptionPane.showInputDialog("Unesite novi br. telefona:");
@@ -84,8 +87,34 @@ public class PatientFrame extends JFrame {
                 processErrors(errCodes);
         });
 
-        requestItem.addActionListener(e -> new AnalysisRequestFrame(patient, dH));
+        requestItem.addActionListener(e -> {
+            new AnalysisRequestFrame(patient, dH);
+            addAllAnalysisRequestPanel();
+        });
 
+    }
+
+    private void addAllAnalysisRequestPanel() {
+        boolean empty = true;
+        for (AnalysisRequest aR : dH.getEntityDatabase().getAnalysisRequestDatabase().getData()) {
+            if (aR.getPatient().getId() == patient.getId()) {
+                empty = false;
+                break;
+            }
+        }
+        if (!empty) {
+            if (noReq != null) {
+                remove(noReq);
+                noReq = null;
+            }
+            add(new AllAnalysisRequestsPanel(dH, patient));
+        } else {
+            if (noReq == null) {
+                noReq = new JPanel();
+                noReq.add(new JLabel("Nemate ni jedanu naručenu analizu."), BorderLayout.CENTER);
+                add(noReq);
+            }
+        }
     }
 
     private void processErrors(Map<String, String> errCodes) {
@@ -100,7 +129,7 @@ public class PatientFrame extends JFrame {
 
     public static void main(String[] args) {
         MyPassword mP2 = PasswordUtils.generateRandomPass("pass");
-        Patient p = new Patient(6, "pcjent", "pacjentko", "Pacjentkic", mP2, "11114523");
+        Patient p = new Patient(2, "pcjent", "pacjentko", "Pacjentkic", mP2, "11114523");
         DatabaseHandler dH = new DatabaseHandler();
         PatientFrame aF = new PatientFrame(p, dH);
     }

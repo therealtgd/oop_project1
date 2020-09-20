@@ -1,11 +1,14 @@
 package view.patient;
 
 import manage.DatabaseHandler;
+import modules.entities.Analysis;
 import modules.entities.AnalysisRequest;
-import modules.users.Laborant;
+import modules.entities.Measurement;
 import modules.users.Patient;
 import net.miginfocom.swing.MigLayout;
-import view.model.AnalysisRequestModel;
+import view.laborant.AnalysisTablePanel;
+import view.laborant.AvailableAnalysisFrame;
+import view.laborant.AvailableAnalysisTablePanel;
 import view.model.PatientAnalysisRequestModel;
 
 import javax.swing.*;
@@ -25,6 +28,7 @@ public class AllAnalysisRequestsPanel extends JPanel {
     private DatabaseHandler dH;
     private Patient patient;
     protected JTextField tfSearch = new JTextField(20);
+    protected JButton btnView;
     protected TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<>();
     private List<AnalysisRequest> data;
     protected JTable table;
@@ -45,12 +49,15 @@ public class AllAnalysisRequestsPanel extends JPanel {
         Border border = BorderFactory.createTitledBorder("Pregled svih zahtjeva za analizu");
         setBorder(border);
 
-        JButton btnView = new JButton();
-        ImageIcon viewIcon = new ImageIcon("img/create.png");
+        btnView = new JButton();
+        ImageIcon viewIcon = new ImageIcon("img/viewNotification.png");
         btnView.setIcon(viewIcon);
 
         JToolBar mainToolbar = new JToolBar();
         mainToolbar.add(btnView);
+
+        mainToolbar.setFloatable(false);
+        add(mainToolbar, BorderLayout.NORTH);
 
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setReorderingAllowed(false);
@@ -69,11 +76,6 @@ public class AllAnalysisRequestsPanel extends JPanel {
 
         add(searchPanel(), BorderLayout.SOUTH);
         initActions();
-
-
-    }
-
-    private void initActions() {
     }
 
     protected JPanel searchPanel() {
@@ -157,6 +159,28 @@ public class AllAnalysisRequestsPanel extends JPanel {
         sortOrder.put(index, sortOrder.get(index) * -1);
         refresh();
 
+    }
+
+    protected void initActions() {
+        btnView.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+                int id = Integer.parseInt(table.getValueAt(row, 0).toString());
+                AnalysisRequest aR = dH.getEntityDatabase().getAnalysisRequestDatabase().getById(id);
+                if (aR.getState() != aR.getStates()[3]) {
+                    new AvailableAnalysisFrame(new AnalysisTablePanel(dH, "Aktivne analize", getAnalyses(aR)));
+                } else {
+                    new FinishedAnalysisFrame(aR.getAnalysisMeasurementMap());
+                }
+            }
+        });
+    }
+
+    private List<Analysis> getAnalyses(AnalysisRequest aR) {
+        return new ArrayList<>(aR.getAnalysisMeasurementMap().keySet());
     }
 
 }

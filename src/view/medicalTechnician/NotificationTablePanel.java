@@ -3,8 +3,10 @@ package view.medicalTechnician;
 import manage.Database;
 import manage.DatabaseHandler;
 import modules.entities.AnalysisRequestNotification;
+import modules.users.MedicalTechnician;
 import net.miginfocom.swing.MigLayout;
 import services.entities.NotificationServices;
+import services.user.MedicalTechnicianServices;
 import view.model.AnalysisRequestNotificationModel;
 
 import javax.swing.*;
@@ -33,11 +35,12 @@ public class NotificationTablePanel extends JPanel {
     protected JTable table;
     private DatabaseHandler dH;
     private Database<AnalysisRequestNotification> notificationDatabase;
+    private MedicalTechnician mT;
 
-
-    public NotificationTablePanel(DatabaseHandler dH) {
+    public NotificationTablePanel(DatabaseHandler dH, MedicalTechnician mT) {
         super();
         this.dH = dH;
+        this.mT = mT;
         this.notificationDatabase = dH.getEntityDatabase().getAnalysisRequestNotificationDatabase();
         this.title = "Pregled notifikacija";
         this.table = new JTable(new AnalysisRequestNotificationModel(notificationDatabase.getData()));
@@ -175,16 +178,19 @@ public class NotificationTablePanel extends JPanel {
             int row = table.getSelectedRow();
             if (row == -1) {
                 JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greška", JOptionPane.WARNING_MESSAGE);
-
             } else {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
                 AnalysisRequestNotification n = notificationDatabase.getById(id);
-                if (n.getState() != n.getStates()[0]) {
+                if (!n.isHomeVisit()) {
+                    JOptionPane.showMessageDialog(null, "Kućna posjeta nije potrebna.", "Greška", JOptionPane.ERROR_MESSAGE);
+                } else if (n.getState() != n.getStates()[0]) {
                     JOptionPane.showMessageDialog(null, "Kućna posjeta je već preuzeta.", "Greška", JOptionPane.ERROR_MESSAGE);
                 } else {
                     int selection = JOptionPane.showConfirmDialog(null, "Želim da preuzmem kućnu posjetu: ", "Preuzimanje kućne posjete", JOptionPane.YES_NO_OPTION);
                     if (selection == JOptionPane.YES_OPTION) {
                         new NotificationServices(dH).setNotificationOpened(n);
+                        new MedicalTechnicianServices(dH).incrementHomeVisit(mT);
+
                         refresh();
                     }
                 }
@@ -197,7 +203,9 @@ public class NotificationTablePanel extends JPanel {
             } else {
                 int id = Integer.parseInt(table.getValueAt(row, 0).toString());
                 AnalysisRequestNotification n = notificationDatabase.getById(id);
-                if (n.getAnalysisRequest().getState() != n.getAnalysisRequest().getStates()[1]) {
+                if (n.getState() == n.getStates()[2]) {
+                    JOptionPane.showMessageDialog(null, "Notifikacija je već obrađena.", "Greška", JOptionPane.ERROR_MESSAGE);
+                } else if (n.getAnalysisRequest().getState() != n.getAnalysisRequest().getStates()[1] && n.isHomeVisit()) {
                     JOptionPane.showMessageDialog(null, "Kućna posjeta je u toku ili nije preuzeta.", "Greška", JOptionPane.ERROR_MESSAGE);
                 } else {
                     int selection = JOptionPane.showConfirmDialog(null, "Uzorak je preuzet", "Potvrda preuzetog uzorka", JOptionPane.YES_NO_OPTION);
@@ -218,8 +226,10 @@ public class NotificationTablePanel extends JPanel {
                 AnalysisRequestNotification n = notificationDatabase.getById(id);
                 if (n != null) {
                     if (n.getState() == n.getStates()[0]) {
-                    JOptionPane.showMessageDialog(null, "Aktivna notifikacija ne može biti obrisana", "Greška", JOptionPane.ERROR_MESSAGE);
-                } else {
+                        JOptionPane.showMessageDialog(null, "Aktivna notifikacija ne može biti obrisana", "Greška", JOptionPane.ERROR_MESSAGE);
+                    } else if (n.getState() == n.getStates()[2]) {
+                        JOptionPane.showMessageDialog(null, "Notifikacija je već obrisana.", "Greška", JOptionPane.ERROR_MESSAGE);
+                    } else {
                         int selection = JOptionPane.showConfirmDialog(null,
                                 "Da li ste sigurni da želite da obrišete notifikaciju?",
                                 "Notifikacija " + n.getId() + " - Potvrda brisanja",

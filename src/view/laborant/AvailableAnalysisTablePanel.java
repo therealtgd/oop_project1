@@ -7,6 +7,7 @@ import modules.entities.Measurement;
 import services.entities.AnalysisRequestServices;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,9 @@ public class AvailableAnalysisTablePanel extends AnalysisTablePanel {
     protected void initGUI() {
         super.initGUI();
         mainToolbar.add(btnGenerate);
+
+        mainToolbar.setFloatable(false);
+        add(mainToolbar, BorderLayout.NORTH);
 
         btnGenerate.addActionListener(e -> {
             int row = table.getSelectedRow();

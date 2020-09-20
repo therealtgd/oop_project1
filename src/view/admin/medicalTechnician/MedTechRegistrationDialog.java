@@ -34,6 +34,7 @@ public class MedTechRegistrationDialog extends MedicalTechnicianDialog {
                     rS.registerMedicalTechnician(mTDTO);
                     System.out.println("Registracija uspješna.");
                     System.out.println(key);
+                    dispose();
                 } catch (RegistrationException ex) {
                     System.out.println(ex.getMessage());
                     JOptionPane.showMessageDialog(MedTechRegistrationDialog.this, ex.getMessage(), "Greška prilikom registracije", JOptionPane.ERROR_MESSAGE);
